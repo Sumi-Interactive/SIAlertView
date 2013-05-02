@@ -32,6 +32,7 @@
 static NSMutableArray *__si_alert_queue;
 static BOOL __si_alert_animating;
 static SIBackgroundWindow *__si_alert_background_window;
+static SIAlertView *__si_alert_current_view;
 
 @interface SIAlertView () <SIAlertViewControllerDelegate>
 
@@ -44,6 +45,7 @@ static SIBackgroundWindow *__si_alert_background_window;
 
 + (SIBackgroundWindow *)sharedBackground;
 + (NSMutableArray *)sharedQueue;
++ (SIAlertView *)currentAlertView;
 + (BOOL)isAnimating;
 + (void)setAnimating:(BOOL)animating;
 + (void)removeSharedBackground;
@@ -609,8 +611,9 @@ static SIBackgroundWindow *__si_alert_background_window;
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if (self.transitionCompletion) {
-        self.transitionCompletion();
+        void(^completion)(void) = [self.transitionCompletion copy]; // copy block to prevent override
         self.transitionCompletion = nil;
+        completion();
     }
 }
 
@@ -653,6 +656,16 @@ static SIBackgroundWindow *__si_alert_background_window;
         __si_alert_queue = [NSMutableArray array];
     }
     return __si_alert_queue;
+}
+
++ (SIAlertView *)currentAlertView
+{
+    return __si_alert_current_view;
+}
+
++ (void)setCurrentAlertView:(SIAlertView *)alertView
+{
+    __si_alert_current_view = alertView;
 }
 
 + (BOOL)isAnimating
@@ -706,6 +719,16 @@ static SIBackgroundWindow *__si_alert_background_window;
         return; // wait for next turn
     }
     
+    if (self.isVisible) {
+        return;
+    }
+    
+    if ([SIAlertView currentAlertView].isVisible) {
+        SIAlertView *alert = [SIAlertView currentAlertView];
+        [alert dismissAnimated:YES cleanup:NO];
+        return;
+    }
+    
     if (self.willShowHandler) {
         self.willShowHandler(self);
     }
@@ -732,6 +755,7 @@ static SIBackgroundWindow *__si_alert_background_window;
     self.visible = YES;
     
     [SIAlertView setAnimating:YES];
+    [SIAlertView setCurrentAlertView:self];
     
     [self.viewController transitionInCompletion:^{
         if (self.didShowHandler) {
@@ -740,21 +764,40 @@ static SIBackgroundWindow *__si_alert_background_window;
         
         [SIAlertView setAnimating:NO];
         
-        [self showNextIfNeededForAlert:self];
+        NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
+        if (index < [SIAlertView sharedQueue].count - 1) {
+            [self dismissAnimated:YES cleanup:NO]; // dismiss to show next alert view
+        }
     }];
+}
+
++ (void)cleanUpForAlertView:(SIAlertView *)alertView
+{
+    alertView.visible = NO;
     
-    // hide previous alert
-    NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
-    if (index > 0) {
-        SIAlertView *alert = [SIAlertView sharedQueue][index - 1];
-        alert.alertWindow.hidden = YES;
-        alert.visible = NO;
+    [alertView.alertWindow removeFromSuperview];
+    alertView.alertWindow = nil;
+    alertView.viewController = nil;
+    
+    [[SIAlertView sharedQueue] removeObject:alertView];
+    
+    [SIAlertView setAnimating:NO];
+    
+    if (alertView.didDismissHandler) {
+        alertView.didDismissHandler(alertView);
     }
 }
 
-- (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated
+- (void)dismissAnimated:(BOOL)animated
 {
-    if (self.willDismissHandler) {
+    [self dismissAnimated:animated cleanup:YES];
+}
+
+- (void)dismissAnimated:(BOOL)animated cleanup:(BOOL)cleanup
+{
+    BOOL isVisible = self.isVisible;
+    
+    if (isVisible && self.willDismissHandler) {
         self.willDismissHandler(self);
     }
     
@@ -765,37 +808,36 @@ static SIBackgroundWindow *__si_alert_background_window;
         self.alertWindow = nil;
         self.viewController = nil;
         
-        [[SIAlertView sharedQueue] removeObject:self];
+        [SIAlertView setCurrentAlertView:nil];
+        
+        SIAlertView *nextAlertView;
+        NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
+        if (index != NSNotFound && index < [SIAlertView sharedQueue].count - 1) {
+            nextAlertView = [SIAlertView sharedQueue][index + 1];
+        }
+        
+        if (cleanup) {
+            [[SIAlertView sharedQueue] removeObject:self];
+        }
         
         [SIAlertView setAnimating:NO];
         
-        if (self.didDismissHandler) {
+        if (isVisible && self.didDismissHandler) {
             self.didDismissHandler(self);
         }
         
-        if ([SIAlertView sharedQueue].count > 0) {
-            
-            SIAlertView *alert = [[SIAlertView sharedQueue] lastObject];
-            
-            if (alert.viewController) {
-                // show previous alert
-                alert.alertWindow.hidden = NO;
-                alert.visible = YES;
-                
-                // transition in again
-                [alert.viewController transitionInCompletion:^{
-                    [SIAlertView setAnimating:NO];
-                    
-                    [self showNextIfNeededForAlert:alert];
-                }];
-            } else {
-                // show new added alert
+        if (nextAlertView) {
+            [nextAlertView show];
+        } else {
+            // show last alert view
+            if ([SIAlertView sharedQueue].count > 0) {
+                SIAlertView *alert = [[SIAlertView sharedQueue] lastObject];
                 [alert show];
             }
         }
     };
     
-    if (animated) {
+    if (animated && isVisible) {
         [SIAlertView setAnimating:YES];
         [self.viewController transitionOutCompletion:dismissComplete];
         
@@ -806,20 +848,9 @@ static SIBackgroundWindow *__si_alert_background_window;
     } else {
         dismissComplete();
         
-        if ([SIAlertView sharedQueue].count == 1) {
+        if ([SIAlertView sharedQueue].count == 0) {
             [[SIAlertView sharedBackground] hideAnimated:NO];
         }
-    }
-}
-
-#pragma mark - Private
-
-- (void)showNextIfNeededForAlert:(SIAlertView *)alert
-{
-    NSInteger index = [[SIAlertView sharedQueue] indexOfObject:alert];
-    if (index < [SIAlertView sharedQueue].count - 1) {
-        SIAlertView *alert = [SIAlertView sharedQueue][index + 1];
-        [alert show];
     }
 }
 
@@ -827,12 +858,12 @@ static SIBackgroundWindow *__si_alert_background_window;
 
 - (void)viewController:(SIAlertViewController *)viewController clickedButtonIndex:(NSInteger)buttonIndex
 {
-    [SIAlertView setAnimating:YES];
+    [SIAlertView setAnimating:YES]; // set this flag to YES in order to prevent showing another alert in action block
     SIAlertItem *item = self.items[buttonIndex];
 	if (item.action) {
 		item.action(self);
 	}
-	[self dismissWithClickedButtonIndex:buttonIndex animated:YES];
+	[self dismissAnimated:YES];
 }
 
 #pragma mark - UIAppearance getters
