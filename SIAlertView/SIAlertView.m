@@ -826,6 +826,11 @@ static SIAlertView *__si_alert_current_view;
             self.didDismissHandler(self);
         }
         
+        // check if we should show next alert
+        if (!isVisible) {
+            return;
+        }
+        
         if (nextAlertView) {
             [nextAlertView show];
         } else {
