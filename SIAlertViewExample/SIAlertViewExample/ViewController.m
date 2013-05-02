@@ -44,19 +44,27 @@
                           }];
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, willShowHandler", self);
+        NSLog(@"%@, willShowHandler", alertView);
     };
     alertView.didShowHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, didShowHandler", self);
+        NSLog(@"%@, didShowHandler", alertView);
     };
     alertView.willDismissHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, willDismissHandler", self);
+        NSLog(@"%@, willDismissHandler", alertView);
     };
     alertView.didDismissHandler = ^(SIAlertView *alertView) {
-        NSLog(@"%@, didDismissHandler", self);
+        NSLog(@"%@, didDismissHandler", alertView);
     };
     
     [alertView show];
+    
+    double delayInSeconds = 1.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSLog(@"1=====");
+        [alertView dismissAnimated:YES];
+        NSLog(@"2=====");
+    });
 }
 
 - (IBAction)alert2:(id)sender
@@ -79,6 +87,20 @@
     alertView.cornerRadius = 10;
     alertView.buttonFont = [UIFont boldSystemFontOfSize:15];
     alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    
+    alertView.willShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willShowHandler2", alertView);
+    };
+    alertView.didShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didShowHandler2", alertView);
+    };
+    alertView.willDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willDismissHandler2", alertView);
+    };
+    alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissHandler2", alertView);
+    };
+    
     [alertView show];
 }
 
@@ -96,6 +118,20 @@
                               NSLog(@"OK Clicked");
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
+    
+    alertView.willShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willShowHandler3", alertView);
+    };
+    alertView.didShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didShowHandler3", alertView);
+    };
+    alertView.willDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willDismissHandler3", alertView);
+    };
+    alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissHandler3", alertView);
+    };
+    
     [alertView show];
 }
 

@@ -50,6 +50,6 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
 
 - (void)show;
-- (void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated;
+- (void)dismissAnimated:(BOOL)animated;
 
 @end
