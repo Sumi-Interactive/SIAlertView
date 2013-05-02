@@ -704,6 +704,16 @@ static SIBackgroundWindow *__si_alert_background_window;
         return; // wait for next turn
     }
     
+    NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
+    if (index > 0) {
+        SIAlertView *alert = [SIAlertView sharedQueue][index - 1];
+        
+        if (alert.isVisible) {
+            
+            [SIAlertView cleanUpForAlertView:alert];
+        }
+    }
+    
     if (self.willShowHandler) {
         self.willShowHandler(self);
     }
@@ -738,15 +748,24 @@ static SIBackgroundWindow *__si_alert_background_window;
         
         [SIAlertView setAnimating:NO];
         
-        [self showNextIfNeededForAlert:self];
+        [SIAlertView showNextIfNeededForAlert:self];
     }];
+}
+
++ (void)cleanUpForAlertView:(SIAlertView *)alertView
+{
+    alertView.visible = NO;
     
-    // hide previous alert
-    NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
-    if (index > 0) {
-        SIAlertView *alert = [SIAlertView sharedQueue][index - 1];
-        alert.alertWindow.hidden = YES;
-        alert.visible = NO;
+    [alertView.alertWindow removeFromSuperview];
+    alertView.alertWindow = nil;
+    alertView.viewController = nil;
+    
+    [[SIAlertView sharedQueue] removeObject:alertView];
+    
+    [SIAlertView setAnimating:NO];
+    
+    if (alertView.didDismissHandler) {
+        alertView.didDismissHandler(alertView);
     }
 }
 
@@ -757,39 +776,43 @@ static SIBackgroundWindow *__si_alert_background_window;
     }
     
     void (^dismissComplete)(void) = ^{
-        self.visible = NO;
+//        self.visible = NO;
+//        
+//        [self.alertWindow removeFromSuperview];
+//        self.alertWindow = nil;
+//        self.viewController = nil;
+//        
+//        [[SIAlertView sharedQueue] removeObject:self];
+//        
+//        [SIAlertView setAnimating:NO];
+//        
+//        if (self.didDismissHandler) {
+//            self.didDismissHandler(self);
+//        }
         
-        [self.alertWindow removeFromSuperview];
-        self.alertWindow = nil;
-        self.viewController = nil;
-        
-        [[SIAlertView sharedQueue] removeObject:self];
-        
-        [SIAlertView setAnimating:NO];
-        
-        if (self.didDismissHandler) {
-            self.didDismissHandler(self);
-        }
+        [SIAlertView cleanUpForAlertView:self];
         
         if ([SIAlertView sharedQueue].count > 0) {
             
             SIAlertView *alert = [[SIAlertView sharedQueue] lastObject];
             
-            if (alert.viewController) {
-                // show previous alert
-                alert.alertWindow.hidden = NO;
-                alert.visible = YES;
-                
-                // transition in again
-                [alert.viewController transitionInCompletion:^{
-                    [SIAlertView setAnimating:NO];
-                    
-                    [self showNextIfNeededForAlert:alert];
-                }];
-            } else {
-                // show new added alert
-                [alert show];
-            }
+            [alert show];
+            
+//            if (alert.viewController) {
+//                // show previous alert
+//                alert.alertWindow.hidden = NO;
+//                alert.visible = YES;
+//                
+//                // transition in again
+//                [alert.viewController transitionInCompletion:^{
+//                    [SIAlertView setAnimating:NO];
+//                    
+//                    [self showNextIfNeededForAlert:alert];
+//                }];
+//            } else {
+//                // show new added alert
+//                [alert show];
+//            }
         }
     };
     
@@ -812,7 +835,7 @@ static SIBackgroundWindow *__si_alert_background_window;
 
 #pragma mark - Private
 
-- (void)showNextIfNeededForAlert:(SIAlertView *)alert
++ (void)showNextIfNeededForAlert:(SIAlertView *)alert
 {
     NSInteger index = [[SIAlertView sharedQueue] indexOfObject:alert];
     if (index < [SIAlertView sharedQueue].count - 1) {
