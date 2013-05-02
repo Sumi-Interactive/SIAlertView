@@ -57,6 +57,8 @@
     };
     
     [alertView show];
+    
+    alertView.title = @"New Title";
 }
 
 - (IBAction)alert2:(id)sender

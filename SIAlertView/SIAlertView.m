@@ -382,6 +382,7 @@ static SIBackgroundWindow *__si_alert_background_window;
     
     CGFloat y = CONTENT_PADDING_TOP;
 	if (self.titleLabel) {
+        self.titleLabel.text = self.alertView.title;
         CGFloat height = [self heightForTitleLabel];
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
@@ -390,6 +391,7 @@ static SIBackgroundWindow *__si_alert_background_window;
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
         }
+        self.messageLabel.text = self.alertView.message;
         CGFloat height = [self heightForMessageLabel];
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
