@@ -20,7 +20,7 @@
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
 
-@class SIBackgroundWindow;
+@class SIAlertBackgroundWindow;
 @class SIAlertViewController;
 
 @protocol SIAlertViewControllerDelegate <NSObject>
@@ -31,7 +31,7 @@
 
 static NSMutableArray *__si_alert_queue;
 static BOOL __si_alert_animating;
-static SIBackgroundWindow *__si_alert_background_window;
+static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
 
 @interface SIAlertView () <SIAlertViewControllerDelegate>
@@ -43,7 +43,7 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
-+ (SIBackgroundWindow *)sharedBackground;
++ (SIAlertBackgroundWindow *)sharedBackground;
 + (NSMutableArray *)sharedQueue;
 + (SIAlertView *)currentAlertView;
 + (BOOL)isAnimating;
@@ -54,20 +54,20 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark - SIBackgroundWindow
 
-@interface SIBackgroundWindow : UIWindow
+@interface SIAlertBackgroundWindow : UIWindow
 
 - (void)show;
 - (void)hideAnimated:(BOOL)animated;
 
 @end
 
-@interface SIBackgroundWindow ()
+@interface SIAlertBackgroundWindow ()
 
 @property (nonatomic, strong) UIView *backgroundView;
 
 @end
 
-@implementation SIBackgroundWindow
+@implementation SIAlertBackgroundWindow
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -133,7 +133,6 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, copy) void(^transitionCompletion)(void);
 
-- (CGFloat)preferredHeight;
 - (void)invaliadateLayout;
 - (void)transitionInCompletion:(void(^)(void))completion;
 - (void)transitionOutCompletion:(void(^)(void))completion;
@@ -182,7 +181,7 @@ static SIAlertView *__si_alert_current_view;
     [self validateLayout];
 }
 
-#pragma mark - Public
+#pragma mark - Transitions
 
 - (void)transitionInCompletion:(void(^)(void))completion
 {
@@ -641,10 +640,10 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark -
 
-+ (SIBackgroundWindow *)sharedBackground
++ (SIAlertBackgroundWindow *)sharedBackground
 {
     if (!__si_alert_background_window) {
-        __si_alert_background_window = [[SIBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         [__si_alert_background_window makeKeyAndVisible];
     }
     return __si_alert_background_window;
@@ -771,27 +770,13 @@ static SIAlertView *__si_alert_current_view;
     }];
 }
 
-+ (void)cleanUpForAlertView:(SIAlertView *)alertView
-{
-    alertView.visible = NO;
-    
-    [alertView.alertWindow removeFromSuperview];
-    alertView.alertWindow = nil;
-    alertView.viewController = nil;
-    
-    [[SIAlertView sharedQueue] removeObject:alertView];
-    
-    [SIAlertView setAnimating:NO];
-    
-    if (alertView.didDismissHandler) {
-        alertView.didDismissHandler(alertView);
-    }
-}
-
 - (void)dismissAnimated:(BOOL)animated
 {
     [self dismissAnimated:animated cleanup:YES];
 }
+
+
+#pragma mark - Private
 
 - (void)dismissAnimated:(BOOL)animated cleanup:(BOOL)cleanup
 {
