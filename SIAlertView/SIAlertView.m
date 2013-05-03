@@ -172,6 +172,7 @@ static SIAlertView *__si_alert_current_view;
     appearance.messageFont = [UIFont systemFontOfSize:16];
     appearance.buttonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
     appearance.cornerRadius = 2;
+    appearance.shadowRadius = 8;
 }
 
 - (id)init
@@ -739,7 +740,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.backgroundColor = [UIColor whiteColor];
     self.containerView.layer.cornerRadius = self.cornerRadius;
     self.containerView.layer.shadowOffset = CGSizeZero;
-    self.containerView.layer.shadowRadius = 8;
+    self.containerView.layer.shadowRadius = self.shadowRadius;
     self.containerView.layer.shadowOpacity = 0.5;
     [self addSubview:self.containerView];
 }
@@ -925,6 +926,15 @@ static SIAlertView *__si_alert_current_view;
     }
     _cornerRadius = cornerRadius;
     self.containerView.layer.cornerRadius = cornerRadius;
+}
+
+- (void)setShadowRadius:(CGFloat)shadowRadius
+{
+    if (_shadowRadius == shadowRadius) {
+        return;
+    }
+    _shadowRadius = shadowRadius;
+    self.containerView.layer.shadowRadius = shadowRadius;
 }
 
 @end

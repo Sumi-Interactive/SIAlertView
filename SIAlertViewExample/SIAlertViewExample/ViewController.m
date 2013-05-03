@@ -23,6 +23,7 @@
     [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
     [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
     [[SIAlertView appearance] setCornerRadius:12];
+    [[SIAlertView appearance] setShadowRadius:20];
 }
 
 #pragma mark - Actions
