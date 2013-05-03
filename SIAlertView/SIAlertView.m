@@ -9,6 +9,11 @@
 #import "SIAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
+NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
+NSString *const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
+NSString *const SIAlertViewWillDismissNotification = @"SIAlertViewWillDismissNotification";
+NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotification";
+
 #define DEBUG_LAYOUT 0
 
 #define MESSAGE_MIN_LINE_COUNT 3
@@ -300,6 +305,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.willShowHandler) {
         self.willShowHandler(self);
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewWillShowNotification object:self userInfo:nil];
     
     self.visible = YES;
     
@@ -328,6 +334,7 @@ static SIAlertView *__si_alert_current_view;
         if (self.didShowHandler) {
             self.didShowHandler(self);
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidShowNotification object:self userInfo:nil];
         
         [SIAlertView setAnimating:NO];
         
@@ -347,8 +354,11 @@ static SIAlertView *__si_alert_current_view;
 {
     BOOL isVisible = self.isVisible;
     
-    if (isVisible && self.willDismissHandler) {
-        self.willDismissHandler(self);
+    if (isVisible) {
+        if (self.willDismissHandler) {
+            self.willDismissHandler(self);
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewWillDismissNotification object:self userInfo:nil];
     }
     
     void (^dismissComplete)(void) = ^{
@@ -370,8 +380,11 @@ static SIAlertView *__si_alert_current_view;
         
         [SIAlertView setAnimating:NO];
         
-        if (isVisible && self.didDismissHandler) {
-            self.didDismissHandler(self);
+        if (isVisible) {
+            if (self.didDismissHandler) {
+                self.didDismissHandler(self);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidDismissNotification object:self userInfo:nil];
         }
         
         // check if we should show next alert
@@ -866,7 +879,6 @@ static SIAlertView *__si_alert_current_view;
         completion();
     }
 }
-
 
 #pragma mark - UIAppearance setters
 

@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const SIAlertViewWillShowNotification;
+extern NSString *const SIAlertViewDidShowNotification;
+extern NSString *const SIAlertViewWillDismissNotification;
+extern NSString *const SIAlertViewDidDismissNotification;
+
 typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeDefault = 0,
     SIAlertViewButtonTypeDestructive,
