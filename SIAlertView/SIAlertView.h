@@ -14,6 +14,11 @@ typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeCancel
 };
 
+typedef NS_ENUM(NSInteger, SIAlertViewBackgroundStyle) {
+    SIAlertViewBackgroundStyleGradient = 0,
+    SIAlertViewBackgroundStyleSolid,
+};
+
 typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
     SIAlertViewTransitionStyleSlideFromBottom = 0,
     SIAlertViewTransitionStyleSlideFromTop,
@@ -31,6 +36,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, copy) NSString *message;
 
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
+@property (nonatomic, assign) SIAlertViewBackgroundStyle backgroundStyle; // default is SIAlertViewButtonTypeGradient
 
 @property (nonatomic, copy) SIAlertViewHandler willShowHandler;
 @property (nonatomic, copy) SIAlertViewHandler didShowHandler;

@@ -63,21 +63,17 @@ static SIAlertView *__si_alert_current_view;
 
 @interface SIAlertBackgroundWindow ()
 
-@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, assign) SIAlertViewBackgroundStyle style;
 
 @end
 
 @implementation SIAlertBackgroundWindow
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame andStyle:(SIAlertViewBackgroundStyle)style
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-        self.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self addSubview:self.backgroundView];
-        
+        self.style = style;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
         self.windowLevel = UIWindowLevelAlert;
@@ -89,7 +85,7 @@ static SIAlertView *__si_alert_current_view;
 {
     [UIView animateWithDuration:0.3
                      animations:^{
-                         self.backgroundView.alpha = 1;
+                         self.alpha = 1;
                      }];
 }
 
@@ -101,11 +97,39 @@ static SIAlertView *__si_alert_current_view;
     }
     [UIView animateWithDuration:0.3
                      animations:^{
-                         self.backgroundView.alpha = 0;
+                         self.alpha = 0;
                      }
                      completion:^(BOOL finished) {
                          [SIAlertView removeSharedBackground];
                      }];
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    switch (self.style) {
+        case SIAlertViewBackgroundStyleGradient:
+        {
+            size_t locationsCount = 2;
+            CGFloat locations[2] = {0.0f, 1.0f};
+            CGFloat colors[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.75f};
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, locationsCount);
+            CGColorSpaceRelease(colorSpace);
+            
+            CGPoint center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+            CGFloat radius = MIN(self.bounds.size.width, self.bounds.size.height) ;
+            CGContextDrawRadialGradient (context, gradient, center, 0, center, radius, kCGGradientDrawsAfterEndLocation);
+            CGGradientRelease(gradient);
+            break;
+        }
+        case SIAlertViewBackgroundStyleSolid:
+        {
+            [[UIColor colorWithWhite:0 alpha:0.5] set];
+            CGContextFillRect(context, self.bounds);
+            break;
+        }
+    }
 }
 
 @end
@@ -643,7 +667,7 @@ static SIAlertView *__si_alert_current_view;
 + (SIAlertBackgroundWindow *)sharedBackground
 {
     if (!__si_alert_background_window) {
-        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds andStyle:[SIAlertView currentAlertView].backgroundStyle];
         [__si_alert_background_window makeKeyAndVisible];
     }
     return __si_alert_background_window;
@@ -732,6 +756,11 @@ static SIAlertView *__si_alert_current_view;
         self.willShowHandler(self);
     }
     
+    self.visible = YES;
+    
+    [SIAlertView setAnimating:YES];
+    [SIAlertView setCurrentAlertView:self];
+    
     // transition for background if needed
     if ([SIAlertView sharedQueue].count == 1) {
         [[SIAlertView sharedBackground] show];
@@ -750,11 +779,6 @@ static SIAlertView *__si_alert_current_view;
         self.alertWindow = window;
     }
     [self.alertWindow makeKeyAndVisible];
-    
-    self.visible = YES;
-    
-    [SIAlertView setAnimating:YES];
-    [SIAlertView setCurrentAlertView:self];
     
     [self.viewController transitionInCompletion:^{
         if (self.didShowHandler) {
