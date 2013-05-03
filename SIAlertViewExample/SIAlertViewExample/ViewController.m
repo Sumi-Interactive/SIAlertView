@@ -19,8 +19,10 @@
 {
     [super viewDidLoad];
 	
-//    [[SIAlertView appearance] setTitleFont:[UIFont boldSystemFontOfSize:40]];
-    [[SIAlertView appearance] setCornerRadius:4];
+    [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
+    [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
+    [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
+    [[SIAlertView appearance] setCornerRadius:12];
 }
 
 #pragma mark - Actions
@@ -57,26 +59,32 @@
         NSLog(@"%@, didDismissHandler", alertView);
     };
     
+//    alertView.cornerRadius = 4;
+//    alertView.buttonFont = [UIFont boldSystemFontOfSize:12];
     [alertView show];
     
-//    alertView.title = @"3";
-//    double delayInSeconds = 1.0;
-//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//        alertView.title = @"2";
-//    });
-//    delayInSeconds = 2.0;
-//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//        alertView.title = @"1";
-//    });
-//    delayInSeconds = 3.0;
-//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//        NSLog(@"1=====");
-//        [alertView dismissAnimated:YES];
-//        NSLog(@"2=====");
-//    });
+    alertView.title = @"3";
+    double delayInSeconds = 1.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        alertView.title = @"2";
+        alertView.titleColor = [UIColor yellowColor];
+        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
+    });
+    delayInSeconds = 2.0;
+    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        alertView.title = @"1";
+        alertView.titleColor = [UIColor greenColor];
+        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
+    });
+    delayInSeconds = 3.0;
+    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        NSLog(@"1=====");
+        [alertView dismissAnimated:YES];
+        NSLog(@"2=====");
+    });
     
 }
 

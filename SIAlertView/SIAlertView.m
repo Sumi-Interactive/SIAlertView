@@ -867,54 +867,64 @@ static SIAlertView *__si_alert_current_view;
 }
 
 
-#pragma mark - UIAppearance getters
+#pragma mark - UIAppearance setters
 
-- (UIFont *)titleFont
+- (void)setTitleFont:(UIFont *)titleFont
 {
-    if (!_titleFont) {
-        _titleFont = [[[self class] appearance] titleFont];
+    if (_titleFont == titleFont) {
+        return;
     }
-    return _titleFont;
+    _titleFont = titleFont;
+    self.titleLabel.font = titleFont;
+    [self invaliadateLayout];
 }
 
-- (UIFont *)messageFont
+- (void)setMessageFont:(UIFont *)messageFont
 {
-    if (!_messageFont) {
-        _messageFont = [[[self class] appearance] messageFont];
+    if (_messageFont == messageFont) {
+        return;
     }
-    return _messageFont;
+    _messageFont = messageFont;
+    self.messageLabel.font = messageFont;
+    [self invaliadateLayout];
 }
 
-- (UIFont *)buttonFont
+- (void)setTitleColor:(UIColor *)titleColor
 {
-    if (!_buttonFont) {
-        _buttonFont = [[[self class] appearance] buttonFont];
+    if (_titleColor == titleColor) {
+        return;
     }
-    return _buttonFont;
+    _titleColor = titleColor;
+    self.titleLabel.textColor = titleColor;
 }
 
-- (UIColor *)titleColor
+- (void)setMessageColor:(UIColor *)messageColor
 {
-    if(!_titleColor) {
-        _titleColor = [[[self class] appearance] titleColor];
+    if (_messageColor == messageColor) {
+        return;
     }
-    return _titleColor;
+    _messageColor = messageColor;
+    self.messageLabel.textColor = messageColor;
 }
 
-- (UIColor *)messageColor
+- (void)setButtonFont:(UIFont *)buttonFont
 {
-    if(!_messageColor) {
-        _messageColor = [[[self class] appearance] messageColor];
+    if (_buttonFont == buttonFont) {
+        return;
     }
-    return _messageColor;
+    _buttonFont = buttonFont;
+    for (UIButton *button in self.buttons) {
+        button.titleLabel.font = buttonFont;
+    }
 }
 
-- (CGFloat)cornerRadius
+- (void)setCornerRadius:(CGFloat)cornerRadius
 {
-    if (_cornerRadius == 0) {
-        _cornerRadius = [[[self class] appearance] cornerRadius];
+    if (_cornerRadius == cornerRadius) {
+        return;
     }
-    return _cornerRadius;
+    _cornerRadius = cornerRadius;
+    self.containerView.layer.cornerRadius = cornerRadius;
 }
 
 @end
