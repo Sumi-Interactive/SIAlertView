@@ -19,6 +19,7 @@
 {
     [super viewDidLoad];
 	
+//    [[SIAlertView appearance] setTitleFont:[UIFont boldSystemFontOfSize:40]];
     [[SIAlertView appearance] setCornerRadius:4];
 }
 

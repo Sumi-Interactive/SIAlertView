@@ -160,6 +160,20 @@ static SIAlertView *__si_alert_current_view;
 
 @implementation SIAlertView
 
++ (void)initialize
+{
+    if (self != [SIAlertView class])
+        return;
+    
+    SIAlertView *appearance = [self appearance];
+    appearance.titleColor = [UIColor blackColor];
+    appearance.messageColor = [UIColor darkGrayColor];
+    appearance.titleFont = [UIFont boldSystemFontOfSize:20];
+    appearance.messageFont = [UIFont systemFontOfSize:16];
+    appearance.buttonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+    appearance.cornerRadius = 2;
+}
+
 - (id)init
 {
 	return [self initWithTitle:nil andMessage:nil];
@@ -860,7 +874,7 @@ static SIAlertView *__si_alert_current_view;
     if (!_titleFont) {
         _titleFont = [[[self class] appearance] titleFont];
     }
-    return _titleFont ? _titleFont : [UIFont boldSystemFontOfSize:20];
+    return _titleFont;
 }
 
 - (UIFont *)messageFont
@@ -868,7 +882,7 @@ static SIAlertView *__si_alert_current_view;
     if (!_messageFont) {
         _messageFont = [[[self class] appearance] messageFont];
     }
-    return _messageFont ? _messageFont : [UIFont systemFontOfSize:16];
+    return _messageFont;
 }
 
 - (UIFont *)buttonFont
@@ -876,7 +890,7 @@ static SIAlertView *__si_alert_current_view;
     if (!_buttonFont) {
         _buttonFont = [[[self class] appearance] buttonFont];
     }
-    return _buttonFont ? _buttonFont : [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+    return _buttonFont;
 }
 
 - (UIColor *)titleColor
@@ -884,8 +898,7 @@ static SIAlertView *__si_alert_current_view;
     if(!_titleColor) {
         _titleColor = [[[self class] appearance] titleColor];
     }
-    
-    return _titleColor ? _titleColor : [UIColor blackColor];
+    return _titleColor;
 }
 
 - (UIColor *)messageColor
@@ -893,8 +906,7 @@ static SIAlertView *__si_alert_current_view;
     if(!_messageColor) {
         _messageColor = [[[self class] appearance] messageColor];
     }
-    
-    return _messageColor ? _messageColor : [UIColor darkGrayColor];
+    return _messageColor;
 }
 
 - (CGFloat)cornerRadius
@@ -902,7 +914,6 @@ static SIAlertView *__si_alert_current_view;
     if (_cornerRadius == 0) {
         _cornerRadius = [[[self class] appearance] cornerRadius];
     }
-    
     return _cornerRadius;
 }
 
