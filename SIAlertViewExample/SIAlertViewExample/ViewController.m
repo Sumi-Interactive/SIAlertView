@@ -58,24 +58,24 @@
     
     [alertView show];
     
-    alertView.title = @"3";
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"2";
-    });
-    delayInSeconds = 2.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"1";
-    });
-    delayInSeconds = 3.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"1=====");
-        [alertView dismissAnimated:YES];
-        NSLog(@"2=====");
-    });
+//    alertView.title = @"3";
+//    double delayInSeconds = 1.0;
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"2";
+//    });
+//    delayInSeconds = 2.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"1";
+//    });
+//    delayInSeconds = 3.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        NSLog(@"1=====");
+//        [alertView dismissAnimated:YES];
+//        NSLog(@"2=====");
+//    });
     
 }
 
@@ -95,7 +95,7 @@
                               [self alert3:nil];
                               [self alert3:nil];
                           }];
-    alertView.titleColor = [UIColor redColor];
+    alertView.titleColor = [UIColor blueColor];
     alertView.cornerRadius = 10;
     alertView.buttonFont = [UIFont boldSystemFontOfSize:15];
     alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
@@ -118,7 +118,7 @@
 
 - (IBAction)alert3:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:nil];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"Message3"];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
