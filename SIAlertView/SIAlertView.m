@@ -160,6 +160,21 @@ static SIAlertView *__si_alert_current_view;
 
 @implementation SIAlertView
 
++ (void)initialize
+{
+    if (self != [SIAlertView class])
+        return;
+    
+    SIAlertView *appearance = [self appearance];
+    appearance.titleColor = [UIColor blackColor];
+    appearance.messageColor = [UIColor darkGrayColor];
+    appearance.titleFont = [UIFont boldSystemFontOfSize:20];
+    appearance.messageFont = [UIFont systemFontOfSize:16];
+    appearance.buttonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+    appearance.cornerRadius = 2;
+    appearance.shadowRadius = 8;
+}
+
 - (id)init
 {
 	return [self initWithTitle:nil andMessage:nil];
@@ -725,7 +740,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.backgroundColor = [UIColor whiteColor];
     self.containerView.layer.cornerRadius = self.cornerRadius;
     self.containerView.layer.shadowOffset = CGSizeZero;
-    self.containerView.layer.shadowRadius = 8;
+    self.containerView.layer.shadowRadius = self.shadowRadius;
     self.containerView.layer.shadowOpacity = 0.5;
     [self addSubview:self.containerView];
 }
@@ -853,57 +868,73 @@ static SIAlertView *__si_alert_current_view;
 }
 
 
-#pragma mark - UIAppearance getters
+#pragma mark - UIAppearance setters
 
-- (UIFont *)titleFont
+- (void)setTitleFont:(UIFont *)titleFont
 {
-    if (!_titleFont) {
-        _titleFont = [[[self class] appearance] titleFont];
+    if (_titleFont == titleFont) {
+        return;
     }
-    return _titleFont ? _titleFont : [UIFont boldSystemFontOfSize:20];
+    _titleFont = titleFont;
+    self.titleLabel.font = titleFont;
+    [self invaliadateLayout];
 }
 
-- (UIFont *)messageFont
+- (void)setMessageFont:(UIFont *)messageFont
 {
-    if (!_messageFont) {
-        _messageFont = [[[self class] appearance] messageFont];
+    if (_messageFont == messageFont) {
+        return;
     }
-    return _messageFont ? _messageFont : [UIFont systemFontOfSize:16];
+    _messageFont = messageFont;
+    self.messageLabel.font = messageFont;
+    [self invaliadateLayout];
 }
 
-- (UIFont *)buttonFont
+- (void)setTitleColor:(UIColor *)titleColor
 {
-    if (!_buttonFont) {
-        _buttonFont = [[[self class] appearance] buttonFont];
+    if (_titleColor == titleColor) {
+        return;
     }
-    return _buttonFont ? _buttonFont : [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+    _titleColor = titleColor;
+    self.titleLabel.textColor = titleColor;
 }
 
-- (UIColor *)titleColor
+- (void)setMessageColor:(UIColor *)messageColor
 {
-    if(!_titleColor) {
-        _titleColor = [[[self class] appearance] titleColor];
+    if (_messageColor == messageColor) {
+        return;
     }
-    
-    return _titleColor ? _titleColor : [UIColor blackColor];
+    _messageColor = messageColor;
+    self.messageLabel.textColor = messageColor;
 }
 
-- (UIColor *)messageColor
+- (void)setButtonFont:(UIFont *)buttonFont
 {
-    if(!_messageColor) {
-        _messageColor = [[[self class] appearance] messageColor];
+    if (_buttonFont == buttonFont) {
+        return;
     }
-    
-    return _messageColor ? _messageColor : [UIColor darkGrayColor];
+    _buttonFont = buttonFont;
+    for (UIButton *button in self.buttons) {
+        button.titleLabel.font = buttonFont;
+    }
 }
 
-- (CGFloat)cornerRadius
+- (void)setCornerRadius:(CGFloat)cornerRadius
 {
-    if (_cornerRadius == 0) {
-        _cornerRadius = [[[self class] appearance] cornerRadius];
+    if (_cornerRadius == cornerRadius) {
+        return;
     }
-    
-    return _cornerRadius;
+    _cornerRadius = cornerRadius;
+    self.containerView.layer.cornerRadius = cornerRadius;
+}
+
+- (void)setShadowRadius:(CGFloat)shadowRadius
+{
+    if (_shadowRadius == shadowRadius) {
+        return;
+    }
+    _shadowRadius = shadowRadius;
+    self.containerView.layer.shadowRadius = shadowRadius;
 }
 
 @end
