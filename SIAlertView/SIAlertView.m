@@ -43,12 +43,14 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
-+ (SIAlertBackgroundWindow *)sharedBackground;
 + (NSMutableArray *)sharedQueue;
 + (SIAlertView *)currentAlertView;
+
 + (BOOL)isAnimating;
 + (void)setAnimating:(BOOL)animating;
-+ (void)removeSharedBackground;
+
++ (void)showBackground;
++ (void)hideBackgroundAnimated:(BOOL)animated;
 
 @end
 
@@ -56,8 +58,6 @@ static SIAlertView *__si_alert_current_view;
 
 @interface SIAlertBackgroundWindow : UIWindow
 
-- (void)show;
-- (void)hideAnimated:(BOOL)animated;
 
 @end
 
@@ -79,29 +79,6 @@ static SIAlertView *__si_alert_current_view;
         self.windowLevel = UIWindowLevelAlert;
     }
     return self;
-}
-
-- (void)show
-{
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.alpha = 1;
-                     }];
-}
-
-- (void)hideAnimated:(BOOL)animated
-{
-    if (!animated) {
-        [SIAlertView removeSharedBackground];
-        return;
-    }
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.alpha = 0;
-                     }
-                     completion:^(BOOL finished) {
-                         [SIAlertView removeSharedBackground];
-                     }];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -664,15 +641,6 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark -
 
-+ (SIAlertBackgroundWindow *)sharedBackground
-{
-    if (!__si_alert_background_window) {
-        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds andStyle:[SIAlertView currentAlertView].backgroundStyle];
-        [__si_alert_background_window makeKeyAndVisible];
-    }
-    return __si_alert_background_window;
-}
-
 + (NSMutableArray *)sharedQueue
 {
     if (!__si_alert_queue) {
@@ -701,10 +669,35 @@ static SIAlertView *__si_alert_current_view;
     __si_alert_animating = animating;
 }
 
-+ (void)removeSharedBackground
++ (void)showBackground
 {
-    [__si_alert_background_window removeFromSuperview];
-    __si_alert_background_window = nil;
+    if (!__si_alert_background_window) {
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds
+                                                                             andStyle:[SIAlertView currentAlertView].backgroundStyle];
+        [__si_alert_background_window makeKeyAndVisible];
+        __si_alert_background_window.alpha = 0;
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             __si_alert_background_window.alpha = 1;
+                         }];
+    }
+}
+
++ (void)hideBackgroundAnimated:(BOOL)animated
+{
+    if (!animated) {
+        [__si_alert_background_window removeFromSuperview];
+        __si_alert_background_window = nil;
+        return;
+    }
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         __si_alert_background_window.alpha = 0;
+                     }
+                     completion:^(BOOL finished) {
+                         [__si_alert_background_window removeFromSuperview];
+                         __si_alert_background_window = nil;
+                     }];
 }
 
 #pragma mark - Setters
@@ -761,10 +754,8 @@ static SIAlertView *__si_alert_current_view;
     [SIAlertView setAnimating:YES];
     [SIAlertView setCurrentAlertView:self];
     
-    // transition for background if needed
-    if ([SIAlertView sharedQueue].count == 1) {
-        [[SIAlertView sharedBackground] show];
-    }
+    // transition background
+    [SIAlertView showBackground];
     
     self.viewController = [[SIAlertViewController alloc] initWithNibName:nil bundle:nil];
     self.viewController.alertView = self;
@@ -856,14 +847,16 @@ static SIAlertView *__si_alert_current_view;
         [self.viewController transitionOutCompletion:dismissComplete];
         
         if ([SIAlertView sharedQueue].count == 1) {
-            [[SIAlertView sharedBackground] hideAnimated:YES];
+//            [[SIAlertView sharedBackground] hideAnimated:YES];
+            [SIAlertView hideBackgroundAnimated:YES];
         }
         
     } else {
         dismissComplete();
         
         if ([SIAlertView sharedQueue].count == 0) {
-            [[SIAlertView sharedBackground] hideAnimated:NO];
+//            [[SIAlertView sharedBackground] hideAnimated:NO];
+            [SIAlertView hideBackgroundAnimated:YES];
         }
     }
 }
