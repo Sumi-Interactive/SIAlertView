@@ -24,6 +24,7 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
+#define CONTAINER_WIDTH 300
 
 @class SIAlertBackgroundWindow;
 
@@ -620,10 +621,10 @@ static SIAlertView *__si_alert_current_view;
 #endif
     
     CGFloat height = [self preferredHeight];
-    CGFloat left = (self.bounds.size.width - 300) * 0.5;
+    CGFloat left = (self.bounds.size.width - CONTAINER_WIDTH) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
     self.containerView.transform = CGAffineTransformIdentity;
-    self.containerView.frame = CGRectMake(left, top, 300, height);
+    self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
     CGFloat y = CONTENT_PADDING_TOP;
@@ -704,7 +705,7 @@ static SIAlertView *__si_alert_current_view;
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
                                    minFontSize:self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
                                 actualFontSize:nil
-                                      forWidth:self.titleLabel.bounds.size.width
+                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -717,10 +718,9 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(self.messageLabel.bounds.size.width, minHeight)
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
-        
-        return MAX(minHeight, MIN(maxHeight, size.height));
+        return MAX(minHeight, size.height);
     }
     return minHeight;
 }
