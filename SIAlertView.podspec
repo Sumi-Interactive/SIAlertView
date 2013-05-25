@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.framework    = 'QuartzCore'
-  s.source_files = 'SIAlertView/SIAlertView/*.{h,m,bundle}'
+  s.source_files = 'SIAlertView/*.{h,m,bundle}'
 end
