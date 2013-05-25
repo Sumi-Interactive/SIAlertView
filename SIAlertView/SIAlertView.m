@@ -9,6 +9,11 @@
 #import "SIAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
+NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
+NSString *const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
+NSString *const SIAlertViewWillDismissNotification = @"SIAlertViewWillDismissNotification";
+NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotification";
+
 #define DEBUG_LAYOUT 0
 
 #define MESSAGE_MIN_LINE_COUNT 3
@@ -19,6 +24,7 @@
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
+#define CONTAINER_WIDTH 300
 
 @class SIAlertBackgroundWindow;
 
@@ -300,6 +306,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.willShowHandler) {
         self.willShowHandler(self);
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewWillShowNotification object:self userInfo:nil];
     
     self.visible = YES;
     
@@ -328,6 +335,7 @@ static SIAlertView *__si_alert_current_view;
         if (self.didShowHandler) {
             self.didShowHandler(self);
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidShowNotification object:self userInfo:nil];
         
         [SIAlertView setAnimating:NO];
         
@@ -347,8 +355,11 @@ static SIAlertView *__si_alert_current_view;
 {
     BOOL isVisible = self.isVisible;
     
-    if (isVisible && self.willDismissHandler) {
-        self.willDismissHandler(self);
+    if (isVisible) {
+        if (self.willDismissHandler) {
+            self.willDismissHandler(self);
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewWillDismissNotification object:self userInfo:nil];
     }
     
     void (^dismissComplete)(void) = ^{
@@ -370,8 +381,11 @@ static SIAlertView *__si_alert_current_view;
         
         [SIAlertView setAnimating:NO];
         
-        if (isVisible && self.didDismissHandler) {
-            self.didDismissHandler(self);
+        if (isVisible) {
+            if (self.didDismissHandler) {
+                self.didDismissHandler(self);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidDismissNotification object:self userInfo:nil];
         }
         
         // check if we should show next alert
@@ -607,10 +621,10 @@ static SIAlertView *__si_alert_current_view;
 #endif
     
     CGFloat height = [self preferredHeight];
-    CGFloat left = (self.bounds.size.width - 300) * 0.5;
+    CGFloat left = (self.bounds.size.width - CONTAINER_WIDTH) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
     self.containerView.transform = CGAffineTransformIdentity;
-    self.containerView.frame = CGRectMake(left, top, 300, height);
+    self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
     CGFloat y = CONTENT_PADDING_TOP;
@@ -691,7 +705,7 @@ static SIAlertView *__si_alert_current_view;
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
                                    minFontSize:self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
                                 actualFontSize:nil
-                                      forWidth:self.titleLabel.bounds.size.width
+                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -704,10 +718,9 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(self.messageLabel.bounds.size.width, minHeight)
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
-        
-        return MAX(minHeight, MIN(maxHeight, size.height));
+        return MAX(minHeight, size.height);
     }
     return minHeight;
 }
@@ -866,7 +879,6 @@ static SIAlertView *__si_alert_current_view;
         completion();
     }
 }
-
 
 #pragma mark - UIAppearance setters
 

@@ -1,6 +1,8 @@
 ##SIAlertView
 
-An UIAlertView replacement with block syntax and fancy transition styles.
+An UIAlertView replacement with block syntax and fancy transition styles. As seen in [Grid Diary](http://griddiaryapp.com/).
+
+![SIAlertView Screenshot](https://github.com/Sumi-Interactive/SIAlertView/raw/master/screenshot.png)
 
 ##FEATURES
 
