@@ -1,6 +1,7 @@
 Pod::Spec.new do |s|
   s.name     = 'SIAlertView'
   s.version  = '1.1'
+  s.platform = :ios
   s.license  = 'MIT'
   s.summary  = 'An UIAlertView replacement.'
   s.homepage = 'https://github.com/Sumi-Interactive/SIAlertView'
