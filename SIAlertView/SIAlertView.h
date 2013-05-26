@@ -6,7 +6,7 @@
 //  Copyright (c) 2013年 Sumi Interactive. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 extern NSString *const SIAlertViewWillShowNotification;
 extern NSString *const SIAlertViewDidShowNotification;
