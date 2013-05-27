@@ -1,10 +1,13 @@
-##SIAlertView
+SIAlertView
+=============
 
 An UIAlertView replacement with block syntax and fancy transition styles. As seen in [Grid Diary](http://griddiaryapp.com/).
 
+## Preview
+
 ![SIAlertView Screenshot](https://github.com/Sumi-Interactive/SIAlertView/raw/master/screenshot.png)
 
-##FEATURES
+## Features
 
 - use window to present
 - happy with rotation
@@ -13,15 +16,24 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 - queue support
 - UIAppearance support
 
-##HOW TO USE
+## Intallation
 
-**Required:** iOS 6+, ARC
+### Cocoapods(Recommended)
+
+1. Add `pod 'SIAlertView'` to your Podfile.
+2. Run `pod install`
+
+### Manual
 
 1. Add all files under `SIAlertView/SIAlertView` to your project
 2. Add `QuartzCore.framework` to your project
-3. Add `#import "SIAlertView.h"` before using it
 
-##EXAMPLES
+## Requirements
+
+- iOS 6.0 and greater
+- ARC
+
+## Examples
 
 **Code:**
 
@@ -44,17 +56,17 @@ SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMe
                           NSLog(@"Button3 Clicked");
                       }];
 
-alertView.willShowHandler = ^(SIAlertView *alert) {
-    NSLog(@"%@, willShowHandler", self);
+alertView.willShowHandler = ^(SIAlertView *alertView) {
+    NSLog(@"%@, willShowHandler", alertView);
 };
-alertView.didShowHandler = ^(SIAlertView *alert) {
-    NSLog(@"%@, didShowHandler", self);
+alertView.didShowHandler = ^(SIAlertView *alertView) {
+    NSLog(@"%@, didShowHandler", alertView);
 };
-alertView.willDismissHandler = ^(SIAlertView *alert) {
-    NSLog(@"%@, willDismissHandler", self);
+alertView.willDismissHandler = ^(SIAlertView *alertView) {
+    NSLog(@"%@, willDismissHandler", alertView);
 };
-alertView.didDismissHandler = ^(SIAlertView *alert) {
-    NSLog(@"%@, didDismissHandler", self);
+alertView.didDismissHandler = ^(SIAlertView *alertView) {
+    NSLog(@"%@, didDismissHandler", alertView);
 };
 
 alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
@@ -62,6 +74,10 @@ alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
 [alertView show];
 ```
 
-##LICENSE
+## Credits
+
+SIAlertView was created by [Sumi Interactive](https://github.com/Sumi-Interactive) in the development of [Grid Diary](http://griddiaryapp.com/).
+
+## License
 
 SIAlertView is available under the MIT license. See the LICENSE file for more info.
