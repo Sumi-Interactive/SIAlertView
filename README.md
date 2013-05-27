@@ -16,7 +16,7 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 - queue support
 - UIAppearance support
 
-## Intallation
+## Installation
 
 ### Cocoapods(Recommended)
 
