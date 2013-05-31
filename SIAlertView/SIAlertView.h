@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
 
-/** For button drawing. To preserve backwards compatibility. Defaults to 1 (YES). */
+/** For button drawing. To preserve backwards compatibility, this defaults to 0 (NO). */
 @property (nonatomic) NSInteger useCoreGraphics NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
