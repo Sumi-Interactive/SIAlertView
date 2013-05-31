@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "SIAlertView.h"
 
+#define TEST_UIAPPEARANCE 0
+
 @interface ViewController ()
 
 @end
@@ -18,12 +20,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+#if TEST_UIAPPEARANCE
     [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
     [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
     [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
     [[SIAlertView appearance] setCornerRadius:12];
     [[SIAlertView appearance] setShadowRadius:20];
+    [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
+#endif
 }
 
 #pragma mark - Actions
