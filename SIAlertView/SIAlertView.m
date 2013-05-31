@@ -172,6 +172,7 @@ static SIAlertView *__si_alert_current_view;
         return;
     
     SIAlertView *appearance = [self appearance];
+    appearance.viewBackgroundColor = [UIColor whiteColor];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor darkGrayColor];
     appearance.titleFont = [UIFont boldSystemFontOfSize:20];
@@ -881,6 +882,15 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - UIAppearance setters
+
+- (void)setViewBackgroundColor:(UIColor *)viewBackgroundColor
+{
+    if (_viewBackgroundColor == viewBackgroundColor) {
+        return;
+    }
+    _viewBackgroundColor = viewBackgroundColor;
+    self.containerView.backgroundColor = viewBackgroundColor;
+}
 
 - (void)setTitleFont:(UIFont *)titleFont
 {
