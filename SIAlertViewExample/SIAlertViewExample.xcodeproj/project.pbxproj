@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74F6204117595DF500DB6DE6 /* SIAlertItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F6204017595DF500DB6DE6 /* SIAlertItem.m */; };
 		7E23C67317325EAA00784CF1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67217325EAA00784CF1 /* UIKit.framework */; };
 		7E23C67517325EAA00784CF1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67417325EAA00784CF1 /* Foundation.framework */; };
 		7E23C67717325EAA00784CF1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67617325EAA00784CF1 /* CoreGraphics.framework */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74F6203F17595DF500DB6DE6 /* SIAlertItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertItem.h; sourceTree = "<group>"; };
+		74F6204017595DF500DB6DE6 /* SIAlertItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertItem.m; sourceTree = "<group>"; };
 		7E23C66F17325EAA00784CF1 /* SIAlertViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIAlertViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E23C67217325EAA00784CF1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7E23C67417325EAA00784CF1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -129,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				7E23C69917325EBD00784CF1 /* SIAlertView.bundle */,
+				74F6203F17595DF500DB6DE6 /* SIAlertItem.h */,
+				74F6204017595DF500DB6DE6 /* SIAlertItem.m */,
 				7E23C69A17325EBD00784CF1 /* SIAlertView.h */,
 				7E23C69B17325EBD00784CF1 /* SIAlertView.m */,
 			);
@@ -244,6 +249,7 @@
 				7E23C68317325EAA00784CF1 /* AppDelegate.m in Sources */,
 				7E23C69217325EAB00784CF1 /* ViewController.m in Sources */,
 				7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */,
+				74F6204117595DF500DB6DE6 /* SIAlertItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +382,7 @@
 				7E23C69717325EAB00784CF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
