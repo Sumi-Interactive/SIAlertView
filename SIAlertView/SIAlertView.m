@@ -704,7 +704,12 @@ static SIAlertView *__si_alert_current_view;
 {
     if (self.titleLabel) {
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
-                                   minFontSize:self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+                                   minFontSize:
+#ifndef __IPHONE_6_0
+                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+#else
+                       self.titleLabel.minimumFontSize
+#endif
                                 actualFontSize:nil
                                       forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
@@ -769,7 +774,11 @@ static SIAlertView *__si_alert_current_view;
 			self.titleLabel.font = self.titleFont;
             self.titleLabel.textColor = self.titleColor;
             self.titleLabel.adjustsFontSizeToFitWidth = YES;
+#ifndef __IPHONE_6_0
             self.titleLabel.minimumScaleFactor = 0.75;
+#else
+            self.titleLabel.minimumFontSize = self.titleLabel.font.pointSize * 0.75;
+#endif
 			[self.containerView addSubview:self.titleLabel];
 #if DEBUG_LAYOUT
             self.titleLabel.backgroundColor = [UIColor redColor];
