@@ -18,12 +18,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+    
     [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
     [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
     [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
     [[SIAlertView appearance] setCornerRadius:12];
     [[SIAlertView appearance] setShadowRadius:20];
+    
+    // If you want to use custom colors, you can set this appearance property to 1.
+    // To preserve backwards compatibility, this is set to 0 by default.
+    // The appearance properties below will not have any affect unless this is enabled.
+    //[[SIAlertView appearance] setUseCoreGraphics:1];
+    
+    [[SIAlertView appearance] setDefaultButtonColor:[UIColor colorWithRed:18.0f / 255.0f
+                                                                    green:138.0f / 255.0f
+                                                                     blue:177.0f / 255.0f
+                                                                    alpha:1.0]];
+    [[SIAlertView appearance] setDefaultButtonFontColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Actions
