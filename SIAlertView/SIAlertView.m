@@ -577,7 +577,8 @@ static SIAlertView *__si_alert_current_view;
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.containerView.center = point;
-                                 self.containerView.transform = CGAffineTransformMakeRotation(0.3);
+                                 CGFloat angle = ((CGFloat)arc4random_uniform(100) - 50.f) / 100.f;
+                                 self.containerView.transform = CGAffineTransformMakeRotation(angle);
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
