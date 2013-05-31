@@ -40,7 +40,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextView *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -719,8 +719,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                   lineBreakMode:self.messageLabel.lineBreakMode];
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)];
         return MAX(minHeight, size.height);
     }
     return minHeight;
@@ -787,12 +786,11 @@ static SIAlertView *__si_alert_current_view;
 {
     if (self.message) {
         if (!self.messageLabel) {
-            self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
+            self.messageLabel = [[UITextView alloc] initWithFrame:self.bounds];
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
-            self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
