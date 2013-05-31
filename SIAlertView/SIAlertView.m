@@ -791,6 +791,7 @@ static SIAlertView *__si_alert_current_view;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
+            self.messageLabel.editable = NO;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
