@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -8,14 +8,12 @@
         <scene sceneID="4">
             <objects>
                 <viewController id="2" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Wq-T8-JXM">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="EFL-g6-BIZ"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Wq-T8-JXM">
+                                <rect key="frame" x="348" y="85" width="73" height="44"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert1">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -28,7 +26,8 @@
                                     <action selector="alert1:" destination="2" eventType="touchUpInside" id="LC3-sB-IJf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2r-37-Tpd">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="A2r-37-Tpd">
+                                <rect key="frame" x="348" y="136" width="73" height="44"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert2">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -41,7 +40,8 @@
                                     <action selector="alert2:" destination="2" eventType="touchUpInside" id="Jz9-db-wNg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CzZ-EZ-2gj">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CzZ-EZ-2gj">
+                                <rect key="frame" x="348" y="187" width="73" height="44"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert3">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -54,7 +54,8 @@
                                     <action selector="alert3:" destination="2" eventType="touchUpInside" id="myx-Mf-aSw"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8f-lj-NAQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b8f-lj-NAQ">
+                                <rect key="frame" x="348" y="238" width="73" height="44"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="1+2+3">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,19 +70,6 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="b8f-lj-NAQ" firstAttribute="trailing" secondItem="CzZ-EZ-2gj" secondAttribute="trailing" type="default" id="1aT-4y-1Lk"/>
-                            <constraint firstItem="b8f-lj-NAQ" firstAttribute="top" secondItem="CzZ-EZ-2gj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="8A1-XS-wGk"/>
-                            <constraint firstItem="A2r-37-Tpd" firstAttribute="leading" secondItem="CzZ-EZ-2gj" secondAttribute="leading" type="default" id="AIJ-3t-bfs"/>
-                            <constraint firstItem="CzZ-EZ-2gj" firstAttribute="top" secondItem="A2r-37-Tpd" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="CZ3-fd-PsU"/>
-                            <constraint firstItem="A2r-37-Tpd" firstAttribute="top" secondItem="1Wq-T8-JXM" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Ddr-XZ-ZMk"/>
-                            <constraint firstItem="CzZ-EZ-2gj" firstAttribute="leading" secondItem="b8f-lj-NAQ" secondAttribute="leading" type="default" id="Kn5-IC-7rJ"/>
-                            <constraint firstItem="1Wq-T8-JXM" firstAttribute="top" secondItem="5" secondAttribute="top" constant="85" id="Sky-cU-pRH"/>
-                            <constraint firstItem="A2r-37-Tpd" firstAttribute="centerX" secondItem="5" secondAttribute="centerX" type="default" id="aSv-eJ-VW9"/>
-                            <constraint firstItem="CzZ-EZ-2gj" firstAttribute="trailing" secondItem="A2r-37-Tpd" secondAttribute="trailing" type="default" id="nmN-9Z-Mjb"/>
-                            <constraint firstItem="1Wq-T8-JXM" firstAttribute="trailing" secondItem="A2r-37-Tpd" secondAttribute="trailing" type="default" id="rtA-GO-FOy"/>
-                            <constraint firstItem="1Wq-T8-JXM" firstAttribute="leading" secondItem="A2r-37-Tpd" secondAttribute="leading" type="default" id="shN-qg-dC5"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
@@ -89,9 +77,6 @@
         </scene>
     </scenes>
     <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
