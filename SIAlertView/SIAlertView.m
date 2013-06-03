@@ -36,6 +36,7 @@ static SIAlertView *__si_alert_current_view;
 @interface SIAlertView ()
 
 @property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic,retain) UIWindow *oldKeyWindow;
 @property (nonatomic, strong) UIWindow *alertWindow;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
@@ -63,7 +64,7 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark - SIBackgroundWindow
 
-@interface SIAlertBackgroundWindow : UIWindow
+@interface SIAlertBackgroundWindow : UIView
 
 @end
 
@@ -82,7 +83,6 @@ static SIAlertView *__si_alert_current_view;
         self.style = style;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
-        self.windowLevel = UIWindowLevelAlert;
     }
     return self;
 }
@@ -99,9 +99,9 @@ static SIAlertView *__si_alert_current_view;
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, locationsCount);
             CGColorSpaceRelease(colorSpace);
-            
-            CGPoint center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
-            CGFloat radius = MIN(self.bounds.size.width, self.bounds.size.height) ;
+                        
+            CGPoint center = CGPointMake(rect.size.width/4,rect.size.height/4);
+            CGFloat radius = MIN(rect.size.width/2, rect.size.height/2) ;
             CGContextDrawRadialGradient (context, gradient, center, 0, center, radius, kCGGradientDrawsAfterEndLocation);
             CGGradientRelease(gradient);
             break;
@@ -109,7 +109,7 @@ static SIAlertView *__si_alert_current_view;
         case SIAlertViewBackgroundStyleSolid:
         {
             [[UIColor colorWithWhite:0 alpha:0.5] set];
-            CGContextFillRect(context, self.bounds);
+            CGContextFillRect(context, rect);
             break;
         }
     }
@@ -232,8 +232,9 @@ static SIAlertView *__si_alert_current_view;
     if (!__si_alert_background_window) {
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
-        [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
+        [__si_alert_current_view addSubview:__si_alert_background_window];
+        [__si_alert_current_view sendSubviewToBack:__si_alert_background_window];
         [UIView animateWithDuration:0.3
                          animations:^{
                              __si_alert_background_window.alpha = 1;
@@ -577,8 +578,7 @@ static SIAlertView *__si_alert_current_view;
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.containerView.center = point;
-                                 CGFloat angle = ((CGFloat)arc4random_uniform(100) - 50.f) / 100.f;
-                                 self.containerView.transform = CGAffineTransformMakeRotation(angle);
+                                 self.containerView.transform = CGAffineTransformMakeRotation(0.3);
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -704,7 +704,12 @@ static SIAlertView *__si_alert_current_view;
 {
     if (self.titleLabel) {
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
-                                   minFontSize:self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+                                   minFontSize:
+#ifndef __IPHONE_6_0
+                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+#else
+                       self.titleLabel.minimumFontSize
+#endif
                                 actualFontSize:nil
                                       forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
@@ -746,10 +751,14 @@ static SIAlertView *__si_alert_current_view;
     [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
+
+    [self.oldKeyWindow makeKeyWindow];
 }
 
 - (void)setupContainerView
 {
+    self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
+    
     self.containerView = [[UIView alloc] initWithFrame:self.bounds];
     self.containerView.backgroundColor = [UIColor whiteColor];
     self.containerView.layer.cornerRadius = self.cornerRadius;
@@ -769,7 +778,11 @@ static SIAlertView *__si_alert_current_view;
 			self.titleLabel.font = self.titleFont;
             self.titleLabel.textColor = self.titleColor;
             self.titleLabel.adjustsFontSizeToFitWidth = YES;
+#ifndef __IPHONE_6_0
             self.titleLabel.minimumScaleFactor = 0.75;
+#else
+            self.titleLabel.minimumFontSize = self.titleLabel.font.pointSize * 0.75;
+#endif
 			[self.containerView addSubview:self.titleLabel];
 #if DEBUG_LAYOUT
             self.titleLabel.backgroundColor = [UIColor redColor];
