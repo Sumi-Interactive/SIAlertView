@@ -172,6 +172,7 @@ static SIAlertView *__si_alert_current_view;
         return;
     
     SIAlertView *appearance = [self appearance];
+    appearance.viewBackgroundColor = [UIColor whiteColor];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor darkGrayColor];
     appearance.titleFont = [UIFont boldSystemFontOfSize:20];
@@ -577,7 +578,8 @@ static SIAlertView *__si_alert_current_view;
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.containerView.center = point;
-                                 self.containerView.transform = CGAffineTransformMakeRotation(0.3);
+                                 CGFloat angle = ((CGFloat)arc4random_uniform(100) - 50.f) / 100.f;
+                                 self.containerView.transform = CGAffineTransformMakeRotation(angle);
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -890,6 +892,15 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - UIAppearance setters
+
+- (void)setViewBackgroundColor:(UIColor *)viewBackgroundColor
+{
+    if (_viewBackgroundColor == viewBackgroundColor) {
+        return;
+    }
+    _viewBackgroundColor = viewBackgroundColor;
+    self.containerView.backgroundColor = viewBackgroundColor;
+}
 
 - (void)setTitleFont:(UIFont *)titleFont
 {
