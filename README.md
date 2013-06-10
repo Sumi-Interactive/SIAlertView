@@ -30,7 +30,7 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 ## Requirements
 
-- iOS 6.0 and greater
+- iOS 5.0 and greater
 - ARC
 
 ## Examples
