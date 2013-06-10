@@ -171,7 +171,7 @@ static SIAlertView *__si_alert_current_view;
 #pragma mark - Public
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
-    SIAlertItem *item = [[SIAlertItem alloc] init];
+    SIAlertButton *item = [[SIAlertButton alloc] init];
 	item.title = title;
 	item.type = type;
 	item.action = handler;
@@ -528,6 +528,7 @@ static SIAlertView *__si_alert_current_view;
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
 	}
+    
     if (self.messageLabel) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
@@ -537,22 +538,26 @@ static SIAlertView *__si_alert_current_view;
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
     }
+    
     if (self.items.count > 0) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
         }
+        
         if (self.items.count == 2) {
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
             button = self.buttons[1];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
-        } else {
+        }
+        else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                
                 if (self.buttons.count > 1) {
-                    if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
+                    if (i == self.buttons.count - 1 && ((SIAlertButton *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
@@ -570,21 +575,26 @@ static SIAlertView *__si_alert_current_view;
 	if (self.title) {
 		height += [self heightForTitleLabel];
 	}
+    
     if (self.message) {
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
         height += [self heightForMessageLabel];
     }
+    
     if (self.items.count > 0) {
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
+        
         if (self.items.count <= 2) {
             height += BUTTON_HEIGHT;
-        } else {
+        }
+        else {
             height += (BUTTON_HEIGHT + GAP) * self.items.count - GAP;
-            if (self.buttons.count > 2 && ((SIAlertItem *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
+            
+            if (self.buttons.count > 2 && ((SIAlertButton *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
                 height += CANCEL_BUTTON_PADDING_TOP;
             }
         }
@@ -710,7 +720,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (UIButton *)buttonForItemIndex:(NSUInteger)index
 {
-    SIAlertItem *item = self.items[index];
+    SIAlertButton *item = self.items[index];
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.tag = index;
 	button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -718,7 +728,8 @@ static SIAlertView *__si_alert_current_view;
 	[button setTitle:item.title forState:UIControlStateNormal];
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
-	switch (item.type) {
+	
+    switch (item.type) {
 		case SIAlertViewButtonTypeCancel:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
 			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d"];
@@ -739,6 +750,7 @@ static SIAlertView *__si_alert_current_view;
             [button setTitleColor:[UIColor colorWithWhite:0.4 alpha:0.8] forState:UIControlStateHighlighted];
 			break;
 	}
+    
 	CGFloat hInset = floorf(normalImage.size.width / 2);
 	CGFloat vInset = floorf(normalImage.size.height / 2);
 	UIEdgeInsets insets = UIEdgeInsetsMake(vInset, hInset, vInset, hInset);
@@ -755,7 +767,7 @@ static SIAlertView *__si_alert_current_view;
 - (void)buttonAction:(UIButton *)button
 {
 	[SIAlertView setAnimating:YES]; // set this flag to YES in order to prevent showing another alert in action block
-    SIAlertItem *item = self.items[button.tag];
+    SIAlertButton *item = self.items[button.tag];
 	if (item.action) {
 		item.action(self);
 	}

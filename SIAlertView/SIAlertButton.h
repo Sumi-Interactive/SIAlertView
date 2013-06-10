@@ -1,5 +1,5 @@
 //
-//  SIAlertItem.h
+//  SIAlertButton.h
 //  SIAlertView
 //
 //  Created by Kevin Cao on 13-4-29.
@@ -13,13 +13,14 @@
 typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeDefault = 0,
     SIAlertViewButtonTypeDestructive,
-    SIAlertViewButtonTypeCancel
+    SIAlertViewButtonTypeCancel,
+    SIAlertViewButtonTypeCustom
 };
 
 typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 
-@interface SIAlertItem : NSObject
+@interface SIAlertButton : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) SIAlertViewButtonType type;

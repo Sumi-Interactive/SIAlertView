@@ -27,7 +27,7 @@
 		7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A7173277EA00784CF1 /* Icon-72.png */; };
 		7E23C6AA173277EE00784CF1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */; };
 		883FA8FB17661B8300768491 /* SIAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 883FA8FA17661B8300768491 /* SIAlertBackgroundWindow.m */; };
-		883FA8FE17661CC300768491 /* SIAlertItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 883FA8FD17661CC300768491 /* SIAlertItem.m */; };
+		883FA8FE17661CC300768491 /* SIAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 883FA8FD17661CC300768491 /* SIAlertButton.m */; };
 		883FA90117661DC100768491 /* SIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 883FA90017661DC100768491 /* SIAlertViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -59,8 +59,8 @@
 		7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		883FA8F917661B8300768491 /* SIAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertBackgroundWindow.h; sourceTree = "<group>"; };
 		883FA8FA17661B8300768491 /* SIAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertBackgroundWindow.m; sourceTree = "<group>"; };
-		883FA8FC17661CC300768491 /* SIAlertItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertItem.h; sourceTree = "<group>"; };
-		883FA8FD17661CC300768491 /* SIAlertItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertItem.m; sourceTree = "<group>"; };
+		883FA8FC17661CC300768491 /* SIAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertButton.h; sourceTree = "<group>"; };
+		883FA8FD17661CC300768491 /* SIAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertButton.m; sourceTree = "<group>"; };
 		883FA8FF17661DC100768491 /* SIAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertViewController.h; sourceTree = "<group>"; };
 		883FA90017661DC100768491 /* SIAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,8 +142,8 @@
 				7E23C69B17325EBD00784CF1 /* SIAlertView.m */,
 				883FA8F917661B8300768491 /* SIAlertBackgroundWindow.h */,
 				883FA8FA17661B8300768491 /* SIAlertBackgroundWindow.m */,
-				883FA8FC17661CC300768491 /* SIAlertItem.h */,
-				883FA8FD17661CC300768491 /* SIAlertItem.m */,
+				883FA8FC17661CC300768491 /* SIAlertButton.h */,
+				883FA8FD17661CC300768491 /* SIAlertButton.m */,
 				883FA8FF17661DC100768491 /* SIAlertViewController.h */,
 				883FA90017661DC100768491 /* SIAlertViewController.m */,
 			);
@@ -260,7 +260,7 @@
 				7E23C69217325EAB00784CF1 /* ViewController.m in Sources */,
 				7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */,
 				883FA8FB17661B8300768491 /* SIAlertBackgroundWindow.m in Sources */,
-				883FA8FE17661CC300768491 /* SIAlertItem.m in Sources */,
+				883FA8FE17661CC300768491 /* SIAlertButton.m in Sources */,
 				883FA90117661DC100768491 /* SIAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

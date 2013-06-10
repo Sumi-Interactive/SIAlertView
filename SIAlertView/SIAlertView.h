@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SIAlertBackgroundWindow.h"
-#import "SIAlertItem.h"
+#import "SIAlertButton.h"
 
 extern NSString * const SIAlertViewWillShowNotification;
 extern NSString * const SIAlertViewDidShowNotification;
