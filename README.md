@@ -35,8 +35,6 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 ## Examples
 
-**Code:**
-
 ```objective-c
 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMessage:@"Sumi Interactive"];
 
