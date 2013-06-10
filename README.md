@@ -37,24 +37,26 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 **Code:**
 
-```objc
+```objective-c
 SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMessage:@"Sumi Interactive"];
 
-[alertView addButtonWithTitle:@"Button1"
-                         type:SIAlertViewButtonTypeDefault
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button1 Clicked");
-                      }];
-[alertView addButtonWithTitle:@"Button2"
-                         type:SIAlertViewButtonTypeDestructive
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button2 Clicked");
-                      }];
-[alertView addButtonWithTitle:@"Button3"
-                         type:SIAlertViewButtonTypeCancel
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button3 Clicked");
-                      }];
+[alertView addAlertButtonWithTitle:@"Button1"
+                              type:SIAlertViewButtonTypeDefault
+                            handler:^(SIAlertView *alert) {
+                                NSLog(@"Button1 Clicked");
+                            }];
+
+[alertView addAlertButtonWithTitle:@"Button2"
+                              type:SIAlertViewButtonTypeDestructive
+                            handler:^(SIAlertView *alert) {
+                                NSLog(@"Button2 Clicked");
+                            }];
+
+[alertView addAlertButtonWithTitle:@"Button3"
+                              type:SIAlertViewButtonTypeCancel
+                            handler:^(SIAlertView *alert) {
+                                NSLog(@"Button3 Clicked");
+                            }];
 
 alertView.willShowHandler = ^(SIAlertView *alertView) {
     NSLog(@"%@, willShowHandler", alertView);
