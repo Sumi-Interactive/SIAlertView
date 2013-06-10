@@ -101,9 +101,6 @@
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"OK Clicked");
-                              
-                              [self alert3:nil];
-                              [self alert3:nil];
                           }];
     alertView.titleColor = [UIColor blueColor];
     alertView.cornerRadius = 10;
