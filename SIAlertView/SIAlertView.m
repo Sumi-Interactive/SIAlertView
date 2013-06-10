@@ -6,13 +6,15 @@
 //  Copyright (c) 2013年 Sumi Interactive. All rights reserved.
 //
 
-#import "SIAlertView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SIAlertView.h"
+#import "SIAlertViewController.h"
 
-NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
-NSString *const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
-NSString *const SIAlertViewWillDismissNotification = @"SIAlertViewWillDismissNotification";
-NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotification";
+NSString * const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
+NSString * const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
+NSString * const SIAlertViewWillDismissNotification = @"SIAlertViewWillDismissNotification";
+NSString * const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotification";
+
 
 #define DEBUG_LAYOUT 0
 
@@ -26,12 +28,12 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define BUTTON_HEIGHT 44
 #define CONTAINER_WIDTH 300
 
-@class SIAlertBackgroundWindow;
 
 static NSMutableArray *__si_alert_queue;
 static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
+
 
 @interface SIAlertView ()
 
@@ -55,117 +57,13 @@ static SIAlertView *__si_alert_current_view;
 + (void)showBackground;
 + (void)hideBackgroundAnimated:(BOOL)animated;
 
-- (void)setup;
-- (void)invaliadateLayout;
-- (void)resetTransition;
-
 @end
 
-#pragma mark - SIBackgroundWindow
 
-@interface SIAlertBackgroundWindow : UIWindow
-
-@end
-
-@interface SIAlertBackgroundWindow ()
-
-@property (nonatomic, assign) SIAlertViewBackgroundStyle style;
-
-@end
-
-@implementation SIAlertBackgroundWindow
-
-- (id)initWithFrame:(CGRect)frame andStyle:(SIAlertViewBackgroundStyle)style
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.style = style;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.opaque = NO;
-        self.windowLevel = UIWindowLevelAlert;
-    }
-    return self;
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    switch (self.style) {
-        case SIAlertViewBackgroundStyleGradient:
-        {
-            size_t locationsCount = 2;
-            CGFloat locations[2] = {0.0f, 1.0f};
-            CGFloat colors[8] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.75f};
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, colors, locations, locationsCount);
-            CGColorSpaceRelease(colorSpace);
-            
-            CGPoint center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
-            CGFloat radius = MIN(self.bounds.size.width, self.bounds.size.height) ;
-            CGContextDrawRadialGradient (context, gradient, center, 0, center, radius, kCGGradientDrawsAfterEndLocation);
-            CGGradientRelease(gradient);
-            break;
-        }
-        case SIAlertViewBackgroundStyleSolid:
-        {
-            [[UIColor colorWithWhite:0 alpha:0.5] set];
-            CGContextFillRect(context, self.bounds);
-            break;
-        }
-    }
-}
-
-@end
-
-#pragma mark - SIAlertItem
-
-@interface SIAlertItem : NSObject
-
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign) SIAlertViewButtonType type;
-@property (nonatomic, copy) SIAlertViewHandler action;
-
-@end
-
-@implementation SIAlertItem
-
-@end
-
-#pragma mark - SIAlertViewController
-
-@interface SIAlertViewController : UIViewController
-
-@property (nonatomic, strong) SIAlertView *alertView;
-
-@end
-
-@implementation SIAlertViewController
-
-#pragma mark - View life cycle
-
-- (void)loadView
-{
-    self.view = self.alertView;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self.alertView setup];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self.alertView resetTransition];
-    [self.alertView invaliadateLayout];
-}
-
-@end
-
-#pragma mark - SIAlert
 
 @implementation SIAlertView
 
+#pragma mark - Initialization
 + (void)initialize
 {
     if (self != [SIAlertView class])
@@ -198,7 +96,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Class methods
-
 + (NSMutableArray *)sharedQueue
 {
     if (!__si_alert_queue) {
@@ -259,7 +156,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Setters
-
 - (void)setTitle:(NSString *)title
 {
     _title = title;
@@ -273,7 +169,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Public
-
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
     SIAlertItem *item = [[SIAlertItem alloc] init];
@@ -422,7 +317,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Transitions
-
 - (void)transitionInCompletion:(void(^)(void))completion
 {
     switch (self.transitionStyle) {
@@ -598,7 +492,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Layout
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -727,7 +620,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Setup
-
 - (void)setup
 {
     [self setupContainerView];
@@ -860,7 +752,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - Actions
-
 - (void)buttonAction:(UIButton *)button
 {
 	[SIAlertView setAnimating:YES]; // set this flag to YES in order to prevent showing another alert in action block
@@ -872,7 +763,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - CAAnimation delegate
-
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     void(^completion)(void) = [anim valueForKey:@"handler"];
@@ -882,7 +772,6 @@ static SIAlertView *__si_alert_current_view;
 }
 
 #pragma mark - UIAppearance setters
-
 - (void)setTitleFont:(UIFont *)titleFont
 {
     if (_titleFont == titleFont) {
