@@ -5,7 +5,7 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 ## Preview
 
-![SIAlertView Screenshot](https://github.com/Sumi-Interactive/SIAlertView/raw/master/screenshot.png)
+![SIAlertView Screenshot](https://github.com/jessesquires/SIAlertView/raw/master/screenshot.png)
 
 ## Features
 
