@@ -41,7 +41,7 @@
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.alertView resetTransition];
-    [self.alertView invaliadateLayout];
+    [self.alertView invalidateLayout];
 }
 
 @end

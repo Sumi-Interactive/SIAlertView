@@ -13,17 +13,22 @@
 typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeDefault = 0,
     SIAlertViewButtonTypeDestructive,
-    SIAlertViewButtonTypeCancel,
-    SIAlertViewButtonTypeCustom
+    SIAlertViewButtonTypeCancel
 };
 
 typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 
-@interface SIAlertButton : NSObject
+@interface SIAlertButton : UIButton
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) SIAlertViewButtonType type;
 @property (nonatomic, copy) SIAlertViewHandler action;
+
++ (SIAlertButton *)alertButtonWithTitle:(NSString *)aTitle
+                                   type:(SIAlertViewButtonType)aType
+                                 action:(SIAlertViewHandler)anAction
+                                   font:(UIFont *)aFont
+                                    tag:(NSInteger)aTag;
 
 @end

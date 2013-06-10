@@ -49,11 +49,14 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
 @property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR; // default is 8.0
 
 - (void)setup;
-- (void)invaliadateLayout;
+- (void)invalidateLayout;
 - (void)resetTransition;
 
-- (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
-- (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
+- (id)initWithTitle:(NSString *)title message:(NSString *)message;
+
+- (void)addAlertButtonWithTitle:(NSString *)title
+                           type:(SIAlertViewButtonType)type
+                        handler:(SIAlertViewHandler)handler;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
