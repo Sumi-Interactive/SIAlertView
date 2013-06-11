@@ -587,7 +587,7 @@ static SIAlertView *__si_alert_current_view;
                     if (i == self.buttons.count - 1) {
                         id last = [self.buttons lastObject];
                         
-                        if([last isKindOfClass:[SIAlertButton class]] && ((SIAlertButton *)last).type == SIAlertViewButtonTypeCancel) {
+                        if(((SIAlertButton *)last).type == SIAlertViewButtonTypeCancelDefault) {
                             CGRect rect = button.frame;
                             rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                             button.frame = rect;
@@ -629,7 +629,7 @@ static SIAlertView *__si_alert_current_view;
             if (self.buttons.count > 2) {
                 id last = [self.buttons lastObject];
                 
-                if([last isKindOfClass:[SIAlertButton class]] && ((SIAlertButton *)last).type == SIAlertViewButtonTypeCancel) {
+                if(((SIAlertButton *)last).type == SIAlertViewButtonTypeCancelDefault) {
                     height += CANCEL_BUTTON_PADDING_TOP;
                 }
             }
@@ -752,12 +752,9 @@ static SIAlertView *__si_alert_current_view;
 {
 	[SIAlertView setAnimating:YES]; // set this flag to YES in order to prevent showing another alert in action block
     
-    if([button isKindOfClass:[SIAlertButton class]]) {
-        SIAlertButton *btn = (SIAlertButton *)button;
-        if(btn.action) {
-            btn.action(self);
-        }
-    }
+    SIAlertButton *btn = (SIAlertButton *)button;
+    if(btn.action)
+        btn.action(self);
     
 	[self dismissAnimated:YES];
 }

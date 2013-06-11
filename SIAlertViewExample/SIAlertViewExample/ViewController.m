@@ -33,17 +33,17 @@
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" message:@"Count down"];
     
     [alertView addAlertButtonWithTitle:@"Button1"
-                                  type:SIAlertViewButtonTypeDefault
+                                  type:SIAlertViewButtonTypeOKDefault
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"Button1 Clicked");
                                }];
     [alertView addAlertButtonWithTitle:@"Button2"
-                                  type:SIAlertViewButtonTypeDefault
+                                  type:SIAlertViewButtonTypeOKDefault
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"Button2 Clicked");
                                }];
     [alertView addAlertButtonWithTitle:@"Button3"
-                                  type:SIAlertViewButtonTypeDestructive
+                                  type:SIAlertViewButtonTypeDestructiveDefault
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"Button3 Clicked");
                                }];
@@ -92,22 +92,25 @@
 
 - (IBAction)alert2:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title2" message:@"Message2"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Attention!"
+                                                        message:@"This is a custom alert where the buttons are drawn via CoreGraphics. It looks really nice, huh?"];
     
     [alertView addAlertButtonWithTitle:@"Cancel"
-                                  type:SIAlertViewButtonTypeCancel
+                                  type:SIAlertViewButtonTypeDanger
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"Cancel Clicked");
                                }];
     [alertView addAlertButtonWithTitle:@"OK"
-                                  type:SIAlertViewButtonTypeDefault
+                                  type:SIAlertViewButtonTypeOK
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"OK Clicked");
                                }];
     
-    alertView.titleColor = [UIColor blueColor];
-    alertView.cornerRadius = 10;
-    alertView.buttonFont = [UIFont boldSystemFontOfSize:15];
+    alertView.titleColor = [UIColor colorWithHue:3.0f/360.0f saturation:0.76f brightness:0.88f alpha:1.0f];
+    alertView.messageColor = [UIColor colorWithWhite:0.35f alpha:0.8f];
+    alertView.messageFont = [UIFont systemFontOfSize:16.0f];
+    alertView.cornerRadius = 5.0f;
+    alertView.buttonFont = [UIFont boldSystemFontOfSize:16.0f];
     alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
@@ -133,12 +136,12 @@ id observer1,observer2,observer3,observer4;
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil message:@"Message3"];
     
     [alertView addAlertButtonWithTitle:@"Cancel"
-                                  type:SIAlertViewButtonTypeCancel
+                                  type:SIAlertViewButtonTypeCancelDefault
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"Cancel Clicked");
                                }];
     [alertView addAlertButtonWithTitle:@"OK"
-                                  type:SIAlertViewButtonTypeDefault
+                                  type:SIAlertViewButtonTypeOKDefault
                                handler:^(SIAlertView *alertView) {
                                    NSLog(@"OK Clicked");
                                }];
