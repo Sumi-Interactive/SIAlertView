@@ -58,6 +58,10 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
                            type:(SIAlertViewButtonType)type
                         handler:(SIAlertViewHandler)handler;
 
+- (void)addAlertButtonWithTitle:(NSString *)title
+                          color:(UIColor *)color
+                        handler:(SIAlertViewHandler)handler;
+
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
 

@@ -205,6 +205,23 @@ static SIAlertView *__si_alert_current_view;
     [self.buttons addObject:btn];
 }
 
+- (void)addAlertButtonWithTitle:(NSString *)title
+                          color:(UIColor *)color
+                        handler:(SIAlertViewHandler)handler
+{
+    SIAlertButton *btn = [SIAlertButton alertButtonWithTitle:title
+                                                        color:color
+                                                      action:handler
+                                                        font:self.buttonFont
+                                                         tag:self.buttons.count];
+    
+    [btn addTarget:self
+            action:@selector(buttonPressed:)
+  forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.buttons addObject:btn];
+}
+
 - (void)show
 {
     if (![[SIAlertView sharedQueue] containsObject:self]) {
