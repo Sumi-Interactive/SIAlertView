@@ -32,6 +32,7 @@
                                     tag:(NSInteger)aTag
 {
     SIAlertButton *button = [SIAlertButton buttonWithType:UIButtonTypeCustom];
+    button.action = anAction;
 	button.tag = aTag;
 	button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     button.titleLabel.font = aFont;
@@ -57,6 +58,7 @@
                                     tag:(NSInteger)aTag
 {
     SIAlertButton *button = [SIAlertButton buttonWithType:UIButtonTypeCustom];
+    button.action = anAction;
 	button.tag = aTag;
 	button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     button.titleLabel.font = aFont;
