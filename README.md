@@ -1,11 +1,11 @@
 SIAlertView
 =============
 
-An UIAlertView replacement with block syntax and fancy transition styles. As seen in [Grid Diary](http://griddiaryapp.com/).
+A UIAlertView subclass with block syntax and fancy transition styles. As seen in [Grid Diary](http://griddiaryapp.com/).
 
 ## Preview
 
-![SIAlertView Screenshot](https://github.com/Sumi-Interactive/SIAlertView/raw/master/screenshot.png)
+![SIAlertView Screenshot](https://github.com/jessesquires/SIAlertView/raw/master/screenshot.png)
 
 ## Features
 
@@ -30,49 +30,50 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 ## Requirements
 
-- iOS 6.0 and greater
+- iOS 6.0+
 - ARC
 
 ## Examples
 
-**Code:**
+````objective-c
 
-```objc
-SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMessage:@"Sumi Interactive"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Attention!"
+                                                        message:@"This is a custom alert where the buttons are drawn via CoreGraphics. It looks really nice, huh?"];
+    
+    [alertView addAlertButtonWithTitle:@"Cancel"
+                                  type:SIAlertViewButtonTypeDanger
+                               handler:^(SIAlertView *alertView) {
+                                   NSLog(@"Cancel Clicked");
+                               }];
+    [alertView addAlertButtonWithTitle:@"OK"
+                                  type:SIAlertViewButtonTypeOK
+                               handler:^(SIAlertView *alertView) {
+                                   NSLog(@"OK Clicked");
+                               }];
+    
+    alertView.titleColor = [UIColor colorWithHue:3.0f/360.0f saturation:0.76f brightness:0.88f alpha:1.0f];
+    alertView.messageColor = [UIColor colorWithWhite:0.35f alpha:0.8f];
+    alertView.messageFont = [UIFont systemFontOfSize:16.0f];
+    alertView.cornerRadius = 5.0f;
+    alertView.buttonFont = [UIFont boldSystemFontOfSize:16.0f];
+    alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    
+    alertView.willShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willShowHandler2", alertView);
+    };
+    alertView.didShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didShowHandler2", alertView);
+    };
+    alertView.willDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willDismissHandler2", alertView);
+    };
+    alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissHandler2", alertView);
+    };
+    
+    [alertView show];
 
-[alertView addButtonWithTitle:@"Button1"
-                         type:SIAlertViewButtonTypeDefault
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button1 Clicked");
-                      }];
-[alertView addButtonWithTitle:@"Button2"
-                         type:SIAlertViewButtonTypeDestructive
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button2 Clicked");
-                      }];
-[alertView addButtonWithTitle:@"Button3"
-                         type:SIAlertViewButtonTypeCancel
-                      handler:^(SIAlertView *alert) {
-                          NSLog(@"Button3 Clicked");
-                      }];
-
-alertView.willShowHandler = ^(SIAlertView *alertView) {
-    NSLog(@"%@, willShowHandler", alertView);
-};
-alertView.didShowHandler = ^(SIAlertView *alertView) {
-    NSLog(@"%@, didShowHandler", alertView);
-};
-alertView.willDismissHandler = ^(SIAlertView *alertView) {
-    NSLog(@"%@, willDismissHandler", alertView);
-};
-alertView.didDismissHandler = ^(SIAlertView *alertView) {
-    NSLog(@"%@, didDismissHandler", alertView);
-};
-
-alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
-
-[alertView show];
-```
+````
 
 ## Credits
 
