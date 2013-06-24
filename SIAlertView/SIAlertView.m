@@ -26,6 +26,9 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define BUTTON_HEIGHT 44
 #define CONTAINER_WIDTH 300
 
+const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
+const UIWindowLevel UIWindowLevelSIAlertBackground = 1998.0; // below the alert window
+
 @class SIAlertBackgroundWindow;
 
 static NSMutableArray *__si_alert_queue;
@@ -82,7 +85,7 @@ static SIAlertView *__si_alert_current_view;
         self.style = style;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
-        self.windowLevel = UIWindowLevelAlert;
+        self.windowLevel = UIWindowLevelSIAlertBackground;
     }
     return self;
 }
@@ -324,7 +327,7 @@ static SIAlertView *__si_alert_current_view;
         UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
-        window.windowLevel = UIWindowLevelAlert + 1.0;
+        window.windowLevel = UIWindowLevelSIAlert;
         window.rootViewController = viewController;
         self.alertWindow = window;
     }
