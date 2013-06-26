@@ -27,6 +27,9 @@
     [[SIAlertView appearance] setCornerRadius:12];
     [[SIAlertView appearance] setShadowRadius:20];
     [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
+    [[SIAlertView appearance] setButtonColor:[UIColor greenColor]];
+    [[SIAlertView appearance] setCancelButtonColor:[UIColor redColor]];
+    [[SIAlertView appearance] setDestructiveButtonColor:[UIColor blueColor]];
 #endif
 }
 
