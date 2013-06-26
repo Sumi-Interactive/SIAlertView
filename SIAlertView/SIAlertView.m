@@ -24,6 +24,7 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
+#define TEXTFIELD_HEIGHT 28
 #define CONTAINER_WIDTH 300
 
 const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
@@ -44,6 +45,7 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -167,6 +169,9 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark - SIAlert
 
+@interface SIAlertView() <UITextFieldDelegate>
+@end
+
 @implementation SIAlertView
 
 + (void)initialize
@@ -260,6 +265,12 @@ static SIAlertView *__si_alert_current_view;
                          [__si_alert_background_window removeFromSuperview];
                          __si_alert_background_window = nil;
                      }];
+}
+
+#pragma mark - Getters
+
+- (NSString *)inputText {
+    return self.textField ? self.textField.text : @"";
 }
 
 #pragma mark - Setters
@@ -648,6 +659,14 @@ static SIAlertView *__si_alert_current_view;
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
     }
+    if(self.textField) {
+        if (y > CONTENT_PADDING_TOP) {
+            y += GAP;
+        }
+        CGFloat height = TEXTFIELD_HEIGHT;
+        self.textField.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        y += height;
+    }
     if (self.items.count > 0) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
@@ -686,6 +705,12 @@ static SIAlertView *__si_alert_current_view;
             height += GAP;
         }
         height += [self heightForMessageLabel];
+    }
+    if (self.textField) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
+        height += TEXTFIELD_HEIGHT;
     }
     if (self.items.count > 0) {
         if (height > CONTENT_PADDING_TOP) {
@@ -742,6 +767,9 @@ static SIAlertView *__si_alert_current_view;
     [self setupContainerView];
     [self updateTitleLabel];
     [self updateMessageLabel];
+    if(self.alertViewStyle == SIAlertViewStyleTextInput) {
+        [self setupTextField];
+    }
     [self setupButtons];
     [self invaliadateLayout];
 }
@@ -819,6 +847,20 @@ static SIAlertView *__si_alert_current_view;
     [self invaliadateLayout];
 }
 
+- (void)setupTextField
+{
+    if(!self.textField) {
+        self.textField = [[UITextField alloc] initWithFrame:self.bounds];
+        self.textField.delegate = self;
+        self.textField.borderStyle = UITextBorderStyleBezel;
+        [self.containerView addSubview:self.textField];
+#if DEBUG_LAYOUT
+        self.textField.backgroundColor = [UIColor redColor];
+#endif
+    }
+    [self invaliadateLayout];
+}
+
 - (void)setupButtons
 {
     self.buttons = [[NSMutableArray alloc] initWithCapacity:self.items.count];
@@ -892,6 +934,13 @@ static SIAlertView *__si_alert_current_view;
     if (completion) {
         completion();
     }
+}
+
+#pragma mark - UITextField delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - UIAppearance setters
