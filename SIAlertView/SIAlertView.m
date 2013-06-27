@@ -852,6 +852,7 @@ static SIAlertView *__si_alert_current_view;
     if(!self.textField) {
         self.textField = [[UITextField alloc] initWithFrame:self.bounds];
         self.textField.delegate = self;
+        self.textField.text = @"";
         self.textField.borderStyle = UITextBorderStyleBezel;
         [self.containerView addSubview:self.textField];
 #if DEBUG_LAYOUT
