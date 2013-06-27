@@ -163,6 +163,21 @@ static SIAlertView *__si_alert_current_view;
     [self.alertView invaliadateLayout];
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
 @end
 
 #pragma mark - SIAlert
