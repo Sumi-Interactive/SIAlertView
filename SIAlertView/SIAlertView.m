@@ -1008,6 +1008,7 @@ static SIAlertView *__si_alert_current_view;
         if(item.type == type) {
             UIButton *button = self.buttons[i];
             [button setTitleColor:color forState:UIControlStateNormal];
+            [button setTitleColor:[color colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
         }
     }
 }
