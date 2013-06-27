@@ -33,6 +33,8 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 - iOS 5.0 and greater
 - ARC
 
+(If you are having any problems, just select your project -> Build Phases -> Compile Sources, double-click the SIAlertView and add `-fobjc-arc`)
+
 ## Examples
 
 **Code:**
