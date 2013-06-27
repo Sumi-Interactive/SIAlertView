@@ -359,6 +359,8 @@ static SIAlertView *__si_alert_current_view;
         NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
         if (index < [SIAlertView sharedQueue].count - 1) {
             [self dismissAnimated:YES cleanup:NO]; // dismiss to show next alert view
+        } else if(self.textField) {
+            [self.textField becomeFirstResponder];
         }
     }];
 }
