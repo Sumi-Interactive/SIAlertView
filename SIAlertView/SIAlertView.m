@@ -780,7 +780,7 @@ static SIAlertView *__si_alert_current_view;
     [self setupContainerView];
     [self updateTitleLabel];
     [self updateMessageLabel];
-    if(self.alertViewStyle == SIAlertViewStyleTextInput) {
+    if(self.alertViewStyle == SIAlertViewStylePlainTextInput) {
         [self setupTextField];
     }
     [self setupButtons];
@@ -980,10 +980,10 @@ static SIAlertView *__si_alert_current_view;
 
     //calculate new position
     CGRect containerFrame = self.containerView.frame;
-    CGRect keyboardFrame = [self.containerView convertRect:keyboardEndFrame toView:nil];
+    CGRect convertedKeyboardFrame = [self convertRect:keyboardEndFrame fromView:self.window];
     CGFloat adjustedHeight = self.bounds.size.height;
     if(up) {
-        adjustedHeight -= keyboardFrame.size.height;
+        adjustedHeight -= convertedKeyboardFrame.size.height;
     }
     containerFrame.origin.y = (adjustedHeight - containerFrame.size.height) / 2;
     
@@ -993,9 +993,17 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.frame = containerFrame;
     [UIView commitAnimations];
     
-    // Set keyboardOffset to the width of the keyboard.
-    // This property is used to adjust the alertView y position on willRotate, i.e. before the rotation occurs. Therefore the width is used instead of height.
-    self.keyboardOffset = up ? keyboardFrame.size.width : 0;
+    //keyboardOffset is used to adjust the alertView y position on willRotate, i.e. before the rotation occurs. Therefore the height is set dependent of the current orientation
+    if(up) {
+        self.keyboardOffset = UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation]) ? keyboardEndFrame.size.height : keyboardEndFrame.size.width;
+    } else {
+        self.keyboardOffset = 0;
+    }
+}
+
++ (CGRect) convertRect:(CGRect)rect toView:(UIView *)view {
+    UIWindow *window = [view isKindOfClass:[UIWindow class]] ? (UIWindow *) view : [view window];
+    return [view convertRect:[window convertRect:rect fromWindow:nil] fromView:nil];
 }
 
 #pragma mark - UIAppearance setters

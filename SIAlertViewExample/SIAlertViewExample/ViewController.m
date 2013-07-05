@@ -135,7 +135,7 @@ id observer1,observer2,observer3,observer4;
 - (IBAction)alert3:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"Message3"];
-    alertView.alertViewStyle = SIAlertViewStyleTextInput;
+    alertView.alertViewStyle = SIAlertViewStylePlainTextInput;
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
