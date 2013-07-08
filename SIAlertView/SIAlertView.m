@@ -45,6 +45,7 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextField *inputField;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -126,6 +127,7 @@ static SIAlertView *__si_alert_current_view;
 @interface SIAlertItem : NSObject
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, strong) NSString *input;
 @property (nonatomic, assign) SIAlertViewButtonType type;
 @property (nonatomic, copy) SIAlertViewHandler action;
 
@@ -194,8 +196,10 @@ static SIAlertView *__si_alert_current_view;
     appearance.viewBackgroundColor = [UIColor whiteColor];
     appearance.titleColor = [UIColor blackColor];
     appearance.messageColor = [UIColor darkGrayColor];
+    appearance.inputColor = [UIColor lightGrayColor];
     appearance.titleFont = [UIFont boldSystemFontOfSize:20];
     appearance.messageFont = [UIFont systemFontOfSize:16];
+    appearance.inputFont = [UIFont systemFontOfSize:16];
     appearance.buttonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
     appearance.cornerRadius = 2;
     appearance.shadowRadius = 8;
@@ -292,6 +296,12 @@ static SIAlertView *__si_alert_current_view;
     [self invaliadateLayout];
 }
 
+- (void)setInput:(NSString *)input
+{
+    _input = input;
+    [self invaliadateLayout];
+}
+
 #pragma mark - Public
 
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
@@ -301,6 +311,12 @@ static SIAlertView *__si_alert_current_view;
 	item.type = type;
 	item.action = handler;
 	[self.items addObject:item];
+}
+
+- (void)addInputFieldWithPlaceholder:(NSString *)placeholder andHandler:(SIAlertViewHandler)handler
+{
+    _input = placeholder;
+    [self invaliadateLayout];
 }
 
 - (void)show
@@ -668,6 +684,15 @@ static SIAlertView *__si_alert_current_view;
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
     }
+    if (self.inputField) {
+        if (y > CONTENT_PADDING_TOP) {
+            y += GAP;
+        }
+        self.inputField.placeholder = self.input;
+        CGFloat height = [self heightForInputField];
+        self.inputField.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        y += height;
+    }
     if (self.items.count > 0) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
@@ -706,6 +731,12 @@ static SIAlertView *__si_alert_current_view;
             height += GAP;
         }
         height += [self heightForMessageLabel];
+    }
+    if (self.inputField) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
+        height += [self heightForInputField];
     }
     if (self.items.count > 0) {
         if (height > CONTENT_PADDING_TOP) {
@@ -755,6 +786,11 @@ static SIAlertView *__si_alert_current_view;
     return minHeight;
 }
 
+- (CGFloat)heightForInputField
+{
+    return 2 * self.inputField.font.lineHeight;
+}
+
 #pragma mark - Setup
 
 - (void)setup
@@ -762,6 +798,7 @@ static SIAlertView *__si_alert_current_view;
     [self setupContainerView];
     [self updateTitleLabel];
     [self updateMessageLabel];
+    [self updateInputField];
     [self setupButtons];
     [self invaliadateLayout];
 }
@@ -772,6 +809,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView = nil;
     self.titleLabel = nil;
     self.messageLabel = nil;
+    self.inputField = nil;
     [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
@@ -839,6 +877,38 @@ static SIAlertView *__si_alert_current_view;
     [self invaliadateLayout];
 }
 
+- (void)updateInputField
+{
+    if (self.input) {
+        if (!self.inputField) {
+            self.inputField = [[UITextField alloc] initWithFrame:self.bounds];
+            self.inputField.textAlignment = NSTextAlignmentCenter;
+            self.inputField.font = self.inputFont;
+            self.inputField.textColor = self.inputColor;
+            self.inputField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            self.inputField.autocorrectionType = UITextAutocorrectionTypeNo;
+            
+            UIImage *normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
+            CGFloat hInset = floorf(normalImage.size.width / 2);
+            CGFloat vInset = floorf(normalImage.size.height / 2);
+            UIEdgeInsets insets = UIEdgeInsetsMake(vInset, hInset, vInset, hInset);
+            normalImage = [normalImage resizableImageWithCapInsets:insets];
+            [self.inputField setBackground:normalImage];
+
+            self.inputField.delegate = self;
+            [self.containerView addSubview:self.inputField];
+#if DEBUG_LAYOUT
+            self.inputField.backgroundColor = [UIColor redColor];
+#endif
+        }
+        self.inputField.text = self.input;
+    } else {
+        [self.inputField removeFromSuperview];
+        self.inputField = nil;
+    }
+    [self invaliadateLayout];
+}
+
 - (void)setupButtons
 {
     self.buttons = [[NSMutableArray alloc] initWithCapacity:self.items.count];
@@ -859,6 +929,7 @@ static SIAlertView *__si_alert_current_view;
 	[button setTitle:item.title forState:UIControlStateNormal];
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
+    
 	switch (item.type) {
 		case SIAlertViewButtonTypeCancel:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
@@ -887,20 +958,30 @@ static SIAlertView *__si_alert_current_view;
 	highlightedImage = [highlightedImage resizableImageWithCapInsets:insets];
 	[button setBackgroundImage:normalImage forState:UIControlStateNormal];
 	[button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
-	[button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     return button;
+}
+
+#pragma mark - UITextField Delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.inputField.text = @"";
 }
 
 #pragma mark - Actions
 
 - (void)buttonAction:(UIButton *)button
 {
+    self.input = self.inputField.text;
+    
 	[SIAlertView setAnimating:YES]; // set this flag to YES in order to prevent showing another alert in action block
     SIAlertItem *item = self.items[button.tag];
 	if (item.action) {
 		item.action(self);
 	}
+    
 	[self dismissAnimated:YES];
 }
 
@@ -945,6 +1026,16 @@ static SIAlertView *__si_alert_current_view;
     [self invaliadateLayout];
 }
 
+- (void)setInputFont:(UIFont *)inputFont
+{
+    if (_inputFont == inputFont) {
+        return;
+    }
+    _inputFont = inputFont;
+    self.inputField.font = inputFont;
+    [self invaliadateLayout];
+}
+
 - (void)setTitleColor:(UIColor *)titleColor
 {
     if (_titleColor == titleColor) {
@@ -961,6 +1052,15 @@ static SIAlertView *__si_alert_current_view;
     }
     _messageColor = messageColor;
     self.messageLabel.textColor = messageColor;
+}
+
+- (void)setInputColor:(UIColor *)inputColor
+{
+    if (_inputColor == inputColor) {
+        return;
+    }
+    _inputColor = inputColor;
+    self.inputField.textColor = inputColor;
 }
 
 - (void)setButtonFont:(UIFont *)buttonFont
