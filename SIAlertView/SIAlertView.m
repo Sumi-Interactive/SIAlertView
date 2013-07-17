@@ -442,7 +442,8 @@ static SIAlertView *__si_alert_current_view;
         }
     }
     
-    [self.oldKeyWindow makeKeyAndVisible];
+    [self.oldKeyWindow makeKeyWindow];
+    self.oldKeyWindow.hidden = NO;
 }
 
 #pragma mark - Transitions
