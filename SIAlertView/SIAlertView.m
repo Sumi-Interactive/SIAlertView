@@ -776,6 +776,7 @@ static SIAlertView *__si_alert_current_view;
     [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
+    self.layoutDirty = NO;
 }
 
 - (void)setupContainerView
