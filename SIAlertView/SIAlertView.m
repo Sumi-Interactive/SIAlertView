@@ -197,6 +197,9 @@ static SIAlertView *__si_alert_current_view;
     appearance.titleFont = [UIFont boldSystemFontOfSize:20];
     appearance.messageFont = [UIFont systemFontOfSize:16];
     appearance.buttonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+    appearance.buttonColor = [UIColor colorWithWhite:0.4 alpha:1];
+    appearance.cancelButtonColor = [UIColor colorWithWhite:0.3 alpha:1];
+    appearance.destructiveButtonColor = [UIColor whiteColor];
     appearance.cornerRadius = 2;
     appearance.shadowRadius = 8;
 }
@@ -865,21 +868,21 @@ static SIAlertView *__si_alert_current_view;
 		case SIAlertViewButtonTypeCancel:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
 			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d"];
-			[button setTitleColor:[UIColor colorWithWhite:0.3 alpha:1] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor colorWithWhite:0.3 alpha:0.8] forState:UIControlStateHighlighted];
+			[button setTitleColor:self.cancelButtonColor forState:UIControlStateNormal];
+            [button setTitleColor:[self.cancelButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDestructive:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive"];
 			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive-d"];
-            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor colorWithWhite:1 alpha:0.8] forState:UIControlStateHighlighted];
+            [button setTitleColor:self.destructiveButtonColor forState:UIControlStateNormal];
+            [button setTitleColor:[self.destructiveButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDefault:
 		default:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
 			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d"];
-			[button setTitleColor:[UIColor colorWithWhite:0.4 alpha:1] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor colorWithWhite:0.4 alpha:0.8] forState:UIControlStateHighlighted];
+			[button setTitleColor:self.buttonColor forState:UIControlStateNormal];
+            [button setTitleColor:[self.buttonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 	}
 	CGFloat hInset = floorf(normalImage.size.width / 2);
@@ -992,6 +995,44 @@ static SIAlertView *__si_alert_current_view;
     }
     _shadowRadius = shadowRadius;
     self.containerView.layer.shadowRadius = shadowRadius;
+}
+
+- (void)setButtonColor:(UIColor *)buttonColor
+{
+    if (_buttonColor == buttonColor) {
+        return;
+    }
+    _buttonColor = buttonColor;
+    [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDefault];
+}
+
+- (void)setCancelButtonColor:(UIColor *)buttonColor
+{
+    if (_cancelButtonColor == buttonColor) {
+        return;
+    }
+    _cancelButtonColor = buttonColor;
+    [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeCancel];
+}
+
+- (void)setDestructiveButtonColor:(UIColor *)buttonColor
+{
+    if (_destructiveButtonColor == buttonColor) {
+        return;
+    }
+    _destructiveButtonColor = buttonColor;
+    [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDestructive];
+}
+
+-(void)setColor:(UIColor *)color toButtonsOfType:(SIAlertViewButtonType)type {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        SIAlertItem *item = self.items[i];
+        if(item.type == type) {
+            UIButton *button = self.buttons[i];
+            [button setTitleColor:color forState:UIControlStateNormal];
+            [button setTitleColor:[color colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
+        }
+    }
 }
 
 @end
