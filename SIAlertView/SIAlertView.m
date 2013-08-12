@@ -60,7 +60,7 @@ static SIAlertView *__si_alert_current_view;
 + (void)hideBackgroundAnimated:(BOOL)animated;
 
 - (void)setup;
-- (void)invaliadateLayout;
+- (void)invalidateLayout;
 - (void)resetTransition;
 
 @end
@@ -161,7 +161,7 @@ static SIAlertView *__si_alert_current_view;
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.alertView resetTransition];
-    [self.alertView invaliadateLayout];
+    [self.alertView invalidateLayout];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -286,13 +286,13 @@ static SIAlertView *__si_alert_current_view;
 - (void)setTitle:(NSString *)title
 {
     _title = title;
-	[self invaliadateLayout];
+	[self invalidateLayout];
 }
 
 - (void)setMessage:(NSString *)message
 {
 	_message = message;
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 #pragma mark - Public
@@ -633,7 +633,7 @@ static SIAlertView *__si_alert_current_view;
     [self validateLayout];
 }
 
-- (void)invaliadateLayout
+- (void)invalidateLayout
 {
     self.layoutDirty = YES;
     [self setNeedsLayout];
@@ -767,7 +767,7 @@ static SIAlertView *__si_alert_current_view;
     [self updateTitleLabel];
     [self updateMessageLabel];
     [self setupButtons];
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 - (void)teardown
@@ -818,7 +818,7 @@ static SIAlertView *__si_alert_current_view;
 		[self.titleLabel removeFromSuperview];
 		self.titleLabel = nil;
 	}
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 - (void)updateMessageLabel
@@ -841,7 +841,7 @@ static SIAlertView *__si_alert_current_view;
         [self.messageLabel removeFromSuperview];
         self.messageLabel = nil;
     }
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 - (void)setupButtons
@@ -937,7 +937,7 @@ static SIAlertView *__si_alert_current_view;
     }
     _titleFont = titleFont;
     self.titleLabel.font = titleFont;
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 - (void)setMessageFont:(UIFont *)messageFont
@@ -947,7 +947,7 @@ static SIAlertView *__si_alert_current_view;
     }
     _messageFont = messageFont;
     self.messageLabel.font = messageFont;
-    [self invaliadateLayout];
+    [self invalidateLayout];
 }
 
 - (void)setTitleColor:(UIColor *)titleColor
