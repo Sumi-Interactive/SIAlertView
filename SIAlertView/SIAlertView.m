@@ -17,14 +17,14 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define DEBUG_LAYOUT 0
 
 #define MESSAGE_MIN_LINE_COUNT 3
-#define MESSAGE_MAX_LINE_COUNT 5
+#define MESSAGE_MAX_LINE_COUNT 8
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
 #define CONTENT_PADDING_LEFT 10
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH 300
+#define CONTAINER_WIDTH 280
 
 const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
 const UIWindowLevel UIWindowLevelSIAlertBackground = 1998.0; // below the alert window
@@ -44,7 +44,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextView *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -62,6 +62,15 @@ static SIAlertView *__si_alert_current_view;
 - (void)setup;
 - (void)invalidateLayout;
 - (void)resetTransition;
+
+@end
+
+@implementation UITextView (DisableCopyPaste)
+
+- (BOOL)canBecomeFirstResponder
+{
+    return NO;
+}
 
 @end
 
@@ -752,8 +761,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                   lineBreakMode:self.messageLabel.lineBreakMode];
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)];
         return MAX(minHeight, size.height);
     }
     return minHeight;
@@ -825,12 +833,13 @@ static SIAlertView *__si_alert_current_view;
 {
     if (self.message) {
         if (!self.messageLabel) {
-            self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
+            self.messageLabel = [[UITextView alloc] initWithFrame:self.bounds];
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
-            self.messageLabel.backgroundColor = [UIColor clearColor];
+            self.messageLabel.contentInset = UIEdgeInsetsMake(-1, 2, 0, 0);
+//            self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
-            self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
+            self.messageLabel.editable = NO;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
