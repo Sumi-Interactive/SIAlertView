@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "SIAlertView.h"
 
-#define TEST_UIAPPEARANCE 0
+#define TEST_UIAPPEARANCE 1
 
 @interface ViewController ()
 
@@ -30,6 +30,13 @@
     [[SIAlertView appearance] setButtonColor:[UIColor greenColor]];
     [[SIAlertView appearance] setCancelButtonColor:[UIColor redColor]];
     [[SIAlertView appearance] setDestructiveButtonColor:[UIColor blueColor]];
+
+    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
 #endif
 }
 
@@ -44,7 +51,7 @@
                               NSLog(@"Button1 Clicked");
                           }];
     [alertView addButtonWithTitle:@"Button2"
-                             type:SIAlertViewButtonTypeDefault
+                             type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Button2 Clicked");
                           }];
@@ -72,28 +79,28 @@
     [alertView show];
     
     alertView.title = @"3";
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"2";
-        alertView.titleColor = [UIColor yellowColor];
-        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
-    });
-    delayInSeconds = 2.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"1";
-        alertView.titleColor = [UIColor greenColor];
-        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
-    });
-    delayInSeconds = 3.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"1=====");
-        [alertView dismissAnimated:YES];
-        NSLog(@"2=====");
-    });
-    
+//    double delayInSeconds = 1.0;
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"2";
+//        alertView.titleColor = [UIColor yellowColor];
+//        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
+//    });
+//    delayInSeconds = 2.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"1";
+//        alertView.titleColor = [UIColor greenColor];
+//        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
+//    });
+//    delayInSeconds = 3.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        NSLog(@"1=====");
+//        [alertView dismissAnimated:YES];
+//        NSLog(@"2=====");
+//    });
+
 }
 
 - (IBAction)alert2:(id)sender
