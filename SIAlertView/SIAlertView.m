@@ -21,6 +21,7 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
 #define CONTENT_PADDING_LEFT 10
+#define CONTENT_PADDING_RIGHT 10
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
@@ -669,7 +670,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self.titleLabel) {
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
-        self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, height);
         y += height;
 	}
     if (self.messageLabel) {
@@ -678,7 +679,7 @@ static SIAlertView *__si_alert_current_view;
         }
         self.messageLabel.text = self.message;
         CGFloat height = [self heightForMessageLabel];
-        self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT, height);
         y += height;
     }
     if (self.items.count > 0) {
@@ -686,7 +687,7 @@ static SIAlertView *__si_alert_current_view;
             y += GAP;
         }
         if (self.items.count == 2) {
-            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
+            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT - GAP) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
             button = self.buttons[1];
@@ -694,7 +695,7 @@ static SIAlertView *__si_alert_current_view;
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, BUTTON_HEIGHT);
                 if (self.buttons.count > 1) {
                     if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
@@ -748,7 +749,7 @@ static SIAlertView *__si_alert_current_view;
                        self.titleLabel.minimumFontSize
 #endif
                                 actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -761,7 +762,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)];
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, maxHeight)];
         return MAX(minHeight, size.height);
     }
     return minHeight;
@@ -835,8 +836,9 @@ static SIAlertView *__si_alert_current_view;
         if (!self.messageLabel) {
             self.messageLabel = [[UITextView alloc] initWithFrame:self.bounds];
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
-            self.messageLabel.contentInset = UIEdgeInsetsMake(-1, 2, 0, 0);
-//            self.messageLabel.backgroundColor = [UIColor clearColor];
+            self.messageLabel.contentInset = UIEdgeInsetsMake(-8,-8,-8,-8);
+            self.messageLabel.textAlignment = UITextAlignmentLeft;
+            self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
             self.messageLabel.editable = NO;
