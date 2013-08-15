@@ -1024,6 +1024,39 @@ static SIAlertView *__si_alert_current_view;
     [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDestructive];
 }
 
+
+- (void)setDefaultButtonImage:(UIImage *)defaultButtonImage forState:(UIControlState)state
+{
+    [self setButtonImage:defaultButtonImage forState:state andButtonType:SIAlertViewButtonTypeDefault];
+}
+
+
+- (void)setCancelButtonImage:(UIImage *)cancelButtonImage forState:(UIControlState)state
+{
+    [self setButtonImage:cancelButtonImage forState:state andButtonType:SIAlertViewButtonTypeCancel];
+}
+
+
+- (void)setDestructiveButtonImage:(UIImage *)destructiveButtonImage forState:(UIControlState)state
+{
+    [self setButtonImage:destructiveButtonImage forState:state andButtonType:SIAlertViewButtonTypeDestructive];
+}
+
+
+- (void)setButtonImage:(UIImage *)image forState:(UIControlState)state andButtonType:(SIAlertViewButtonType)type
+{
+    for (NSUInteger i = 0; i < self.items.count; i++)
+    {
+        SIAlertItem *item = self.items[i];
+        if(item.type == type)
+        {
+            UIButton *button = self.buttons[i];
+            [button setBackgroundImage:image forState:state];
+        }
+    }
+}
+
+
 -(void)setColor:(UIColor *)color toButtonsOfType:(SIAlertViewButtonType)type {
     for (NSUInteger i = 0; i < self.items.count; i++) {
         SIAlertItem *item = self.items[i];
