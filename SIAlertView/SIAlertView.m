@@ -733,7 +733,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.titleLabel) {
         CGSize size = [self.title sizeWithFont:self.titleLabel.font
                                    minFontSize:
-#ifndef __IPHONE_6_0
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
                        self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
 #else
                        self.titleLabel.minimumFontSize
@@ -803,7 +803,7 @@ static SIAlertView *__si_alert_current_view;
 			self.titleLabel.font = self.titleFont;
             self.titleLabel.textColor = self.titleColor;
             self.titleLabel.adjustsFontSizeToFitWidth = YES;
-#ifndef __IPHONE_6_0
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
             self.titleLabel.minimumScaleFactor = 0.75;
 #else
             self.titleLabel.minimumFontSize = self.titleLabel.font.pointSize * 0.75;
