@@ -17,14 +17,15 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define DEBUG_LAYOUT 0
 
 #define MESSAGE_MIN_LINE_COUNT 3
-#define MESSAGE_MAX_LINE_COUNT 5
+#define MESSAGE_MAX_LINE_COUNT 8
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
-#define CONTENT_PADDING_LEFT 10
+#define CONTENT_PADDING_LEFT 20
+#define CONTENT_PADDING_RIGHT 20
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH 300
+#define CONTAINER_WIDTH 290
 
 const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
 const UIWindowLevel UIWindowLevelSIAlertBackground = 1998.0; // below the alert window
@@ -44,7 +45,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UITextView *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -62,6 +63,15 @@ static SIAlertView *__si_alert_current_view;
 - (void)setup;
 - (void)invalidateLayout;
 - (void)resetTransition;
+
+@end
+
+@implementation UITextView (DisableCopyPaste)
+
+- (BOOL)canBecomeFirstResponder
+{
+    return NO;
+}
 
 @end
 
@@ -660,7 +670,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self.titleLabel) {
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
-        self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, height);
         y += height;
 	}
     if (self.messageLabel) {
@@ -669,7 +679,7 @@ static SIAlertView *__si_alert_current_view;
         }
         self.messageLabel.text = self.message;
         CGFloat height = [self heightForMessageLabel];
-        self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT, height);
         y += height;
     }
     if (self.items.count > 0) {
@@ -677,7 +687,7 @@ static SIAlertView *__si_alert_current_view;
             y += GAP;
         }
         if (self.items.count == 2) {
-            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
+            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT - GAP) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
             button = self.buttons[1];
@@ -685,7 +695,7 @@ static SIAlertView *__si_alert_current_view;
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, BUTTON_HEIGHT);
                 if (self.buttons.count > 1) {
                     if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
@@ -739,7 +749,7 @@ static SIAlertView *__si_alert_current_view;
                        self.titleLabel.minimumFontSize
 #endif
                                 actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -752,8 +762,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                   lineBreakMode:self.messageLabel.lineBreakMode];
+                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT - CONTENT_PADDING_RIGHT, maxHeight)];
         return MAX(minHeight, size.height);
     }
     return minHeight;
@@ -798,7 +807,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self.title) {
 		if (!self.titleLabel) {
 			self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
-			self.titleLabel.textAlignment = NSTextAlignmentCenter;
+			self.titleLabel.textAlignment = NSTextAlignmentLeft;
             self.titleLabel.backgroundColor = [UIColor clearColor];
 			self.titleLabel.font = self.titleFont;
             self.titleLabel.textColor = self.titleColor;
@@ -825,12 +834,14 @@ static SIAlertView *__si_alert_current_view;
 {
     if (self.message) {
         if (!self.messageLabel) {
-            self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
+            self.messageLabel = [[UITextView alloc] initWithFrame:self.bounds];
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
+            self.messageLabel.contentInset = UIEdgeInsetsMake(-8,-8,-8,-8);
+            self.messageLabel.textAlignment = UITextAlignmentLeft;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
-            self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
+            self.messageLabel.editable = NO;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
