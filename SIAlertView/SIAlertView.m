@@ -20,12 +20,12 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define MESSAGE_MAX_LINE_COUNT 8
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
-#define CONTENT_PADDING_LEFT 10
-#define CONTENT_PADDING_RIGHT 10
+#define CONTENT_PADDING_LEFT 20
+#define CONTENT_PADDING_RIGHT 20
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH 280
+#define CONTAINER_WIDTH 290
 
 const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
 const UIWindowLevel UIWindowLevelSIAlertBackground = 1998.0; // below the alert window
@@ -807,7 +807,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self.title) {
 		if (!self.titleLabel) {
 			self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
-			self.titleLabel.textAlignment = NSTextAlignmentCenter;
+			self.titleLabel.textAlignment = NSTextAlignmentLeft;
             self.titleLabel.backgroundColor = [UIColor clearColor];
 			self.titleLabel.font = self.titleFont;
             self.titleLabel.textColor = self.titleColor;
