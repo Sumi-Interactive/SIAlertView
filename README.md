@@ -3,7 +3,7 @@ SIAlertView
 
 An UIAlertView replacement with block syntax and fancy transition styles. As seen in [Grid Diary](http://griddiaryapp.com/).
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=YOUR_FLATTR_USERNAME&url=https://github.com/Sumi-Interactive/SIAlertView&title=SIAlertView&tags=github&category=software)
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=Sumi-Interactive&url=https://github.com/Sumi-Interactive/SIAlertView&title=SIAlertView&tags=github&category=software)
 
 ## Preview
 
