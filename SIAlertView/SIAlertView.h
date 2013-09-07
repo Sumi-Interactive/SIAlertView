@@ -16,7 +16,8 @@ extern NSString *const SIAlertViewDidDismissNotification;
 typedef NS_ENUM(NSInteger, SIAlertViewButtonType) {
     SIAlertViewButtonTypeDefault = 0,
     SIAlertViewButtonTypeDestructive,
-    SIAlertViewButtonTypeCancel
+    SIAlertViewButtonTypeCancel,
+    SIAlertViewButtonTypeExtra
 };
 
 typedef NS_ENUM(NSInteger, SIAlertViewBackgroundStyle) {
@@ -68,6 +69,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
+- (void)addExtraButtonWithTitle:(NSString *)title frame:(CGRect)frame cornerRadius:(NSNumber*)cornerRadius handler:(SIAlertViewHandler)handler;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;

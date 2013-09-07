@@ -15,6 +15,7 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 - styled transitions
 - queue support
 - UIAppearance support
+- add buttons out of bounds (by [alexruperez](http://github.com/alexruperez))
 
 ## Installation
 
@@ -57,6 +58,12 @@ SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMe
                       handler:^(SIAlertView *alert) {
                           NSLog(@"Button3 Clicked");
                       }];
+[alertView addExtraButtonWithTitle:@"Button4"
+                          frame:CGRectMake(200, 75, 100, 50)
+                          cornerRadius:nil
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Button4 Clicked");
+                          }];
 
 alertView.willShowHandler = ^(SIAlertView *alertView) {
     NSLog(@"%@, willShowHandler", alertView);

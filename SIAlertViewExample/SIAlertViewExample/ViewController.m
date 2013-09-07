@@ -45,6 +45,7 @@
 - (IBAction)alert1:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" andMessage:@"Count down"];
+    [alertView setTransitionStyle:SIAlertViewTransitionStyleDropDown];
     [alertView addButtonWithTitle:@"Button1"
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
@@ -59,6 +60,12 @@
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Button3 Clicked");
+                          }];
+    [alertView addExtraButtonWithTitle:@"Button4"
+                          frame:CGRectMake(200, 75, 100, 50)
+                          cornerRadius:nil
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Button4 Clicked");
                           }];
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
