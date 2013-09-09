@@ -36,6 +36,50 @@ static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
 
+
+@interface UIWindow (SIAlert_StatusBarUtils)
+
+- (UIViewController *)viewControllerForStatusBarStyle;
+- (UIViewController *)viewControllerForStatusBarHidden;
+
+@end
+
+@implementation UIWindow (SIAlert_StatusBarUtils)
+
+- (UIViewController *)currentViewController
+{
+    UIViewController *viewController = self.rootViewController;
+    while (viewController.presentedViewController) {
+        viewController = viewController.presentedViewController;
+    }
+    return viewController;
+}
+
+- (UIViewController *)viewControllerForStatusBarStyle
+{
+    UIViewController *currentViewController = [self currentViewController];
+    
+    if ([currentViewController childViewControllerForStatusBarStyle]) {
+        return [currentViewController childViewControllerForStatusBarStyle];
+    } else {
+        return currentViewController;
+    }
+}
+
+- (UIViewController *)viewControllerForStatusBarHidden
+{
+    UIViewController *currentViewController = [self currentViewController];
+    
+    if ([currentViewController childViewControllerForStatusBarHidden]) {
+        return [currentViewController childViewControllerForStatusBarHidden];
+    } else {
+        return currentViewController;
+    }
+}
+
+@end
+
+
 @interface SIAlertView ()
 
 @property (nonatomic, strong) NSMutableArray *items;
@@ -165,6 +209,13 @@ static SIAlertView *__si_alert_current_view;
     [self.alertView invalidateLayout];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+}
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
@@ -178,6 +229,24 @@ static SIAlertView *__si_alert_current_view;
 - (BOOL)shouldAutorotate
 {
     return YES;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    UIWindow *window = self.alertView.oldKeyWindow;
+    if (!window) {
+        window = [UIApplication sharedApplication].windows[0];
+    }
+    return [[window viewControllerForStatusBarStyle] preferredStatusBarStyle];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    UIWindow *window = self.alertView.oldKeyWindow;
+    if (!window) {
+        window = [UIApplication sharedApplication].windows[0];
+    }
+    return [[window viewControllerForStatusBarHidden] prefersStatusBarHidden];
 }
 
 @end
