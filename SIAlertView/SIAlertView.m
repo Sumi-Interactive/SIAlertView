@@ -39,7 +39,7 @@ static SIAlertView *__si_alert_current_view;
 @interface SIAlertView ()
 
 @property (nonatomic, strong) NSMutableArray *items;
-@property (nonatomic, strong) UIWindow *oldKeyWindow;
+@property (nonatomic, weak) UIWindow *oldKeyWindow;
 @property (nonatomic, strong) UIWindow *alertWindow;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
@@ -308,6 +308,10 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)show
 {
+    if (self.isVisible) {
+        return;
+    }
+    
     self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
 
     if (![[SIAlertView sharedQueue] containsObject:self]) {
@@ -316,10 +320,6 @@ static SIAlertView *__si_alert_current_view;
     
     if ([SIAlertView isAnimating]) {
         return; // wait for next turn
-    }
-    
-    if (self.isVisible) {
-        return;
     }
     
     if ([SIAlertView currentAlertView].isVisible) {
@@ -445,8 +445,13 @@ static SIAlertView *__si_alert_current_view;
         }
     }
     
-    [self.oldKeyWindow makeKeyWindow];
-    self.oldKeyWindow.hidden = NO;
+    
+    UIWindow *window = self.oldKeyWindow;
+    if (!window) {
+        window = [UIApplication sharedApplication].windows[0];
+    }
+    [window makeKeyWindow];
+    window.hidden = NO;
 }
 
 #pragma mark - Transitions
