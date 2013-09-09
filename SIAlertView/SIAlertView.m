@@ -128,6 +128,8 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) SIAlertViewButtonType type;
 @property (nonatomic, copy) SIAlertViewHandler action;
+@property (nonatomic, copy) NSValue *frame;
+@property (nonatomic, copy) NSNumber *cornerRadius;
 
 @end
 
@@ -306,6 +308,17 @@ static SIAlertView *__si_alert_current_view;
 	[self.items addObject:item];
 }
 
+- (void)addExtraButtonWithTitle:(NSString *)title frame:(CGRect)frame cornerRadius:(NSNumber*)cornerRadius handler:(SIAlertViewHandler)handler
+{
+    SIAlertItem *item = [[SIAlertItem alloc] init];
+	item.title = title;
+    item.frame = [NSValue valueWithCGRect:frame];
+    item.cornerRadius = cornerRadius;
+	item.action = handler;
+    item.type = SIAlertViewButtonTypeExtra;
+	[self.items addObject:item];
+}
+
 - (void)show
 {
     self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
@@ -453,9 +466,25 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)transitionInCompletion:(void(^)(void))completion
 {
+    NSMutableArray *extraViews = [[NSMutableArray alloc] init];
+    for (id subview in self.subviews)
+    {
+        if (subview != self.containerView)
+        {
+            [extraViews addObject:subview];
+        }
+    }
     switch (self.transitionStyle) {
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
+            NSMutableArray *extraOriginalRects = [[NSMutableArray alloc] init];
+            for (UIView *view in extraViews) {
+                [extraOriginalRects addObject:[NSValue valueWithCGRect:view.frame]];
+                CGRect viewRect;
+                viewRect = view.frame;
+                viewRect.origin.y = self.bounds.size.height;
+                view.frame = viewRect;
+            }
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
             rect.origin.y = self.bounds.size.height;
@@ -463,6 +492,10 @@ static SIAlertView *__si_alert_current_view;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  self.containerView.frame = originalRect;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setFrame:[[extraOriginalRects objectAtIndex:[extraViews indexOfObject:view]] CGRectValue]];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -473,6 +506,14 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleSlideFromTop:
         {
+            NSMutableArray *extraOriginalRects = [[NSMutableArray alloc] init];
+            for (UIView *view in extraViews) {
+                [extraOriginalRects addObject:[NSValue valueWithCGRect:view.frame]];
+                CGRect viewRect;
+                viewRect = view.frame;
+                viewRect.origin.y = -self.containerView.frame.size.height;
+                view.frame = viewRect;
+            }
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
             rect.origin.y = -rect.size.height;
@@ -480,6 +521,10 @@ static SIAlertView *__si_alert_current_view;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  self.containerView.frame = originalRect;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setFrame:[[extraOriginalRects objectAtIndex:[extraViews indexOfObject:view]] CGRectValue]];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -490,10 +535,18 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleFade:
         {
+            for (UIView *view in extraViews)
+            {
+                [view setAlpha:0.0f];
+            }
             self.containerView.alpha = 0;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  self.containerView.alpha = 1;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setAlpha:1.0f];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -512,6 +565,10 @@ static SIAlertView *__si_alert_current_view;
             animation.delegate = self;
             [animation setValue:completion forKey:@"handler"];
             [self.containerView.layer addAnimation:animation forKey:@"bouce"];
+            for (UIView *view in extraViews)
+            {
+                [view.layer addAnimation:animation forKey:@"bouce"];
+            }
         }
             break;
         case SIAlertViewTransitionStyleDropDown:
@@ -525,6 +582,13 @@ static SIAlertView *__si_alert_current_view;
             animation.delegate = self;
             [animation setValue:completion forKey:@"handler"];
             [self.containerView.layer addAnimation:animation forKey:@"dropdown"];
+            for (UIView *view in extraViews)
+            {
+                CGFloat y = view.center.y;
+                CAKeyframeAnimation *viewAnimation = [animation copy];
+                viewAnimation.values = @[@(y - self.bounds.size.height), @(y + 20), @(y - 10), @(y)];
+                [view.layer addAnimation:viewAnimation forKey:@"dropdown"];
+            }
         }
             break;
         default:
@@ -534,9 +598,23 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)transitionOutCompletion:(void(^)(void))completion
 {
+    NSMutableArray *extraViews = [[NSMutableArray alloc] init];
+    for (id subview in self.subviews)
+    {
+        if (subview != self.containerView)
+        {
+            [extraViews addObject:subview];
+        }
+    }
     switch (self.transitionStyle) {
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
+            NSMutableArray *extraRects = [[NSMutableArray alloc] init];
+            for (UIView *view in extraViews) {
+                CGRect viewRect = view.frame;
+                viewRect.origin.y = self.bounds.size.height;
+                [extraRects addObject:[NSValue valueWithCGRect:viewRect]];
+            }
             CGRect rect = self.containerView.frame;
             rect.origin.y = self.bounds.size.height;
             [UIView animateWithDuration:0.3
@@ -544,6 +622,10 @@ static SIAlertView *__si_alert_current_view;
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.containerView.frame = rect;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setFrame:[[extraRects objectAtIndex:[extraViews indexOfObject:view]] CGRectValue]];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -554,6 +636,12 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleSlideFromTop:
         {
+            NSMutableArray *extraRects = [[NSMutableArray alloc] init];
+            for (UIView *view in extraViews) {
+                CGRect viewRect = view.frame;
+                viewRect.origin.y = -self.containerView.frame.size.height;
+                [extraRects addObject:[NSValue valueWithCGRect:viewRect]];
+            }
             CGRect rect = self.containerView.frame;
             rect.origin.y = -rect.size.height;
             [UIView animateWithDuration:0.3
@@ -561,6 +649,10 @@ static SIAlertView *__si_alert_current_view;
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.containerView.frame = rect;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setFrame:[[extraRects objectAtIndex:[extraViews indexOfObject:view]] CGRectValue]];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -574,6 +666,10 @@ static SIAlertView *__si_alert_current_view;
             [UIView animateWithDuration:0.25
                              animations:^{
                                  self.containerView.alpha = 0;
+                                 for (UIView *view in extraViews)
+                                 {
+                                     [view setAlpha:0.0f];
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -592,12 +688,22 @@ static SIAlertView *__si_alert_current_view;
             animation.delegate = self;
             [animation setValue:completion forKey:@"handler"];
             [self.containerView.layer addAnimation:animation forKey:@"bounce"];
-            
             self.containerView.transform = CGAffineTransformMakeScale(0.01, 0.01);
+            for (UIView *view in extraViews)
+            {
+                [view.layer addAnimation:animation forKey:@"bounce"];
+                view.transform = CGAffineTransformMakeScale(0.01, 0.01);
+            }
         }
             break;
         case SIAlertViewTransitionStyleDropDown:
         {
+            NSMutableArray *extraPoints = [[NSMutableArray alloc] init];
+            for (UIView *view in extraViews) {
+                CGPoint viewPoint = view.center;
+                viewPoint.y = self.bounds.size.height;
+                [extraPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
+            }
             CGPoint point = self.containerView.center;
             point.y += self.bounds.size.height;
             [UIView animateWithDuration:0.3
@@ -607,6 +713,12 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.center = point;
                                  CGFloat angle = ((CGFloat)arc4random_uniform(100) - 50.f) / 100.f;
                                  self.containerView.transform = CGAffineTransformMakeRotation(angle);
+                                 for (UIView *view in extraViews)
+                                 {
+                                     view.center = [[extraPoints objectAtIndex:[extraViews indexOfObject:view]] CGPointValue];
+                                     CGFloat angle = ((CGFloat)arc4random_uniform(100) - 50.f) / 100.f;
+                                     view.transform = CGAffineTransformMakeRotation(angle);
+                                 }
                              }
                              completion:^(BOOL finished) {
                                  if (completion) {
@@ -676,18 +788,30 @@ static SIAlertView *__si_alert_current_view;
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
         }
-        if (self.items.count == 2) {
+        int extraViews = 0;
+        for (SIAlertItem *item in self.items)
+        {
+            if (item.type == SIAlertViewButtonTypeExtra)
+            {
+                extraViews++;
+            }
+        }
+        if (self.items.count-extraViews == 2) {
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
+            if ([(SIAlertItem*)self.items[0] type] != SIAlertViewButtonTypeExtra) button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
+            else button.frame = [[(SIAlertItem*)self.items[0] frame] CGRectValue];
             button = self.buttons[1];
-            button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
+            if ([(SIAlertItem*)self.items[1] type] != SIAlertViewButtonTypeExtra) button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
+            else button.frame = [[(SIAlertItem*)self.items[1] frame] CGRectValue];
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                SIAlertItem *item = self.items[i];
+                if (item.type != SIAlertViewButtonTypeExtra) button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                else button.frame = [item.frame CGRectValue];
                 if (self.buttons.count > 1) {
-                    if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
+                    if (i == self.buttons.count - 1 && item.type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
@@ -711,15 +835,23 @@ static SIAlertView *__si_alert_current_view;
         }
         height += [self heightForMessageLabel];
     }
-    if (self.items.count > 0) {
+    int extraViews = 0;
+    for (SIAlertItem *item in self.items)
+    {
+        if (item.type == SIAlertViewButtonTypeExtra)
+        {
+            extraViews++;
+        }
+    }
+    if (self.items.count-extraViews > 0) {
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
-        if (self.items.count <= 2) {
+        if (self.items.count-extraViews <= 2) {
             height += BUTTON_HEIGHT;
         } else {
-            height += (BUTTON_HEIGHT + GAP) * self.items.count - GAP;
-            if (self.buttons.count > 2 && ((SIAlertItem *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
+            height += (BUTTON_HEIGHT + GAP) * (self.items.count-extraViews) - GAP;
+            if (self.buttons.count-extraViews > 2 && ((SIAlertItem *)[self.items lastObject]).type == SIAlertViewButtonTypeCancel) {
                 height += CANCEL_BUTTON_PADDING_TOP;
             }
         }
@@ -804,9 +936,9 @@ static SIAlertView *__si_alert_current_view;
             self.titleLabel.textColor = self.titleColor;
             self.titleLabel.adjustsFontSizeToFitWidth = YES;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
-            self.titleLabel.minimumScaleFactor = 0.75;
+            self.titleLabel.minimumScaleFactor = 0.5f;
 #else
-            self.titleLabel.minimumFontSize = self.titleLabel.font.pointSize * 0.75;
+            self.titleLabel.minimumFontSize = self.titleLabel.font.pointSize * 0.5f;
 #endif
 			[self.containerView addSubview:self.titleLabel];
 #if DEBUG_LAYOUT
@@ -850,7 +982,14 @@ static SIAlertView *__si_alert_current_view;
     for (NSUInteger i = 0; i < self.items.count; i++) {
         UIButton *button = [self buttonForItemIndex:i];
         [self.buttons addObject:button];
-        [self.containerView addSubview:button];
+        if ([(SIAlertItem*)self.items[i] type] != SIAlertViewButtonTypeExtra)
+        {
+            [self.containerView addSubview:button];
+        }
+        else
+        {
+            [self addSubview:button];
+        }
     }
 }
 
@@ -877,6 +1016,12 @@ static SIAlertView *__si_alert_current_view;
             [button setTitleColor:self.destructiveButtonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.destructiveButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
+        case SIAlertViewButtonTypeExtra:
+            normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
+			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d"];
+			[button setTitleColor:self.buttonColor forState:UIControlStateNormal];
+            [button setTitleColor:[self.buttonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
+            if (item.cornerRadius) button.layer.cornerRadius = [item.cornerRadius floatValue];
 		case SIAlertViewButtonTypeDefault:
 		default:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
