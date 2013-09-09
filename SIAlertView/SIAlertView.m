@@ -41,6 +41,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, weak) UIWindow *oldKeyWindow;
 @property (nonatomic, strong) UIWindow *alertWindow;
+@property (nonatomic, assign) UIViewTintAdjustmentMode oldTintAdjustmentMode NS_AVAILABLE_IOS(7_0);
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -313,6 +314,10 @@ static SIAlertView *__si_alert_current_view;
     }
     
     self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
+    if ([self.oldKeyWindow respondsToSelector:@selector(setTintAdjustmentMode:)]) { // for iOS 7
+        self.oldTintAdjustmentMode = self.oldKeyWindow.tintAdjustmentMode;
+        self.oldKeyWindow.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+    }
 
     if (![[SIAlertView sharedQueue] containsObject:self]) {
         [[SIAlertView sharedQueue] addObject:self];
@@ -445,8 +450,10 @@ static SIAlertView *__si_alert_current_view;
         }
     }
     
-    
     UIWindow *window = self.oldKeyWindow;
+    if ([window respondsToSelector:@selector(setTintAdjustmentMode:)]) { // for iOS 7
+        window.tintAdjustmentMode = self.oldTintAdjustmentMode;
+    }
     if (!window) {
         window = [UIApplication sharedApplication].windows[0];
     }
