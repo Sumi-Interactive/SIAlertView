@@ -225,7 +225,7 @@ static SIAlertView *__si_alert_current_view;
 + (NSMutableArray *)sharedQueue
 {
     if (!__si_alert_queue) {
-        __si_alert_queue = [NSMutableArray array];
+        __si_alert_queue = [[NSMutableArray alloc] init];
     }
     return __si_alert_queue;
 }
