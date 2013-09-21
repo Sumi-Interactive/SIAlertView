@@ -394,7 +394,7 @@ static SIAlertView *__si_alert_current_view;
         
         [SIAlertView setCurrentAlertView:nil];
         
-        SIAlertView *nextAlertView;
+        SIAlertView *nextAlertView = nil;
         NSInteger index = [[SIAlertView sharedQueue] indexOfObject:self];
         if (index != NSNotFound && index < [SIAlertView sharedQueue].count - 1) {
             nextAlertView = [SIAlertView sharedQueue][index + 1];
