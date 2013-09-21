@@ -307,7 +307,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)setContentView:(UIView *)contentView
 {
-    _containerView = contentView;
+    _contentView = contentView;
     [self invalidateLayout];
 }
 
