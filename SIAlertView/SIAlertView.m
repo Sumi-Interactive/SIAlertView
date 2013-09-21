@@ -345,7 +345,7 @@ static SIAlertView *__si_alert_current_view;
     viewController.alertView = self;
     
     if (!self.alertWindow) {
-        UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        UIWindow *window = [[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelSIAlert;
