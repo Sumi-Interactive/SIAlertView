@@ -36,15 +36,13 @@ static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
 
-#ifdef __IPHONE_7_0
-@interface UIWindow (SIAlert_StatusBarUtils)
+@interface UIWindow (SIAlert_Utils)
 
-- (UIViewController *)viewControllerForStatusBarStyle;
-- (UIViewController *)viewControllerForStatusBarHidden;
+- (UIViewController *)currentViewController;
 
 @end
 
-@implementation UIWindow (SIAlert_StatusBarUtils)
+@implementation UIWindow (SIAlert_Utils)
 
 - (UIViewController *)currentViewController
 {
@@ -54,6 +52,18 @@ static SIAlertView *__si_alert_current_view;
     }
     return viewController;
 }
+
+@end
+
+#ifdef __IPHONE_7_0
+@interface UIWindow (SIAlert_StatusBarUtils)
+
+- (UIViewController *)viewControllerForStatusBarStyle;
+- (UIViewController *)viewControllerForStatusBarHidden;
+
+@end
+
+@implementation UIWindow (SIAlert_StatusBarUtils)
 
 - (UIViewController *)viewControllerForStatusBarStyle
 {
@@ -223,16 +233,28 @@ static SIAlertView *__si_alert_current_view;
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
+    if (viewController) {
+        return [viewController supportedInterfaceOrientations];
+    }
     return UIInterfaceOrientationMaskAll;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
+    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
+    if (viewController) {
+        return [viewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    }
     return YES;
 }
 
 - (BOOL)shouldAutorotate
 {
+    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
+    if (viewController) {
+        return [viewController shouldAutorotate];
+    }
     return YES;
 }
 

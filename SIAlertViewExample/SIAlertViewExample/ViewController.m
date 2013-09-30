@@ -10,6 +10,7 @@
 #import "SIAlertView.h"
 
 #define TEST_UIAPPEARANCE 1
+#define TEST_AUTO_ROTATE 0
 
 @interface ViewController ()
 
@@ -225,7 +226,11 @@ id observer1,observer2,observer3,observer4;
 
 - (BOOL)shouldAutorotate
 {
+#if TEST_AUTO_ROTATE
     return YES;
+#else
+    return NO;
+#endif
 }
 
 @end
