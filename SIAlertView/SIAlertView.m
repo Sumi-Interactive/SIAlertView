@@ -36,7 +36,7 @@ static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
 
-
+#ifdef __IPHONE_7_0
 @interface UIWindow (SIAlert_StatusBarUtils)
 
 - (UIViewController *)viewControllerForStatusBarStyle;
@@ -78,6 +78,7 @@ static SIAlertView *__si_alert_current_view;
 }
 
 @end
+#endif
 
 
 @interface SIAlertView ()
@@ -209,12 +210,14 @@ static SIAlertView *__si_alert_current_view;
     [self.alertView invalidateLayout];
 }
 
+#ifdef __IPHONE_7_0
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         [self setNeedsStatusBarAppearanceUpdate];
     }
 }
+#endif
 
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -231,6 +234,7 @@ static SIAlertView *__si_alert_current_view;
     return YES;
 }
 
+#ifdef __IPHONE_7_0
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     UIWindow *window = self.alertView.oldKeyWindow;
@@ -248,6 +252,7 @@ static SIAlertView *__si_alert_current_view;
     }
     return [[window viewControllerForStatusBarHidden] prefersStatusBarHidden];
 }
+#endif
 
 @end
 
