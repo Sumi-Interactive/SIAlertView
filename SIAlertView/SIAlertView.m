@@ -331,12 +331,22 @@ static SIAlertView *__si_alert_current_view;
 
 + (NSDictionary *)defaultTitleAttributes
 {
-    return @{NSFontAttributeName : [UIFont boldSystemFontOfSize:[UIFont labelFontSize]]};
+    UIFont *font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineHeightMultiple = 1.1;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    NSDictionary *attributes = @{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle};
+    return attributes;
 }
 
 + (NSDictionary *)defaultMessageAttributes
 {
-    return @{NSFontAttributeName : [UIFont systemFontOfSize:[UIFont systemFontSize]]};
+    UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineHeightMultiple = 1.1;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    NSDictionary *attributes = @{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle};
+    return attributes;
 }
 
 + (NSDictionary *)defaultButtonAttributesForType:(SIAlertViewButtonType)type
@@ -921,7 +931,6 @@ static SIAlertView *__si_alert_current_view;
 	if (self.title) {
 		if (!self.titleLabel) {
 			self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
-			self.titleLabel.textAlignment = NSTextAlignmentCenter;
             self.titleLabel.backgroundColor = [UIColor clearColor];
             self.titleLabel.numberOfLines = 0;
 			[self.contentContainerView addSubview:self.titleLabel];
@@ -942,7 +951,6 @@ static SIAlertView *__si_alert_current_view;
     if (self.message) {
         if (!self.messageLabel) {
             self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
-            self.messageLabel.textAlignment = NSTextAlignmentCenter;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.numberOfLines = 0;
             [self.contentContainerView addSubview:self.messageLabel];
