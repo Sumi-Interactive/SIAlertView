@@ -22,7 +22,6 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define GAP 10
 #define CONTENT_PADDING_LEFT 10
 #define CONTENT_PADDING_TOP 12
-#define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 50
 #define CONTAINER_WIDTH 300
 
@@ -47,6 +46,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) UIView *wrapperView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -233,7 +233,6 @@ static SIAlertView *__si_alert_current_view;
     appearance.viewBackgroundColor = [UIColor whiteColor];
     appearance.seperatorColor = [UIColor colorWithWhite:0 alpha:0.15];
     appearance.cornerRadius = 2;
-    appearance.shadowRadius = 8;
     appearance.defaultButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
     appearance.cancelButtonBackgroundColor = [UIColor colorWithWhite:0.92 alpha:1];
     appearance.destructiveButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
@@ -866,13 +865,18 @@ static SIAlertView *__si_alert_current_view;
 - (void)setupContainerView
 {
     self.containerView = [[UIView alloc] initWithFrame:self.bounds];
-    self.containerView.backgroundColor = _viewBackgroundColor ? _viewBackgroundColor : [UIColor whiteColor];
-    self.containerView.layer.cornerRadius = self.cornerRadius;
     self.containerView.layer.shadowOffset = CGSizeZero;
     self.containerView.layer.shadowRadius = self.shadowRadius;
-    self.containerView.layer.shadowOpacity = 0.5;
-    self.containerView.autoresizesSubviews = NO;
+    self.containerView.layer.shadowOpacity = self.shadowRadius > 0 ? 0.5 : 0;
     [self addSubview:self.containerView];
+    
+    self.wrapperView = [[UIView alloc] initWithFrame:self.bounds];
+    self.wrapperView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.wrapperView.autoresizesSubviews = NO;
+    self.wrapperView.backgroundColor = self.viewBackgroundColor;
+    self.wrapperView.layer.cornerRadius = self.cornerRadius;
+    self.wrapperView.clipsToBounds = YES;
+    [self.containerView addSubview:self.wrapperView];
 }
 
 - (void)setupLineLayer
@@ -881,7 +885,7 @@ static SIAlertView *__si_alert_current_view;
     self.lineLayer.strokeColor = self.seperatorColor.CGColor;
     self.lineLayer.lineWidth = 1 / [UIScreen mainScreen].scale;
 
-    [self.containerView.layer addSublayer:self.lineLayer];
+    [self.wrapperView.layer addSublayer:self.lineLayer];
 }
 
 - (void)updateTitleLabel
@@ -891,7 +895,7 @@ static SIAlertView *__si_alert_current_view;
 			self.titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
 			self.titleLabel.textAlignment = NSTextAlignmentCenter;
             self.titleLabel.backgroundColor = [UIColor clearColor];
-			[self.containerView addSubview:self.titleLabel];
+			[self.wrapperView addSubview:self.titleLabel];
 #if DEBUG_LAYOUT
             self.titleLabel.backgroundColor = [UIColor redColor];
 #endif
@@ -912,7 +916,7 @@ static SIAlertView *__si_alert_current_view;
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
-            [self.containerView addSubview:self.messageLabel];
+            [self.wrapperView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
 #endif
@@ -931,7 +935,7 @@ static SIAlertView *__si_alert_current_view;
     for (NSUInteger i = 0; i < self.items.count; i++) {
         UIButton *button = [self buttonForItemIndex:i];
         [self.buttons addObject:button];
-        [self.containerView addSubview:button];
+        [self.wrapperView addSubview:button];
     }
 }
 
@@ -1013,7 +1017,7 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     _viewBackgroundColor = viewBackgroundColor;
-    self.containerView.backgroundColor = viewBackgroundColor;
+    self.wrapperView.backgroundColor = viewBackgroundColor;
 }
 
 - (void)setSeperatorColor:(UIColor *)seperatorColor
@@ -1031,7 +1035,7 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     _cornerRadius = cornerRadius;
-    self.containerView.layer.cornerRadius = cornerRadius;
+    self.wrapperView.layer.cornerRadius = cornerRadius;
 }
 
 - (void)setShadowRadius:(CGFloat)shadowRadius
@@ -1041,7 +1045,9 @@ static SIAlertView *__si_alert_current_view;
     }
     _shadowRadius = shadowRadius;
     self.containerView.layer.shadowRadius = shadowRadius;
+    self.containerView.layer.shadowOpacity = shadowRadius > 0 ? 0.5 : 0;
 }
+
 
 
 - (UIColor *)defaultButtonBackgroundColor
