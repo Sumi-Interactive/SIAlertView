@@ -377,13 +377,17 @@ static SIAlertView *__si_alert_current_view;
 - (void)setAttributedTitle:(NSAttributedString *)attributedTitle
 {
     _attributedTitle = [attributedTitle copy];
-    [self updateTitleLabel];
+    if (self.isVisible) {
+        [self updateTitleLabel];
+    }
 }
 
 - (void)setAttributedMessage:(NSAttributedString *)attributedMessage
 {
     _attributedMessage = [attributedMessage copy];
-    [self updateMessageLabel];
+    if (self.isVisible) {
+        [self updateMessageLabel];
+    }
 }
 
 #pragma mark - Public

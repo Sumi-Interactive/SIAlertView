@@ -160,6 +160,8 @@ id observer1,observer2,observer3,observer4;
 - (IBAction)alert3:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil message:@"Message3"];
+    alertView.tintColor = [UIColor orangeColor];
+    
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -170,10 +172,18 @@ id observer1,observer2,observer3,observer4;
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"OK Clicked");
                           }];
+    alertView.tintColor = [UIColor greenColor];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
     alertView.defaultButtonBackgroundColor = [UIColor blackColor];
     alertView.cancelButtonBackgroundColor = [UIColor blackColor];
+    alertView.seperatorColor = [UIColor colorWithWhite:1 alpha:1];
+    alertView.viewBackgroundColor = [UIColor darkGrayColor];
+//    alertView.messageAttributes = @{NSForegroundColorAttributeName : [UIColor lightGrayColor]};
+    NSMutableDictionary *attributes = [alertView.messageAttributes mutableCopy];
+    attributes[NSForegroundColorAttributeName] = [UIColor whiteColor];
+    attributes[NSFontAttributeName] = [UIFont systemFontOfSize:30];
+    alertView.attributedMessage = [[NSAttributedString alloc] initWithString:@"Message3" attributes:attributes];
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, willShowHandler3", alertView);
