@@ -235,10 +235,6 @@ static SIAlertView *__si_alert_current_view;
     appearance.seperatorColor = [UIColor colorWithWhite:0 alpha:0.1];
     appearance.cornerRadius = 2;
     
-    appearance.defaultButtonBackgroundColor = [UIColor colorWithWhite:0 alpha:0.01];
-    appearance.cancelButtonBackgroundColor = [UIColor colorWithWhite:0 alpha:0.03];
-    appearance.destructiveButtonBackgroundColor = [UIColor colorWithWhite:0 alpha:0.01];
-    
     appearance.defaultButtonBackgroundColor = [UIColor colorWithWhite:0.99 alpha:1];
     appearance.cancelButtonBackgroundColor = [UIColor colorWithWhite:0.97 alpha:1];
     appearance.destructiveButtonBackgroundColor = [UIColor colorWithWhite:0.99 alpha:1];
@@ -986,20 +982,20 @@ static SIAlertView *__si_alert_current_view;
 		case SIAlertViewButtonTypeCancel:
             if (self.cancelButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.cancelButtonBackgroundColor];
-                highlightedImage = [self imageWithUIColor:[self darkerColorForColor:self.cancelButtonBackgroundColor]];
+                highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.cancelButtonBackgroundColor]];
             }
 			break;
 		case SIAlertViewButtonTypeDestructive:
 			if (self.destructiveButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.destructiveButtonBackgroundColor];
-                highlightedImage = [self imageWithUIColor:[self darkerColorForColor:self.destructiveButtonBackgroundColor]];
+                highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.destructiveButtonBackgroundColor]];
             }
 			break;
 		case SIAlertViewButtonTypeDefault:
 		default:
 			if (self.defaultButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.defaultButtonBackgroundColor];
-                highlightedImage = [self imageWithUIColor:[self darkerColorForColor:self.defaultButtonBackgroundColor]];
+                highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.defaultButtonBackgroundColor]];
             }
 			break;
 	}
@@ -1008,61 +1004,6 @@ static SIAlertView *__si_alert_current_view;
 	[button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     return button;
-}
-
-// grabbed from http://www.cocoanetics.com/2009/10/manipulating-uicolors/
-- (UIColor *)darkerColorForColor:(UIColor *)color
-{
-    // oldComponents is the array INSIDE the original color
-	// changing these changes the original, so we copy it
-	CGFloat *oldComponents = (CGFloat *)CGColorGetComponents([color CGColor]);
-	CGFloat newComponents[4];
-    
-	int numComponents = CGColorGetNumberOfComponents([color CGColor]);
-    
-    CGFloat dark = 0.95;
-    
-	switch (numComponents)
-	{
-		case 2:
-		{
-			//grayscale
-			newComponents[0] = oldComponents[0]*dark;
-			newComponents[1] = oldComponents[0]*dark;
-			newComponents[2] = oldComponents[0]*dark;
-			newComponents[3] = oldComponents[1];
-			break;
-		}
-		case 4:
-		{
-			//RGBA
-			newComponents[0] = oldComponents[0]*dark;
-			newComponents[1] = oldComponents[1]*dark;
-			newComponents[2] = oldComponents[2]*dark;
-			newComponents[3] = oldComponents[3];
-			break;
-		}
-	}
-    
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGColorRef newColor = CGColorCreate(colorSpace, newComponents);
-	CGColorSpaceRelease(colorSpace);
-    
-	UIColor *retColor = [UIColor colorWithCGColor:newColor];
-	CGColorRelease(newColor);
-    
-	return retColor;
-}
-
-- (UIImage *)imageWithUIColor:(UIColor *)color
-{
-    CGRect rect = CGRectMake(0, 0, 1, 1);
-    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-    [color set];
-    UIRectFill(rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 #pragma mark - Actions
@@ -1085,6 +1026,44 @@ static SIAlertView *__si_alert_current_view;
     if (completion) {
         completion();
     }
+}
+
+#pragma mark - Helpers
+
+// auto detected darken or lighten
+- (UIColor *)highlightedColorWithColor:(UIColor *)color
+{
+    CGFloat hue;
+    CGFloat saturation;
+    CGFloat brightness;
+    CGFloat alpha;
+    CGFloat adjustment = 0.1;
+    
+    int numComponents = CGColorGetNumberOfComponents([color CGColor]);
+    
+    // grayscale
+    if (numComponents == 2) {
+        [color getWhite:&brightness alpha:&alpha];
+        brightness += brightness > 0.5 ? -adjustment : adjustment * 2; // emphasize lighten adjustment value by two
+        return [UIColor colorWithWhite:brightness alpha:alpha];
+    }
+    
+    // RGBA
+    [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    brightness += brightness > 0.5 ? -adjustment : adjustment * 2;
+        
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
+}
+
+- (UIImage *)imageWithUIColor:(UIColor *)color
+{
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [color set];
+    UIRectFill(rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 #pragma mark - UIAppearance setters
