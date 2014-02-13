@@ -56,22 +56,19 @@
     [self nativeAlert2:nil];
     
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" message:@"Count down"];
-    alertView.tintColor = [UIColor greenColor];
-//    alertView.defaultButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
-//    alertView.cancelButtonBackgroundColor = [UIColor colorWithWhite:0.92 alpha:1];
-//    alertView.destructiveButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
-    NSAttributedString *buttonLabel = [[NSAttributedString alloc] initWithString:@"Attributed String" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSBackgroundColorAttributeName : [UIColor yellowColor]}];
+//    alertView.tintColor = [UIColor greenColor];
+    NSAttributedString *buttonLabel = [[NSAttributedString alloc] initWithString:@"Attributed String" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSBackgroundColorAttributeName : [UIColor yellowColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:24]}];
     [alertView addButtonWithAttributedTitle:buttonLabel
                                        type:SIAlertViewButtonTypeDefault
                                     handler:^(SIAlertView *alertView) {
                                         NSLog(@"Button1 Clicked");
                                     }];
-//    [alertView addButtonWithTitle:@"Button1"
-//                             type:SIAlertViewButtonTypeDefault
-//                          handler:^(SIAlertView *alertView) {
-//                              NSLog(@"Button1 Clicked");
-//                          }];
-    [alertView addButtonWithTitle:@"Button3"
+    [alertView addButtonWithTitle:@"Default Button"
+                             type:SIAlertViewButtonTypeDefault
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Button1 Clicked");
+                          }];
+    [alertView addButtonWithTitle:@"Destructive Button"
                              type:SIAlertViewButtonTypeDestructive
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Button3 Clicked");
@@ -175,9 +172,8 @@ id observer1,observer2,observer3,observer4;
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-    alertView.defaultButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
-    alertView.cancelButtonBackgroundColor = [UIColor colorWithWhite:0.92 alpha:1];
-    alertView.destructiveButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
+    alertView.defaultButtonBackgroundColor = [UIColor blackColor];
+    alertView.cancelButtonBackgroundColor = [UIColor blackColor];
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, willShowHandler3", alertView);
