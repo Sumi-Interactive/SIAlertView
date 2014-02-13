@@ -31,7 +31,6 @@
 		7E23C68C17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C68A17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard */; };
 		7E23C68F17325EAB00784CF1 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C68D17325EAB00784CF1 /* MainStoryboard_iPad.storyboard */; };
 		7E23C69217325EAB00784CF1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E23C69117325EAB00784CF1 /* ViewController.m */; };
-		7E23C69C17325EBD00784CF1 /* SIAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C69917325EBD00784CF1 /* SIAlertView.bundle */; };
 		7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E23C69B17325EBD00784CF1 /* SIAlertView.m */; };
 		7E23C69F1732606200784CF1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C69E1732606200784CF1 /* QuartzCore.framework */; };
 		7E23C6A11732775E00784CF1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A01732775E00784CF1 /* Icon.png */; };
@@ -71,7 +70,6 @@
 		7E23C68E17325EAB00784CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		7E23C69017325EAB00784CF1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		7E23C69117325EAB00784CF1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7E23C69917325EBD00784CF1 /* SIAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIAlertView.bundle; sourceTree = "<group>"; };
 		7E23C69A17325EBD00784CF1 /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
 		7E23C69B17325EBD00784CF1 /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
 		7E23C69E1732606200784CF1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -175,7 +173,6 @@
 		7E23C69817325EBD00784CF1 /* SIAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				7E23C69917325EBD00784CF1 /* SIAlertView.bundle */,
 				7E23C69A17325EBD00784CF1 /* SIAlertView.h */,
 				7E23C69B17325EBD00784CF1 /* SIAlertView.m */,
 				7EEECA67182350B1001FEDF5 /* UIWindow+SIUtils.h */,
@@ -274,7 +271,6 @@
 				7E23C68917325EAB00784CF1 /* Default-568h@2x.png in Resources */,
 				7E23C68C17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard in Resources */,
 				7E23C68F17325EAB00784CF1 /* MainStoryboard_iPad.storyboard in Resources */,
-				7E23C69C17325EBD00784CF1 /* SIAlertView.bundle in Resources */,
 				7E23C6A11732775E00784CF1 /* Icon.png in Resources */,
 				7E23C6A31732776100784CF1 /* Icon@2x.png in Resources */,
 				7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */,
