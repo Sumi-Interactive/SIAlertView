@@ -31,8 +31,30 @@
 
 #pragma mark - Actions
 
+- (IBAction)nativeAlert1:(id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Title"
+                                                        message:@"Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK", nil];
+    [alertView show];
+}
+
+- (IBAction)nativeAlert2:(id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum."
+                                                        message:@"Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK 1", @"OK 2", @"OK 3", @"OK 4", @"OK 5", @"OK 6", @"OK 7", @"OK 8", nil];
+    [alertView show];
+}
+
 - (IBAction)alert1:(id)sender
 {
+    [self nativeAlert2:nil];
+    
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" message:@"Count down"];
     alertView.tintColor = [UIColor greenColor];
 //    alertView.defaultButtonBackgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
@@ -73,12 +95,10 @@
         NSLog(@"%@, didDismissHandler", alertView);
     };
     
-//    alertView.cornerRadius = 4;
-//    alertView.buttonFont = [UIFont boldSystemFontOfSize:12];
     [alertView show];
     
-    alertView.title = @"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.";
-    alertView.message = @"Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper.";
+    alertView.title = @"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum.";
+    alertView.message = @"Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper.Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum.";
 //    double delayInSeconds = 1.0;
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
