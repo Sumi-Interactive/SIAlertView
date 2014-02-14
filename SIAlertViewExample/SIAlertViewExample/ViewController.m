@@ -26,6 +26,7 @@
     [[SIAlertView appearance] setShadowRadius:20];
     [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
     [[SIAlertView appearance] setDefaultButtonBackgroundColor:[UIColor darkGrayColor]];
+    [SIAlertView appearance].seperatorColor = [UIColor greenColor];
 #endif
 }
 
@@ -96,19 +97,16 @@
     
     alertView.title = @"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum.";
     alertView.message = @"Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper.Aenean lacinia bibendum nulla sed consectetur. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas faucibus mollis interdum.";
+    
 //    double delayInSeconds = 1.0;
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 //        alertView.title = @"2";
-//        alertView.titleColor = [UIColor yellowColor];
-//        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
 //    });
 //    delayInSeconds = 2.0;
 //    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 //        alertView.title = @"1";
-//        alertView.titleColor = [UIColor greenColor];
-//        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
 //    });
 //    delayInSeconds = 3.0;
 //    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
@@ -117,12 +115,12 @@
 //        [alertView dismissAnimated:YES];
 //        NSLog(@"2=====");
 //    });
-
 }
 
 - (IBAction)alert2:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title2" message:@"Message2"];
+    alertView.tintColor = [UIColor colorWithRed:0.192 green:0.769 blue:0.800 alpha:1.000];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -172,7 +170,7 @@ id observer1,observer2,observer3,observer4;
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"OK Clicked");
                           }];
-    alertView.tintColor = [UIColor greenColor];
+    
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
     alertView.defaultButtonBackgroundColor = [UIColor blackColor];
@@ -180,10 +178,13 @@ id observer1,observer2,observer3,observer4;
     alertView.seperatorColor = [UIColor colorWithWhite:1 alpha:1];
     alertView.viewBackgroundColor = [UIColor darkGrayColor];
 //    alertView.messageAttributes = @{NSForegroundColorAttributeName : [UIColor lightGrayColor]};
-    NSMutableDictionary *attributes = [alertView.messageAttributes mutableCopy];
-    attributes[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    attributes[NSFontAttributeName] = [UIFont systemFontOfSize:30];
-    alertView.attributedMessage = [[NSAttributedString alloc] initWithString:@"Message3" attributes:attributes];
+    
+    
+    NSString *html = @"<bold>Wow!</bold> Now <em>iOS</em> can create <h2>NSAttributedString</h2> from HTMLs!";
+    NSDictionary *options = @{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType};
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithData:[html dataUsingEncoding:NSUTF8StringEncoding] options:options documentAttributes:nil error:nil];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, attributedString.length)];
+    alertView.attributedMessage = attributedString;
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, willShowHandler3", alertView);
