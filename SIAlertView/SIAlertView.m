@@ -793,6 +793,7 @@ static SIAlertView *__si_alert_current_view;
     
     if (self.items.count > 0) {
         CGMutablePathRef path = CGPathCreateMutable();
+        CGFloat lineWidth = 1 / [UIScreen mainScreen].scale;
         
         CGFloat y = 0;
         if (self.items.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
@@ -801,17 +802,14 @@ static SIAlertView *__si_alert_current_view;
             button.frame = CGRectMake(0, y, width, BUTTON_HEIGHT);
             button = self.buttons[1];
             button.frame = CGRectMake(0 + width, y, width, BUTTON_HEIGHT);
-            CGPathMoveToPoint(path, NULL, 0, y);
-            CGPathAddLineToPoint(path, NULL, CONTAINER_WIDTH, y);
-            CGPathMoveToPoint(path, NULL, width, y);
-            CGPathAddLineToPoint(path, NULL, width, y + BUTTON_HEIGHT);
+            CGPathAddRect(path, NULL, CGRectMake(0, y, CONTAINER_WIDTH, lineWidth));
+            CGPathAddRect(path, NULL, CGRectMake(width, y, lineWidth, BUTTON_HEIGHT));
             y += BUTTON_HEIGHT;
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.frame = CGRectMake(0, y, CONTAINER_WIDTH, BUTTON_HEIGHT);
-                CGPathMoveToPoint(path, NULL, 0, y);
-                CGPathAddLineToPoint(path, NULL, CONTAINER_WIDTH, y);
+                CGPathAddRect(path, NULL, CGRectMake(0, y, CONTAINER_WIDTH, lineWidth));
                 y += BUTTON_HEIGHT;
             }
         }
@@ -917,8 +915,7 @@ static SIAlertView *__si_alert_current_view;
 - (void)setupLineLayer
 {
     self.lineLayer = [CAShapeLayer layer];
-    self.lineLayer.strokeColor = self.seperatorColor.CGColor;
-    self.lineLayer.lineWidth = 1 / [UIScreen mainScreen].scale;
+    self.lineLayer.fillColor = self.seperatorColor.CGColor;
 
     [self.buttonContainerView.layer addSublayer:self.lineLayer];
 }
@@ -1087,7 +1084,7 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     _seperatorColor = seperatorColor;
-    self.lineLayer.strokeColor = seperatorColor.CGColor;
+    self.lineLayer.fillColor = seperatorColor.CGColor;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
