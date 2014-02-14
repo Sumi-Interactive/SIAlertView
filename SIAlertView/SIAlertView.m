@@ -7,7 +7,7 @@
 //
 
 #import "SIAlertView.h"
-#import "UIWindow+SIUtils.h"
+#import "SISecondaryWindowRootViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
@@ -140,7 +140,7 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark - SIAlertViewController
 
-@interface SIAlertViewController : UIViewController
+@interface SIAlertViewController : SISecondaryWindowRootViewController
 
 @property (nonatomic, strong) SIAlertView *alertView;
 
@@ -163,60 +163,9 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.alertView resetTransition];
     [self.alertView invalidateLayout];
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-        [self setNeedsStatusBarAppearanceUpdate];
-    }
-}
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
-    if (viewController) {
-        return [viewController supportedInterfaceOrientations];
-    }
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
-    if (viewController) {
-        return [viewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
-    }
-    return YES;
-}
-
-- (BOOL)shouldAutorotate
-{
-    UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
-    if (viewController) {
-        return [viewController shouldAutorotate];
-    }
-    return YES;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    UIWindow *window = self.alertView.oldKeyWindow;
-    if (!window) {
-        window = [UIApplication sharedApplication].windows[0];
-    }
-    return [[window viewControllerForStatusBarStyle] preferredStatusBarStyle];
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    UIWindow *window = self.alertView.oldKeyWindow;
-    if (!window) {
-        window = [UIApplication sharedApplication].windows[0];
-    }
-    return [[window viewControllerForStatusBarHidden] prefersStatusBarHidden];
 }
 
 @end
