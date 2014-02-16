@@ -1082,13 +1082,19 @@ static SIAlertView *__si_alert_current_view;
     if (numComponents == 2) {
         [color getWhite:&brightness alpha:&alpha];
         brightness += brightness > 0.5 ? -adjustment : adjustment * 2; // emphasize lighten adjustment value by two
+        if (alpha < 0.5) {
+            alpha += adjustment;
+        }
         return [UIColor colorWithWhite:brightness alpha:alpha];
     }
     
     // RGBA
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
     brightness += brightness > 0.5 ? -adjustment : adjustment * 2;
-        
+    if (alpha < 0.5) {
+        alpha += adjustment;
+    }
+    
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
 }
 
