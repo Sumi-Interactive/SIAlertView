@@ -202,8 +202,8 @@ static SIAlertView *__si_alert_current_view;
     
     UIFont *defaultButtonFont = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
     UIFont *otherButtonFont = [UIFont boldSystemFontOfSize:[UIFont buttonFontSize]];
-    appearance.defaultButtonAttributes = @{NSFontAttributeName : defaultButtonFont, NSForegroundColorAttributeName : [UIColor blackColor]};
-    appearance.cancelButtonAttributes = @{NSFontAttributeName : otherButtonFont, NSForegroundColorAttributeName : [UIColor blackColor]};
+    appearance.defaultButtonAttributes = @{NSFontAttributeName : defaultButtonFont};
+    appearance.cancelButtonAttributes = @{NSFontAttributeName : otherButtonFont};
     appearance.destructiveButtonAttributes = @{NSFontAttributeName : otherButtonFont, NSForegroundColorAttributeName : [UIColor colorWithRed:0.96f green:0.37f blue:0.31f alpha:1.00f]};
 }
 
@@ -1037,7 +1037,7 @@ static SIAlertView *__si_alert_current_view;
 	[button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSAttributedString *title = item.attributedTitle ? item.attributedTitle : [[NSAttributedString alloc] initWithString:item.title attributes:defaults];
+    NSAttributedString *title = item.attributedTitle ? item.attributedTitle : [[NSAttributedString alloc] initWithString:item.title attributes:[self tintedAttributes:defaults]];
     [button setAttributedTitle:title forState:UIControlStateNormal];
     
     return button;
@@ -1101,6 +1101,16 @@ static SIAlertView *__si_alert_current_view;
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
+}
+
+- (NSDictionary *)tintedAttributes:(NSDictionary *)attributes
+{
+    if (!attributes[NSForegroundColorAttributeName]) {
+        NSMutableDictionary *temp = [attributes mutableCopy];
+        temp[NSForegroundColorAttributeName] = self.tintColor;
+        attributes = [temp copy];
+    }
+    return attributes;
 }
 
 #pragma mark - UIAppearance setters
