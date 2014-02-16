@@ -128,6 +128,7 @@ static SIAlertView *__si_alert_current_view;
 
 @interface SIAlertItem : NSObject
 
+@property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSAttributedString *attributedTitle;
 @property (nonatomic, assign) SIAlertViewButtonType type;
 @property (nonatomic, copy) SIAlertViewHandler action;
@@ -173,6 +174,9 @@ static SIAlertView *__si_alert_current_view;
 #pragma mark - SIAlertView
 
 @implementation SIAlertView
+
+@synthesize title = _title, message = _message;
+@synthesize attributedTitle = _attributedTitle, attributedMessage = _attributedMessage;
 
 + (void)initialize
 {
@@ -308,37 +312,54 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)setTitle:(NSString *)title
 {
-    if (title) {
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:[self titleAttributes]];
-        [self setAttributedTitle:attributedTitle];
-    } else {
-        [self setAttributedTitle:nil];
+    if ([_title isEqualToString:title]) {
+        return;
+    }
+    
+    _title = [title copy];
+    _attributedTitle = nil;
+    if (self.isVisible) {
+        [self updateTitleLabel];
     }
 }
 
 - (void)setMessage:(NSString *)message
 {
-    if (message) {
-        NSAttributedString *attributedMessage = [[NSAttributedString alloc] initWithString:message attributes:[self messageAttributes]];
-        [self setAttributedMessage:attributedMessage];
-    } else {
-        [self setAttributedMessage:nil];
+    if ([_message isEqualToString:message]) {
+        return;
+    }
+    
+    _message = [message copy];
+    _attributedMessage = nil;
+    if (self.isVisible) {
+        [self updateTitleLabel];
     }
 }
 
 - (NSString *)title
 {
-    return self.attributedTitle.string;
+    if (!_title) {
+        return _attributedTitle.string;
+    }
+    return _title;
 }
 
 - (NSString *)message
 {
-    return self.attributedMessage.string;
+    if (!_message) {
+        return _attributedMessage.string;
+    }
+    return _message;
 }
 
 - (void)setAttributedTitle:(NSAttributedString *)attributedTitle
 {
+    if (_attributedTitle == attributedTitle) {
+        return;
+    }
+    
     _attributedTitle = [attributedTitle copy];
+    _title = nil;
     if (self.isVisible) {
         [self updateTitleLabel];
     }
@@ -346,21 +367,54 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)setAttributedMessage:(NSAttributedString *)attributedMessage
 {
+    if (_attributedMessage == attributedMessage) {
+        return;
+    }
+    
     _attributedMessage = [attributedMessage copy];
+    _message = nil;
     if (self.isVisible) {
         [self updateMessageLabel];
     }
+}
+
+- (NSAttributedString *)attributedTitle
+{
+    if (_attributedTitle) {
+        return _attributedTitle;
+    }
+    if (_title) {
+        return [[NSAttributedString alloc] initWithString:_title attributes:[self titleAttributes]];
+    }
+    return nil;
+}
+
+- (NSAttributedString *)attributedMessage
+{
+    if (_attributedMessage) {
+        return _attributedMessage;
+    }
+    if (_message) {
+        return [[NSAttributedString alloc] initWithString:_message attributes:[self messageAttributes]];
+    }
+    return nil;
 }
 
 #pragma mark - Public
 
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
-    [self addButtonWithTitle:title font:nil color:nil type:type handler:handler];
+    NSAssert(title != nil, @"Title can't be nil");
+    SIAlertItem *item = [[SIAlertItem alloc] init];
+	item.title = title;
+	item.type = type;
+	item.action = handler;
+	[self.items addObject:item];
 }
 
 - (void)addButtonWithTitle:(NSString *)title font:(UIFont *)font color:(UIColor *)color type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
+    NSAssert(title != nil, @"Title can't be nil");
     NSDictionary *defaults = nil;
     switch (type) {
         case SIAlertViewButtonTypeDefault:
@@ -386,6 +440,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)addButtonWithAttributedTitle:(NSAttributedString *)attributedTitle type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
+    NSAssert(attributedTitle != nil, @"Attributed title can't be nil");
     SIAlertItem *item = [[SIAlertItem alloc] init];
 	item.attributedTitle = attributedTitle;
 	item.type = type;
@@ -951,7 +1006,7 @@ static SIAlertView *__si_alert_current_view;
 	button.tag = index;
 	button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    [button setAttributedTitle:item.attributedTitle forState:UIControlStateNormal];
+    NSDictionary *defaults = nil;
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
 	switch (item.type) {
@@ -959,12 +1014,14 @@ static SIAlertView *__si_alert_current_view;
             if (self.cancelButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.cancelButtonBackgroundColor];
                 highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.cancelButtonBackgroundColor]];
+                defaults = self.cancelButtonAttributes;
             }
 			break;
 		case SIAlertViewButtonTypeDestructive:
 			if (self.destructiveButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.destructiveButtonBackgroundColor];
                 highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.destructiveButtonBackgroundColor]];
+                defaults = self.destructiveButtonAttributes;
             }
 			break;
 		case SIAlertViewButtonTypeDefault:
@@ -972,12 +1029,16 @@ static SIAlertView *__si_alert_current_view;
 			if (self.defaultButtonBackgroundColor) {
                 normalImage = [self imageWithUIColor:self.defaultButtonBackgroundColor];
                 highlightedImage = [self imageWithUIColor:[self highlightedColorWithColor:self.defaultButtonBackgroundColor]];
+                defaults = self.defaultButtonAttributes;
             }
 			break;
 	}
 	[button setBackgroundImage:normalImage forState:UIControlStateNormal];
 	[button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSAttributedString *title = item.attributedTitle ? item.attributedTitle : [[NSAttributedString alloc] initWithString:item.title attributes:defaults];
+    [button setAttributedTitle:title forState:UIControlStateNormal];
     
     return button;
 }
