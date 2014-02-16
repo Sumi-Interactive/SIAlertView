@@ -57,7 +57,6 @@
     [self nativeAlert2:nil];
     
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" message:@"Count down"];
-//    alertView.tintColor = [UIColor greenColor];
     NSAttributedString *buttonLabel = [[NSAttributedString alloc] initWithString:@"Attributed String" attributes:@{NSForegroundColorAttributeName : [UIColor redColor], NSBackgroundColorAttributeName : [UIColor yellowColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:24]}];
     [alertView addButtonWithAttributedTitle:buttonLabel
                                        type:SIAlertViewButtonTypeDefault
@@ -120,7 +119,7 @@
 - (IBAction)alert2:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title2" message:@"Message2"];
-    alertView.tintColor = [UIColor colorWithRed:0.192 green:0.769 blue:0.800 alpha:1.000];
+    alertView.cancelButtonBackgroundColor = [UIColor clearColor];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -150,6 +149,8 @@
         NSLog(@"%@, didDismissHandler2", alertView);
     };
     
+    
+    alertView.tintColor = [UIColor magentaColor];
     [alertView show];
 }
 
@@ -157,10 +158,11 @@ id observer1,observer2,observer3,observer4;
 
 - (IBAction)alert3:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil message:@"Message3"];
-    alertView.tintColor = [UIColor orangeColor];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Maecenas faucibus mollis interdum." message:@"Message3"];
     
     [alertView addButtonWithTitle:@"Cancel"
+                             font:nil
+                            color:[UIColor orangeColor]
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Cancel Clicked");
@@ -172,19 +174,27 @@ id observer1,observer2,observer3,observer4;
                           }];
     
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
-    alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
-    alertView.defaultButtonBackgroundColor = [UIColor blackColor];
+    alertView.backgroundStyle = SIAlertViewBackgroundStyleGradient;
+    alertView.defaultButtonBackgroundColor = [UIColor whiteColor];
     alertView.cancelButtonBackgroundColor = [UIColor blackColor];
     alertView.seperatorColor = [UIColor colorWithWhite:1 alpha:1];
     alertView.viewBackgroundColor = [UIColor darkGrayColor];
-//    alertView.messageAttributes = @{NSForegroundColorAttributeName : [UIColor lightGrayColor]};
     
+    alertView.defaultButtonAttributes = @{NSForegroundColorAttributeName : [UIColor purpleColor], NSFontAttributeName : [UIFont systemFontOfSize:30]};
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineHeightMultiple = 1.1;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    alertView.titleAttributes = @{NSForegroundColorAttributeName : [UIColor cyanColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:40], NSParagraphStyleAttributeName : paragraphStyle};
     
     NSString *html = @"<bold>Wow!</bold> Now <em>iOS</em> can create <h2>NSAttributedString</h2> from HTMLs!";
     NSDictionary *options = @{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType};
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithData:[html dataUsingEncoding:NSUTF8StringEncoding] options:options documentAttributes:nil error:nil];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, attributedString.length)];
     alertView.attributedMessage = attributedString;
+    
+//    alertView.message = html;
+//    alertView.messageAttributes = @{NSForegroundColorAttributeName : [UIColor blueColor], NSFontAttributeName : [UIFont boldSystemFontOfSize:15], NSParagraphStyleAttributeName : paragraphStyle};
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, willShowHandler3", alertView);
