@@ -49,6 +49,7 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
 
@@ -338,6 +339,12 @@ static SIAlertView *__si_alert_current_view;
 - (void)setMessage:(NSString *)message
 {
 	_message = message;
+    [self invalidateLayout];
+}
+
+- (void)setIcon:(UIImage *)icon
+{
+    _icon = icon;
     [self invalidateLayout];
 }
 
@@ -724,7 +731,16 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
     CGFloat y = CONTENT_PADDING_TOP;
+    if (self.iconImageView) {
+        self.iconImageView.image = self.icon;
+        CGFloat height = self.icon.size.height;
+        self.iconImageView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
+        y += height;
+	}
 	if (self.titleLabel) {
+        if (y > CONTENT_PADDING_TOP) {
+            y += GAP;
+        }
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
@@ -769,7 +785,13 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)preferredHeight
 {
 	CGFloat height = CONTENT_PADDING_TOP;
+    if (self.icon) {
+        height += self.icon.size.height;
+    }
 	if (self.title) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
 		height += [self heightForTitleLabel];
 	}
     if (self.message) {
@@ -833,6 +855,7 @@ static SIAlertView *__si_alert_current_view;
     [self setupContainerView];
     [self updateTitleLabel];
     [self updateMessageLabel];
+    [self updateIconImageView];
     [self setupButtons];
     [self invalidateLayout];
 }
@@ -841,6 +864,7 @@ static SIAlertView *__si_alert_current_view;
 {
     [self.containerView removeFromSuperview];
     self.containerView = nil;
+    self.iconImageView = nil;
     self.titleLabel = nil;
     self.messageLabel = nil;
     [self.buttons removeAllObjects];
@@ -858,6 +882,25 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.layer.shadowRadius = self.shadowRadius;
     self.containerView.layer.shadowOpacity = 0.5;
     [self addSubview:self.containerView];
+}
+
+- (void)updateIconImageView
+{
+	if (self.icon) {
+		if (!self.iconImageView) {
+			self.iconImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+            [self.iconImageView setContentMode:UIViewContentModeScaleAspectFit];
+			[self.containerView addSubview:self.iconImageView];
+#if DEBUG_LAYOUT
+            self.titleLabel.backgroundColor = [UIColor redColor];
+#endif
+		}
+		self.iconImageView.image = self.icon;
+	} else {
+		[self.iconImageView removeFromSuperview];
+		self.iconImageView = nil;
+	}
+    [self invalidateLayout];
 }
 
 - (void)updateTitleLabel
