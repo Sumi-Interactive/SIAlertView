@@ -266,6 +266,14 @@ static SIAlertView *__si_alert_current_view;
 	return self;
 }
 
++ (SIAlertView *)simpleAlertWithMessage:(NSString *)message {
+	SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:message];
+	[alertView addButtonWithTitle:@"Ok"
+							 type:SIAlertViewButtonTypeCancel
+						  handler:nil];
+	return alertView;
+}
+
 #pragma mark - Class methods
 
 + (NSMutableArray *)sharedQueue

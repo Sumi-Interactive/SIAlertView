@@ -80,4 +80,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
 
+
++ (SIAlertView *)simpleAlertWithMessage:(NSString *)message; //Create and return a basic SIAlertView wiht a single "Ok" button.
+
 @end
