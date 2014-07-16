@@ -245,6 +245,7 @@ static SIAlertView *__si_alert_current_view;
     appearance.buttonColor = [UIColor colorWithWhite:0.4 alpha:1];
     appearance.cancelButtonColor = [UIColor colorWithWhite:0.3 alpha:1];
     appearance.destructiveButtonColor = [UIColor whiteColor];
+    
     appearance.cornerRadius = 2;
     appearance.shadowRadius = 8;
 }
@@ -338,6 +339,9 @@ static SIAlertView *__si_alert_current_view;
 - (void)setMessage:(NSString *)message
 {
 	_message = message;
+    if (message) {
+        self.messageAttributedString = nil;
+    }
     [self invalidateLayout];
 }
 
@@ -734,7 +738,13 @@ static SIAlertView *__si_alert_current_view;
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
         }
-        self.messageLabel.text = self.message;
+        if (self.message) {
+            self.messageLabel.text = self.message;
+        }
+        else if(self.messageAttributedString) {
+            self.messageLabel.attributedText = self.messageAttributedString;
+        }
+        
         CGFloat height = [self heightForMessageLabel];
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
@@ -772,7 +782,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self.title) {
 		height += [self heightForTitleLabel];
 	}
-    if (self.message) {
+    if (self.message || self.messageAttributedString) {
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
@@ -816,12 +826,20 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForMessageLabel
 {
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
-    if (self.messageLabel) {
+    if (self.messageLabel && self.message) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
                                constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
         return MAX(minHeight, size.height);
+    }
+    else if (self.messageLabel && self.messageAttributedString)
+    {
+        CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
+        CGRect rect =  [self.messageAttributedString boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                                               context:nil];
+        return MAX(minHeight, rect.size.height);
     }
     return minHeight;
 }
@@ -904,7 +922,21 @@ static SIAlertView *__si_alert_current_view;
 #endif
         }
         self.messageLabel.text = self.message;
-    } else {
+    }
+    else if (self.messageAttributedString)
+    {
+        if (!self.messageLabel) {
+            self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
+            self.messageLabel.textAlignment = NSTextAlignmentCenter;
+            self.messageLabel.backgroundColor = [UIColor clearColor];
+            self.messageLabel.font = self.messageFont;
+            self.messageLabel.textColor = self.messageColor;
+            self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
+            [self.containerView addSubview:self.messageLabel];
+        }
+        self.messageLabel.attributedText = self.messageAttributedString;
+    }
+    else {
         [self.messageLabel removeFromSuperview];
         self.messageLabel = nil;
     }
@@ -1089,6 +1121,19 @@ static SIAlertView *__si_alert_current_view;
     }
     _destructiveButtonColor = buttonColor;
     [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDestructive];
+}
+
+- (void)setMessageAttributedString:(NSAttributedString *)messageAttributedString
+{
+    if (_messageAttributedString == messageAttributedString) {
+        return;
+    }
+    _messageAttributedString = messageAttributedString;
+    if (messageAttributedString) {
+        self.message = nil;
+    }
+    
+    [self invalidateLayout];
 }
 
 
