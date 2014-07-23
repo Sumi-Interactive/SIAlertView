@@ -44,7 +44,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
-
+@property (nonatomic, strong) NSMutableArray *textFields;
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
 @property (nonatomic, assign) SIAlertViewBackgroundStyle backgroundStyle; // default is SIAlertViewButtonTypeGradient
 @property (nonatomic, assign) SIAlertViewButtonsListStyle buttonsListStyle; // default is SIAlertViewButtonsListStyleNormal
@@ -76,6 +76,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
+-(void)addTextFieldWithPlaceHolder:(NSString *)placeholder andText:(NSString *)text;
 
 - (void)show;
 - (void)dismissAnimated:(BOOL)animated;
