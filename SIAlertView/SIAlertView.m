@@ -36,9 +36,7 @@ static SIAlertView *__si_alert_current_view;
 @interface SIAlertView ()
 
 @property (nonatomic, strong) NSMutableArray *items;
-@property (nonatomic, weak) UIWindow *oldKeyWindow;
 @property (nonatomic, strong) UIWindow *alertWindow;
-@property (nonatomic, assign) UIViewTintAdjustmentMode oldTintAdjustmentMode;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -288,14 +286,26 @@ static SIAlertView *__si_alert_current_view;
                          animations:^{
                              __si_alert_background_window.alpha = 1;
                          }];
+        
+        UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
+        mainWindow.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
     }
 }
 
 + (void)hideBackgroundAnimated:(BOOL)animated
 {
-    if (!animated) {
+    void (^completion)(void) = ^{
         [__si_alert_background_window removeFromSuperview];
         __si_alert_background_window = nil;
+        
+        UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
+        mainWindow.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;
+        [mainWindow makeKeyWindow];
+        mainWindow.hidden = NO;
+    };
+    
+    if (!animated) {
+        completion();
         return;
     }
     [UIView animateWithDuration:0.3
@@ -303,8 +313,7 @@ static SIAlertView *__si_alert_current_view;
                          __si_alert_background_window.alpha = 0;
                      }
                      completion:^(BOOL finished) {
-                         [__si_alert_background_window removeFromSuperview];
-                         __si_alert_background_window = nil;
+                         completion();
                      }];
 }
 
@@ -454,11 +463,6 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     
-    self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
-    
-    self.oldTintAdjustmentMode = self.oldKeyWindow.tintAdjustmentMode;
-    self.oldKeyWindow.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-
     if (![[SIAlertView sharedQueue] containsObject:self]) {
         [[SIAlertView sharedQueue] addObject:self];
     }
@@ -589,14 +593,6 @@ static SIAlertView *__si_alert_current_view;
             [SIAlertView hideBackgroundAnimated:YES];
         }
     }
-    
-    UIWindow *window = self.oldKeyWindow;
-    window.tintAdjustmentMode = self.oldTintAdjustmentMode;
-    if (!window) {
-        window = [UIApplication sharedApplication].windows[0];
-    }
-    [window makeKeyWindow];
-    window.hidden = NO;
 }
 
 #pragma mark - Transitions
