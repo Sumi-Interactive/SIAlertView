@@ -925,6 +925,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.message) {
         if (!self.messageLabel) {
             self.messageLabel = [[UITextView alloc] initWithFrame:self.bounds];
+            self.messageLabel.selectable = NO;
             self.messageLabel.textAlignment = NSTextAlignmentCenter;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
