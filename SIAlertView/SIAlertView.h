@@ -78,6 +78,8 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message;
+- (id)initWithTitle:(NSString *)title andCustomView:(UIView *)customView;
+
 - (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButton:(NSString *)canelButton handler:(SIAlertViewHandler)handler;
 - (id)initWithAttributedTitle:(NSAttributedString *)attributedTitle attributedMessage:(NSAttributedString *)attributedMessage;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;

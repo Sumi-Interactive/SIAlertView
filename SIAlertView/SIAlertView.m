@@ -40,6 +40,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, assign, getter = isVisible) BOOL visible;
 
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIView *customView;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *wrapperView;
@@ -215,6 +216,16 @@ static SIAlertView *__si_alert_current_view;
 		self.items = [NSMutableArray array];
 	}
 	return self;
+}
+
+- (id)initWithTitle:(NSString *)title andCustomView:(UIView *)customView{
+    self = [super init];
+    if (self) {
+        _title = title;
+        _customView = customView;
+        self.items = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButton:(NSString *)canelButton handler:(SIAlertViewHandler)handler
@@ -807,6 +818,15 @@ static SIAlertView *__si_alert_current_view;
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, height);
         y += height;
 	}
+    if (self.customView) {
+        if (y > CONTENT_PADDING_TOP) {
+            y += GAP;
+        }
+        CGFloat height = self.customView.frame.size.height;
+        
+        self.customView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, height);
+        y += height + GAP;
+    }
     if (self.messageLabel) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
@@ -897,6 +917,7 @@ static SIAlertView *__si_alert_current_view;
 {
     [self setupViewHierarchy];
     [self updateTitleLabel];
+    [self setupCustomView];
     [self updateMessageLabel];
     [self setupButtons];
     [self setupLineLayer];
@@ -908,6 +929,10 @@ static SIAlertView *__si_alert_current_view;
     self.containerView = nil;
     self.titleLabel = nil;
     self.messageLabel = nil;
+    
+    [self.customView removeFromSuperview];
+    self.customView = nil;
+    
     [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
@@ -928,6 +953,7 @@ static SIAlertView *__si_alert_current_view;
     self.wrapperView.backgroundColor = self.viewBackgroundColor;
     self.wrapperView.layer.cornerRadius = self.cornerRadius;
     self.wrapperView.clipsToBounds = YES;
+    //self.wrapperView.backgroundColor = [UIColor redColor];
     [self.containerView addSubview:self.wrapperView];
     
     self.contentContainerView = [[UIScrollView alloc] initWithFrame:self.bounds];
@@ -966,9 +992,24 @@ static SIAlertView *__si_alert_current_view;
 	}
     [self invalidateLayout];
 }
+- (void)setupCustomView{
+    if (self.customView) {
+        
+        //self.customView.frame = self.bounds;
+        
+        [self.contentContainerView addSubview:self.customView];
+#if DEBUG_LAYOUT
+        self.customView.backgroundColor = [UIColor redColor];
+#endif
+    }
+    [self invalidateLayout];
+}
 
 - (void)updateMessageLabel
 {
+    if (self.customView) {
+        return;
+    }
     if (self.message) {
         if (!self.messageLabel) {
             self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
