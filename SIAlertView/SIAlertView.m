@@ -256,6 +256,21 @@ static SIAlertView *__si_alert_current_view;
 	return self;
 }
 
+#pragma mark - Notification handle methods
+
+- (void)keyboardDidShow:(NSNotification *)notif{
+    NSDictionary* info = [notif userInfo];
+    NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGSize keyboardSize = [aValue CGRectValue].size;
+    CGRect frame = self.containerView.frame;
+    CGFloat y = (self.frame.size.height-keyboardSize.height- self.containerView.frame.size.height)/2;
+    frame.origin.y = MAX(y,0);
+    [UIView animateWithDuration:0.25 animations:^{
+        self.containerView.frame = frame;
+    }];
+    
+}
+
 #pragma mark - Class methods
 
 + (NSMutableArray *)sharedQueue
@@ -915,6 +930,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)setup
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [self setupViewHierarchy];
     [self updateTitleLabel];
     [self setupCustomView];
@@ -925,6 +941,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)teardown
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.containerView removeFromSuperview];
     self.containerView = nil;
     self.titleLabel = nil;
