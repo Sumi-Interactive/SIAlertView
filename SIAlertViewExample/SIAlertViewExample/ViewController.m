@@ -146,6 +146,7 @@ id observer1,observer2,observer3,observer4;
 - (IBAction)alert3:(id)sender
 {
     SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"Message3"];
+    alertView.alertViewStyle = SIAlertViewStylePlainTextInput;
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -155,6 +156,7 @@ id observer1,observer2,observer3,observer4;
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"OK Clicked");
+                              NSLog(@"Textinput: %@", alertView.inputText);
                           }];
     alertView.transitionStyle = SIAlertViewTransitionStyleDropDown;
     alertView.backgroundStyle = SIAlertViewBackgroundStyleSolid;
