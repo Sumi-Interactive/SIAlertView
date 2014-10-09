@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		700D5CFCBF6D6D91C9CC4B51 /* libPods-SIAlertViewExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D869DE48811422A3FEDF28 /* libPods-SIAlertViewExample.a */; };
 		72AD5C9217BD1B7200A85539 /* button-cancel-d.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8617BD1B7200A85539 /* button-cancel-d.png */; };
 		72AD5C9317BD1B7200A85539 /* button-cancel-d@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */; };
 		72AD5C9417BD1B7200A85539 /* button-cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8817BD1B7200A85539 /* button-cancel.png */; };
@@ -31,17 +32,15 @@
 		7E23C68C17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C68A17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard */; };
 		7E23C68F17325EAB00784CF1 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C68D17325EAB00784CF1 /* MainStoryboard_iPad.storyboard */; };
 		7E23C69217325EAB00784CF1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E23C69117325EAB00784CF1 /* ViewController.m */; };
-		7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E23C69B17325EBD00784CF1 /* SIAlertView.m */; };
 		7E23C69F1732606200784CF1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C69E1732606200784CF1 /* QuartzCore.framework */; };
 		7E23C6A11732775E00784CF1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A01732775E00784CF1 /* Icon.png */; };
 		7E23C6A31732776100784CF1 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A21732776100784CF1 /* Icon@2x.png */; };
 		7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A7173277EA00784CF1 /* Icon-72.png */; };
 		7E23C6AA173277EE00784CF1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */; };
-		7E5D24C318ADF36F00B21A14 /* SISecondaryWindowRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5D24C218ADF36F00B21A14 /* SISecondaryWindowRootViewController.m */; };
-		7EEECA69182350B1001FEDF5 /* UIWindow+SIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		438365DA14CAB62B0C091A86 /* Pods-SIAlertViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SIAlertViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SIAlertViewExample/Pods-SIAlertViewExample.release.xcconfig"; sourceTree = "<group>"; };
 		72AD5C8617BD1B7200A85539 /* button-cancel-d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d.png"; sourceTree = "<group>"; };
 		72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d@2x.png"; sourceTree = "<group>"; };
 		72AD5C8817BD1B7200A85539 /* button-cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel.png"; sourceTree = "<group>"; };
@@ -71,17 +70,13 @@
 		7E23C68E17325EAB00784CF1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		7E23C69017325EAB00784CF1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		7E23C69117325EAB00784CF1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7E23C69A17325EBD00784CF1 /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
-		7E23C69B17325EBD00784CF1 /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
 		7E23C69E1732606200784CF1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7E23C6A01732775E00784CF1 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7E23C6A21732776100784CF1 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7E23C6A7173277EA00784CF1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		7E5D24C118ADF36F00B21A14 /* SISecondaryWindowRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SISecondaryWindowRootViewController.h; sourceTree = "<group>"; };
-		7E5D24C218ADF36F00B21A14 /* SISecondaryWindowRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SISecondaryWindowRootViewController.m; sourceTree = "<group>"; };
-		7EEECA67182350B1001FEDF5 /* UIWindow+SIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SIUtils.h"; sourceTree = "<group>"; };
-		7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SIUtils.m"; sourceTree = "<group>"; };
+		80D869DE48811422A3FEDF28 /* libPods-SIAlertViewExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SIAlertViewExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF944B3F4BA8E0481A9BC1D2 /* Pods-SIAlertViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SIAlertViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SIAlertViewExample/Pods-SIAlertViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +88,22 @@
 				7E23C67317325EAA00784CF1 /* UIKit.framework in Frameworks */,
 				7E23C67517325EAA00784CF1 /* Foundation.framework in Frameworks */,
 				7E23C67717325EAA00784CF1 /* CoreGraphics.framework in Frameworks */,
+				700D5CFCBF6D6D91C9CC4B51 /* libPods-SIAlertViewExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6CF4A2260EC460D6079DDF3B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AF944B3F4BA8E0481A9BC1D2 /* Pods-SIAlertViewExample.debug.xcconfig */,
+				438365DA14CAB62B0C091A86 /* Pods-SIAlertViewExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		72AD5C8517BD1B7200A85539 /* Button Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,10 +126,10 @@
 		7E23C66617325EAA00784CF1 = {
 			isa = PBXGroup;
 			children = (
-				7E23C69817325EBD00784CF1 /* SIAlertView */,
 				7E23C67817325EAA00784CF1 /* SIAlertViewExample */,
 				7E23C67117325EAA00784CF1 /* Frameworks */,
 				7E23C67017325EAA00784CF1 /* Products */,
+				6CF4A2260EC460D6079DDF3B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +148,7 @@
 				7E23C67217325EAA00784CF1 /* UIKit.framework */,
 				7E23C67417325EAA00784CF1 /* Foundation.framework */,
 				7E23C67617325EAA00784CF1 /* CoreGraphics.framework */,
+				80D869DE48811422A3FEDF28 /* libPods-SIAlertViewExample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,20 +177,6 @@
 				7E23C68817325EAB00784CF1 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7E23C69817325EBD00784CF1 /* SIAlertView */ = {
-			isa = PBXGroup;
-			children = (
-				7E23C69A17325EBD00784CF1 /* SIAlertView.h */,
-				7E23C69B17325EBD00784CF1 /* SIAlertView.m */,
-				7E5D24C118ADF36F00B21A14 /* SISecondaryWindowRootViewController.h */,
-				7E5D24C218ADF36F00B21A14 /* SISecondaryWindowRootViewController.m */,
-				7EEECA67182350B1001FEDF5 /* UIWindow+SIUtils.h */,
-				7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */,
-			);
-			name = SIAlertView;
-			path = ../SIAlertView;
 			sourceTree = "<group>";
 		};
 		7E23C6A41732776700784CF1 /* Icons */ = {
@@ -226,9 +218,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7E23C69517325EAB00784CF1 /* Build configuration list for PBXNativeTarget "SIAlertViewExample" */;
 			buildPhases = (
+				6F9847BB93C5865F739E0533 /* Check Pods Manifest.lock */,
 				7E23C66B17325EAA00784CF1 /* Sources */,
 				7E23C66C17325EAA00784CF1 /* Frameworks */,
 				7E23C66D17325EAA00784CF1 /* Resources */,
+				9962F9BD51673430C67AD165 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -297,17 +291,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6F9847BB93C5865F739E0533 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9962F9BD51673430C67AD165 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SIAlertViewExample/Pods-SIAlertViewExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7E23C66B17325EAA00784CF1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7E23C67F17325EAA00784CF1 /* main.m in Sources */,
-				7E5D24C318ADF36F00B21A14 /* SISecondaryWindowRootViewController.m in Sources */,
 				7E23C68317325EAA00784CF1 /* AppDelegate.m in Sources */,
 				7E23C69217325EAB00784CF1 /* ViewController.m in Sources */,
-				7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */,
-				7EEECA69182350B1001FEDF5 /* UIWindow+SIUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +425,7 @@
 		};
 		7E23C69617325EAB00784CF1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF944B3F4BA8E0481A9BC1D2 /* Pods-SIAlertViewExample.debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SIAlertViewExample/SIAlertViewExample-Prefix.pch";
@@ -413,6 +438,7 @@
 		};
 		7E23C69717325EAB00784CF1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 438365DA14CAB62B0C091A86 /* Pods-SIAlertViewExample.release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SIAlertViewExample/SIAlertViewExample-Prefix.pch";

@@ -14,4 +14,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.framework    = 'QuartzCore'
   s.source_files = 'SIAlertView/*.{h,m}'
+  s.dependency 'SIBaseKit'
+
 end

@@ -1,0 +1,5 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'SIAlertViewExample', :exclusive => true do
+  pod "SIAlertView", :path => "../"
+end
