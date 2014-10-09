@@ -517,9 +517,8 @@ static SIAlertView *__si_alert_current_view;
             self.didShowHandler(self);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidShowNotification object:self userInfo:nil];
-        #ifdef __IPHONE_7_0
+        
         [self addParallaxEffect];
-        #endif
         
         [SIAlertView setAnimating:NO];
         
@@ -888,7 +887,6 @@ static SIAlertView *__si_alert_current_view;
                                                          context:nil];
         return ceil(rect.size.height);
     }
-    
     return 0;
 }
 
@@ -1243,7 +1241,7 @@ static SIAlertView *__si_alert_current_view;
 #ifdef __IPHONE_7_0
 - (void)addParallaxEffect
 {
-    if (_enabledParallaxEffect && NSClassFromString(@"UIInterpolatingMotionEffect"))
+    if (self.parallaxEffectEnabled && NSClassFromString(@"UIInterpolatingMotionEffect"))
     {
         UIInterpolatingMotionEffect *effectHorizontal = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"position.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
         UIInterpolatingMotionEffect *effectVertical = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"position.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
@@ -1258,7 +1256,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)removeParallaxEffect
 {
-    if (_enabledParallaxEffect && NSClassFromString(@"UIInterpolatingMotionEffect"))
+    if (self.parallaxEffectEnabled && NSClassFromString(@"UIInterpolatingMotionEffect"))
     {
         [self.containerView.motionEffects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [self.containerView removeMotionEffect:obj];
