@@ -83,6 +83,22 @@ static SIAlertView *__si_alert_current_view;
 
 @implementation SIAlertBackgroundWindow
 
+#pragma mark - Convenience method
++ (void)showMessage:(NSString *)message withTitle:(NSString *)title withDismissButtonText:(NSString *)buttonText andOptionalTransitionType:(SIAlertViewTransitionStyle)transitionStyle {
+    
+    SIAlertView *alertView = [self initWithTitle:title andMessage:message];
+    
+    if (transitionStyle) {
+        alertView.transitionStyle = transitionStyle;
+    }
+    
+    [alertView addButtonWithTitle:buttonText type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        // Nothing
+    }];
+    [alertView show];
+}
+
+
 - (id)initWithFrame:(CGRect)frame andStyle:(SIAlertViewBackgroundStyle)style
 {
     self = [super initWithFrame:frame];
