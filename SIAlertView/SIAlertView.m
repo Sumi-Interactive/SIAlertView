@@ -365,14 +365,6 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     
-    self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
-#ifdef __IPHONE_7_0
-    if ([self.oldKeyWindow respondsToSelector:@selector(setTintAdjustmentMode:)]) { // for iOS 7
-        self.oldTintAdjustmentMode = self.oldKeyWindow.tintAdjustmentMode;
-        self.oldKeyWindow.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
-    }
-#endif
-
     if (![[SIAlertView sharedQueue] containsObject:self]) {
         [[SIAlertView sharedQueue] addObject:self];
     }
@@ -387,6 +379,14 @@ static SIAlertView *__si_alert_current_view;
         return;
     }
     
+    self.oldKeyWindow = [[UIApplication sharedApplication] keyWindow];
+#ifdef __IPHONE_7_0
+    if ([self.oldKeyWindow respondsToSelector:@selector(setTintAdjustmentMode:)]) { // for iOS 7
+        self.oldTintAdjustmentMode = self.oldKeyWindow.tintAdjustmentMode;
+        self.oldKeyWindow.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+    }
+#endif
+
     if (self.willShowHandler) {
         self.willShowHandler(self);
     }
