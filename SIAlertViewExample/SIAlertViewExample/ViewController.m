@@ -214,6 +214,45 @@ id observer1,observer2,observer3,observer4;
     [self alert3:nil];
 }
 
+- (IBAction)alert5:(id)sender
+{
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title5" andMessage:@"Message5"];
+    [alertView addButtonWithTitle:@"Cancel"
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Input Received: %@", alertView.input);
+                              NSLog(@"Cancel Clicked");
+                          }];
+    [alertView addButtonWithTitle:@"OK"
+                             type:SIAlertViewButtonTypeDefault
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Input Received: %@", alertView.input);
+                              NSLog(@"OK Clicked");                              
+                          }];
+    [alertView addInputFieldWithPlaceholder:@"Placeholder" andHandler:^(SIAlertView *alertView){
+        NSLog(@"handler for input field");
+    }];
+    alertView.titleColor = [UIColor blueColor];
+    alertView.cornerRadius = 10;
+    alertView.buttonFont = [UIFont boldSystemFontOfSize:15];
+    alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
+    
+    alertView.willShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willShowHandler5", alertView);
+    };
+    alertView.didShowHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didShowHandler5", alertView);
+    };
+    alertView.willDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, willDismissHandler5", alertView);
+    };
+    alertView.didDismissHandler = ^(SIAlertView *alertView) {
+        NSLog(@"%@, didDismissHandler5", alertView);
+    };
+    
+    [alertView show];
+}
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
