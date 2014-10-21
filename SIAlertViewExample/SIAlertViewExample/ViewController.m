@@ -61,6 +61,11 @@
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Button3 Clicked");
                           }];
+    [alertView addButtonWithTitle:@"Button4"
+                             type:SIAlertViewButtonTypeValid
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Button4 Clicked");
+                          }];
     
     alertView.willShowHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, willShowHandler", alertView);
