@@ -260,6 +260,8 @@ static SIAlertView *__si_alert_current_view;
 	if (self) {
 		_title = title;
         _message = message;
+        
+        _messageAlignment = NSTextAlignmentCenter;
         _enabledParallaxEffect = YES;
 		self.items = [[NSMutableArray alloc] init];
 	}
@@ -893,7 +895,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.message) {
         if (!self.messageLabel) {
             self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
-            self.messageLabel.textAlignment = NSTextAlignmentCenter;
+            self.messageLabel.textAlignment = self.messageAlignment;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;

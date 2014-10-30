@@ -44,6 +44,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
+@property (nonatomic, assign) NSTextAlignment messageAlignment;
 
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
 @property (nonatomic, assign) SIAlertViewBackgroundStyle backgroundStyle; // default is SIAlertViewButtonTypeGradient
@@ -71,6 +72,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, assign) CGFloat shadowRadius NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR; // default is 8.0
 @property (nonatomic, assign) NSInteger messageMinLineCount NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR; // default is 3
 @property (nonatomic, assign) NSInteger messageMaxLineCount NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR; // default is 5
+
 
 - (void)setDefaultButtonImage:(UIImage *)defaultButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 - (void)setCancelButtonImage:(UIImage *)cancelButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
