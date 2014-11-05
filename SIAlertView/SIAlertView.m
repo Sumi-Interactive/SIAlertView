@@ -23,7 +23,6 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define CONTENT_PADDING_TOP 12
 #define CONTENT_PADDING_BOTTOM 10
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH 300
 
 const UIWindowLevel UIWindowLevelSIAlert = 1996.0;  // don't overlap system's alert
 const UIWindowLevel UIWindowLevelSIAlertBackground = 1985.0; // below the alert window
@@ -262,6 +261,7 @@ static SIAlertView *__si_alert_current_view;
         _message = message;
         
         _messageAlignment = NSTextAlignmentCenter;
+        _containerWidth = 300.f;
         _enabledParallaxEffect = YES;
 		self.items = [[NSMutableArray alloc] init];
 	}
@@ -719,10 +719,10 @@ static SIAlertView *__si_alert_current_view;
 #endif
     
     CGFloat height = [self preferredHeight];
-    CGFloat left = (self.bounds.size.width - CONTAINER_WIDTH) * 0.5;
+    CGFloat left = (self.bounds.size.width - self.containerWidth) * 0.5;
     CGFloat top = (self.bounds.size.height - height) * 0.5;
     self.containerView.transform = CGAffineTransformIdentity;
-    self.containerView.frame = CGRectMake(left, top, CONTAINER_WIDTH, height);
+    self.containerView.frame = CGRectMake(left, top, self.containerWidth, height);
     self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.containerView.bounds cornerRadius:self.containerView.layer.cornerRadius].CGPath;
     
     CGFloat y = CONTENT_PADDING_TOP;
@@ -808,7 +808,7 @@ static SIAlertView *__si_alert_current_view;
                        self.titleLabel.minimumFontSize
 #endif
                                 actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                      forWidth:self.containerWidth - CONTENT_PADDING_LEFT * 2
                                  lineBreakMode:self.titleLabel.lineBreakMode];
         return size.height;
     }
@@ -821,7 +821,7 @@ static SIAlertView *__si_alert_current_view;
     if (self.messageLabel) {
         CGFloat maxHeight = self.messageMaxLineCount * self.messageLabel.font.lineHeight;
         CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                               constrainedToSize:CGSizeMake(self.containerWidth - CONTENT_PADDING_LEFT * 2, maxHeight)
                                    lineBreakMode:self.messageLabel.lineBreakMode];
         return MAX(minHeight, size.height);
     }
