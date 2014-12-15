@@ -1,3 +1,8 @@
+
+## Notice
+
+Since it dosen't seem like the original repo is actively maintained, I will from now on maintain this fork. Many of the PRs from the original repo has been merged and implemented in this branch. 
+
 SIAlertView
 =============
 
@@ -5,9 +10,6 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=Sumi-Interactive&url=https://github.com/Sumi-Interactive/SIAlertView&title=SIAlertView&tags=github&category=software)
 
-## Notice
-
-Since it dosen't seem like the original repo is actively maintained, I will from now on maintain this fork. Many of the PRs from the original repo has been merged and implemented in this branch. 
 
 ## Preview
 
