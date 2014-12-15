@@ -36,11 +36,11 @@
 		7E23C6A31732776100784CF1 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A21732776100784CF1 /* Icon@2x.png */; };
 		7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A7173277EA00784CF1 /* Icon-72.png */; };
 		7E23C6AA173277EE00784CF1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */; };
-		DCE23E711A3EC614008A42CA /* SIAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E681A3EC614008A42CA /* SIAlertBackgroundWindow.m */; };
-		DCE23E721A3EC614008A42CA /* SIAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E6A1A3EC614008A42CA /* SIAlertButton.m */; };
-		DCE23E731A3EC614008A42CA /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E6C1A3EC614008A42CA /* SIAlertView.m */; };
-		DCE23E741A3EC614008A42CA /* SIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E6E1A3EC614008A42CA /* SIAlertViewController.m */; };
-		DCE23E751A3EC614008A42CA /* UIColor+SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E701A3EC614008A42CA /* UIColor+SIAlertView.m */; };
+		DCE23E801A3EC7EA008A42CA /* SIAlertBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E771A3EC7EA008A42CA /* SIAlertBackgroundWindow.m */; };
+		DCE23E811A3EC7EA008A42CA /* SIAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E791A3EC7EA008A42CA /* SIAlertButton.m */; };
+		DCE23E821A3EC7EA008A42CA /* SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E7B1A3EC7EA008A42CA /* SIAlertView.m */; };
+		DCE23E831A3EC7EA008A42CA /* SIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E7D1A3EC7EA008A42CA /* SIAlertViewController.m */; };
+		DCE23E841A3EC7EA008A42CA /* UIColor+SIAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE23E7F1A3EC7EA008A42CA /* UIColor+SIAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,16 +78,16 @@
 		7E23C6A21732776100784CF1 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7E23C6A7173277EA00784CF1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		DCE23E671A3EC614008A42CA /* SIAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SIAlertBackgroundWindow.h; path = SIAlertViewExample/SIAlertBackgroundWindow.h; sourceTree = SOURCE_ROOT; };
-		DCE23E681A3EC614008A42CA /* SIAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SIAlertBackgroundWindow.m; path = SIAlertViewExample/SIAlertBackgroundWindow.m; sourceTree = SOURCE_ROOT; };
-		DCE23E691A3EC614008A42CA /* SIAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SIAlertButton.h; path = SIAlertViewExample/SIAlertButton.h; sourceTree = SOURCE_ROOT; };
-		DCE23E6A1A3EC614008A42CA /* SIAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SIAlertButton.m; path = SIAlertViewExample/SIAlertButton.m; sourceTree = SOURCE_ROOT; };
-		DCE23E6B1A3EC614008A42CA /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SIAlertView.h; path = SIAlertViewExample/SIAlertView.h; sourceTree = SOURCE_ROOT; };
-		DCE23E6C1A3EC614008A42CA /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SIAlertView.m; path = SIAlertViewExample/SIAlertView.m; sourceTree = SOURCE_ROOT; };
-		DCE23E6D1A3EC614008A42CA /* SIAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SIAlertViewController.h; path = SIAlertViewExample/SIAlertViewController.h; sourceTree = SOURCE_ROOT; };
-		DCE23E6E1A3EC614008A42CA /* SIAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SIAlertViewController.m; path = SIAlertViewExample/SIAlertViewController.m; sourceTree = SOURCE_ROOT; };
-		DCE23E6F1A3EC614008A42CA /* UIColor+SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+SIAlertView.h"; path = "SIAlertViewExample/UIColor+SIAlertView.h"; sourceTree = SOURCE_ROOT; };
-		DCE23E701A3EC614008A42CA /* UIColor+SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+SIAlertView.m"; path = "SIAlertViewExample/UIColor+SIAlertView.m"; sourceTree = SOURCE_ROOT; };
+		DCE23E761A3EC7EA008A42CA /* SIAlertBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertBackgroundWindow.h; sourceTree = "<group>"; };
+		DCE23E771A3EC7EA008A42CA /* SIAlertBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertBackgroundWindow.m; sourceTree = "<group>"; };
+		DCE23E781A3EC7EA008A42CA /* SIAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertButton.h; sourceTree = "<group>"; };
+		DCE23E791A3EC7EA008A42CA /* SIAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertButton.m; sourceTree = "<group>"; };
+		DCE23E7A1A3EC7EA008A42CA /* SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertView.h; sourceTree = "<group>"; };
+		DCE23E7B1A3EC7EA008A42CA /* SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertView.m; sourceTree = "<group>"; };
+		DCE23E7C1A3EC7EA008A42CA /* SIAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIAlertViewController.h; sourceTree = "<group>"; };
+		DCE23E7D1A3EC7EA008A42CA /* SIAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIAlertViewController.m; sourceTree = "<group>"; };
+		DCE23E7E1A3EC7EA008A42CA /* UIColor+SIAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+SIAlertView.h"; sourceTree = "<group>"; };
+		DCE23E7F1A3EC7EA008A42CA /* UIColor+SIAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SIAlertView.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,16 +182,16 @@
 		7E23C69817325EBD00784CF1 /* SIAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				DCE23E671A3EC614008A42CA /* SIAlertBackgroundWindow.h */,
-				DCE23E681A3EC614008A42CA /* SIAlertBackgroundWindow.m */,
-				DCE23E691A3EC614008A42CA /* SIAlertButton.h */,
-				DCE23E6A1A3EC614008A42CA /* SIAlertButton.m */,
-				DCE23E6B1A3EC614008A42CA /* SIAlertView.h */,
-				DCE23E6C1A3EC614008A42CA /* SIAlertView.m */,
-				DCE23E6D1A3EC614008A42CA /* SIAlertViewController.h */,
-				DCE23E6E1A3EC614008A42CA /* SIAlertViewController.m */,
-				DCE23E6F1A3EC614008A42CA /* UIColor+SIAlertView.h */,
-				DCE23E701A3EC614008A42CA /* UIColor+SIAlertView.m */,
+				DCE23E761A3EC7EA008A42CA /* SIAlertBackgroundWindow.h */,
+				DCE23E771A3EC7EA008A42CA /* SIAlertBackgroundWindow.m */,
+				DCE23E781A3EC7EA008A42CA /* SIAlertButton.h */,
+				DCE23E791A3EC7EA008A42CA /* SIAlertButton.m */,
+				DCE23E7A1A3EC7EA008A42CA /* SIAlertView.h */,
+				DCE23E7B1A3EC7EA008A42CA /* SIAlertView.m */,
+				DCE23E7C1A3EC7EA008A42CA /* SIAlertViewController.h */,
+				DCE23E7D1A3EC7EA008A42CA /* SIAlertViewController.m */,
+				DCE23E7E1A3EC7EA008A42CA /* UIColor+SIAlertView.h */,
+				DCE23E7F1A3EC7EA008A42CA /* UIColor+SIAlertView.m */,
 			);
 			name = SIAlertView;
 			path = ../SIAlertView;
@@ -312,14 +312,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCE23E711A3EC614008A42CA /* SIAlertBackgroundWindow.m in Sources */,
+				DCE23E801A3EC7EA008A42CA /* SIAlertBackgroundWindow.m in Sources */,
 				7E23C67F17325EAA00784CF1 /* main.m in Sources */,
-				DCE23E721A3EC614008A42CA /* SIAlertButton.m in Sources */,
+				DCE23E811A3EC7EA008A42CA /* SIAlertButton.m in Sources */,
+				DCE23E821A3EC7EA008A42CA /* SIAlertView.m in Sources */,
 				7E23C68317325EAA00784CF1 /* AppDelegate.m in Sources */,
-				DCE23E741A3EC614008A42CA /* SIAlertViewController.m in Sources */,
 				7E23C69217325EAB00784CF1 /* ViewController.m in Sources */,
-				DCE23E731A3EC614008A42CA /* SIAlertView.m in Sources */,
-				DCE23E751A3EC614008A42CA /* UIColor+SIAlertView.m in Sources */,
+				DCE23E831A3EC7EA008A42CA /* SIAlertViewController.m in Sources */,
+				DCE23E841A3EC7EA008A42CA /* UIColor+SIAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
