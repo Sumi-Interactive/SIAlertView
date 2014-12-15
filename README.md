@@ -44,7 +44,7 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 **Code:**
 
 ```objc
-SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" andMessage:@"Sumi Interactive"];
+SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"SIAlertView" message:@"Sumi Interactive"];
 
 [alertView addButtonWithTitle:@"Button1"
                          type:SIAlertViewButtonTypeDefault
