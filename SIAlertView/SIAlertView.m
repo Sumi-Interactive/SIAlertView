@@ -947,8 +947,8 @@ static SIAlertView *__si_alert_current_view;
     self.titleLabel = nil;
     self.messageLabel = nil;
     
-    [self.customView removeFromSuperview];
-    self.customView = nil;
+    //[self.customView removeFromSuperview];
+    //self.customView = nil;
     
     [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
