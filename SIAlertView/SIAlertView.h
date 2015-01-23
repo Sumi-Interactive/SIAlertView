@@ -7,7 +7,6 @@
 #import <UIKit/UIKit.h>
 #import "SIAlertBackgroundWindow.h"
 #import "SIAlertButton.h"
-#import "MOPaymentView.h"
 
 extern NSString * const SIAlertViewWillShowNotification;
 extern NSString * const SIAlertViewDidShowNotification;

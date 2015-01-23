@@ -7,6 +7,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SIAlertView.h"
 #import "SIAlertViewController.h"
+#import "SIAlertButton.h"
 
 NSString * const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
 NSString * const SIAlertViewDidShowNotification = @"SIAlertViewDidShowNotification";
@@ -31,7 +32,7 @@ static SIAlertBackgroundWindow *__mo_alert_background_window;
 static SIAlertView *__mo_alert_current_view;
 
 
-@interface SIAlertView () <UITextFieldDelegate, MOPaymentViewDelegate>
+@interface SIAlertView () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIWindow *alertWindow;
 @property (nonatomic, strong) UIWindow *oldKeyWindow;
