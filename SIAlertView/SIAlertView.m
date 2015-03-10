@@ -1117,6 +1117,15 @@ static SIAlertView *__si_alert_current_view;
     [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDefault];
 }
 
+- (void)setButtonBackGroundColor:(UIColor *)buttonBackGroundColor
+{
+    if (_buttonBackGroundColor == buttonBackGroundColor) {
+        return;
+    }
+    _buttonBackGroundColor = buttonBackGroundColor;
+    [self setBackGroundColor:buttonBackGroundColor toButtonsOfType:SIAlertViewButtonTypeDefault];
+}
+
 - (void)setCancelButtonColor:(UIColor *)buttonColor
 {
     if (_cancelButtonColor == buttonColor) {
@@ -1126,6 +1135,15 @@ static SIAlertView *__si_alert_current_view;
     [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeCancel];
 }
 
+- (void)setCancelButtonBackGroundColor:(UIColor *)cancelButtonBackGroundColor
+{
+    if (_cancelButtonBackGroundColor == cancelButtonBackGroundColor) {
+        return;
+    }
+    _cancelButtonBackGroundColor = cancelButtonBackGroundColor;
+    [self setBackGroundColor:cancelButtonBackGroundColor toButtonsOfType:SIAlertViewButtonTypeCancel];
+}
+
 - (void)setDestructiveButtonColor:(UIColor *)buttonColor
 {
     if (_destructiveButtonColor == buttonColor) {
@@ -1133,6 +1151,15 @@ static SIAlertView *__si_alert_current_view;
     }
     _destructiveButtonColor = buttonColor;
     [self setColor:buttonColor toButtonsOfType:SIAlertViewButtonTypeDestructive];
+}
+
+- (void)setDestructiveBackGroundColor:(UIColor *)destructiveBackGroundColor
+{
+    if (_destructiveBackGroundColor == destructiveBackGroundColor) {
+        return;
+    }
+    _destructiveBackGroundColor = destructiveBackGroundColor;
+    [self setBackGroundColor:destructiveBackGroundColor toButtonsOfType:SIAlertViewButtonTypeDestructive];
 }
 
 
@@ -1175,6 +1202,16 @@ static SIAlertView *__si_alert_current_view;
             UIButton *button = self.buttons[i];
             [button setTitleColor:color forState:UIControlStateNormal];
             [button setTitleColor:[color colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
+        }
+    }
+}
+
+-(void)setBackGroundColor:(UIColor *)color toButtonsOfType:(SIAlertViewButtonType)type {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        SIAlertItem *item = self.items[i];
+        if(item.type == type) {
+            UIButton *button = self.buttons[i];
+            [button setBackgroundColor:color];
         }
     }
 }
