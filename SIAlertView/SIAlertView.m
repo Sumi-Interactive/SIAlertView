@@ -757,6 +757,20 @@ static SIAlertView *__si_alert_current_view;
             button = self.buttons[1];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
         } else {
+            
+            if (self.isNeedHorizonLayout) {
+                [self horizonLayout:y];
+            }
+            else {
+                [self verticalLayout:y];
+            }
+        }
+    }
+    
+}
+
+-(void)verticalLayout:(CGFloat)y
+{
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
@@ -770,10 +784,27 @@ static SIAlertView *__si_alert_current_view;
                 }
             }
         }
+-(void)horizonLayout:(CGFloat)y
+{
+    CGFloat btnWidth = (self.containerView.bounds.size.width-(self.buttons.count+1)*CONTENT_PADDING_LEFT)/self.buttons.count;
+    for (NSUInteger i = 0; i < self.buttons.count; i++) {
+        UIButton *button = self.buttons[i];
+        button.frame = CGRectMake(CONTENT_PADDING_LEFT+i*(btnWidth+CONTENT_PADDING_LEFT), y, btnWidth, BUTTON_HEIGHT);
     }
 }
 
 - (CGFloat)preferredHeight
+{
+    if (self.isNeedHorizonLayout) {
+        return [self preferredHorizonHeight];
+    }
+    else {
+        return [self preferredVeticalHeight];
+    }
+    
+}
+
+-(CGFloat)preferredVeticalHeight
 {
 	CGFloat height = CONTENT_PADDING_TOP;
 	if (self.title) {
@@ -802,6 +833,30 @@ static SIAlertView *__si_alert_current_view;
 	return height;
 }
 
+-(CGFloat)preferredHorizonHeight
+{
+    CGFloat height = CONTENT_PADDING_TOP;
+    if (self.title) {
+        height += [self heightForTitleLabel];
+    }
+    if (self.message) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
+        height += [self heightForMessageLabel];
+    }
+    if (self.items.count > 0) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
+    
+        height += BUTTON_HEIGHT;
+        
+    }
+    
+    height += CONTENT_PADDING_BOTTOM;
+    return height;
+}
 - (CGFloat)heightForTitleLabel
 {
     if (self.titleLabel) {

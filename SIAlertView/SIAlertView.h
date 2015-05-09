@@ -74,6 +74,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)setCancelButtonImage:(UIImage *)cancelButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 - (void)setDestructiveButtonImage:(UIImage *)destructiveButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
+@property (nonatomic) BOOL isNeedHorizonLayout;
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
 
