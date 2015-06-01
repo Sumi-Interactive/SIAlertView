@@ -766,10 +766,14 @@ static SIAlertView *__si_alert_current_view;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
                     }
-                    y += BUTTON_HEIGHT + GAP;
                 }
+                y += BUTTON_HEIGHT + GAP;
             }
         }
+    }
+    if (self.footerView) {
+        y += GAP;
+        self.footerView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
     }
 }
 
@@ -797,6 +801,9 @@ static SIAlertView *__si_alert_current_view;
                 height += CANCEL_BUTTON_PADDING_TOP;
             }
         }
+    }
+    if (self.footerView) {
+        height += GAP + BUTTON_HEIGHT;
     }
     height += CONTENT_PADDING_BOTTOM;
 	return height;
@@ -839,17 +846,14 @@ static SIAlertView *__si_alert_current_view;
 
 - (CGFloat)heightForMessageLabel
 {
-    CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat minHeight = ceilf(MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight);
     if (self.messageLabel) {
-        CGFloat maxHeight = self.maximumNumberOfLines * self.messageLabel.font.lineHeight;
+        CGFloat maxHeight = ceilf(self.maximumNumberOfLines * self.messageLabel.font.lineHeight);
         
         #ifdef __IPHONE_7_0
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle.lineBreakMode = self.messageLabel.lineBreakMode;
-            
-            NSDictionary *attributes = @{NSFontAttributeName:self.messageLabel.font,
-                                         NSParagraphStyleAttributeName: paragraphStyle.copy};
-            
+            NSDictionary *attributes = @{
+                                         NSFontAttributeName:self.messageLabel.font,
+                                         };
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
             CGRect rect = [self.messageLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
@@ -878,6 +882,7 @@ static SIAlertView *__si_alert_current_view;
     [self updateTitleLabel];
     [self updateMessageLabel];
     [self setupButtons];
+    [self setupFooterView];
     [self invalidateLayout];
 }
 
@@ -962,6 +967,13 @@ static SIAlertView *__si_alert_current_view;
         UIButton *button = [self buttonForItemIndex:i];
         [self.buttons addObject:button];
         [self.containerView addSubview:button];
+    }
+}
+
+- (void)setupFooterView
+{
+    if (self.footerView) {
+        [self.containerView addSubview:self.footerView];
     }
 }
 
