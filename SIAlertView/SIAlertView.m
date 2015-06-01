@@ -839,17 +839,14 @@ static SIAlertView *__si_alert_current_view;
 
 - (CGFloat)heightForMessageLabel
 {
-    CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat minHeight = ceilf(MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight);
     if (self.messageLabel) {
-        CGFloat maxHeight = self.maximumNumberOfLines * self.messageLabel.font.lineHeight;
+        CGFloat maxHeight = ceilf(self.maximumNumberOfLines * self.messageLabel.font.lineHeight);
         
         #ifdef __IPHONE_7_0
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle.lineBreakMode = self.messageLabel.lineBreakMode;
-            
-            NSDictionary *attributes = @{NSFontAttributeName:self.messageLabel.font,
-                                         NSParagraphStyleAttributeName: paragraphStyle.copy};
-            
+            NSDictionary *attributes = @{
+                                         NSFontAttributeName:self.messageLabel.font,
+                                         };
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
             CGRect rect = [self.messageLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
