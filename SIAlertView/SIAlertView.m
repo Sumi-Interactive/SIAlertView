@@ -812,7 +812,7 @@ static SIAlertView *__mo_alert_current_view;
         else {
             height += (BUTTON_HEIGHT + GAP) * self.buttons.count - GAP;
             
-            if (self.buttons.count > 2) {
+            if (self.buttons.count > 1) {
                 id last = [self.buttons lastObject];
                 
                 if([last isKindOfClass:[SIAlertButton class]]
