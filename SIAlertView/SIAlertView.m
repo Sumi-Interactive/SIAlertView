@@ -814,7 +814,7 @@ static SIAlertView *__si_alert_current_view;
             
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
-            CGRect rect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, CGFLOAT_MAX)
+            CGRect rect = [self.title boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, CGFLOAT_MAX)
                                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                           attributes:attributes
                                                              context:nil];
@@ -839,9 +839,9 @@ static SIAlertView *__si_alert_current_view;
 
 - (CGFloat)heightForMessageLabel
 {
-    CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat minHeight = ceilf(MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight);
     if (self.messageLabel) {
-        CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
+        CGFloat maxHeight = ceilf(MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight);
         
         #ifdef __IPHONE_7_0
             NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -852,12 +852,12 @@ static SIAlertView *__si_alert_current_view;
             
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
-            CGRect rect = [self.messageLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+            CGRect rect = [self.message boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
                                                              options:NSStringDrawingUsesLineFragmentOrigin
                                                           attributes:attributes
                                                              context:nil];
             
-            return MAX(minHeight, ceil(rect.size.height));
+            return MAX(minHeight, ceilf(rect.size.height));
         #else
             CGSize size = [self.message sizeWithFont:self.messageLabel.font
                                    constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
