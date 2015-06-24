@@ -815,7 +815,7 @@ static SIAlertView *__si_alert_current_view;
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
             CGRect rect = [self.title boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, CGFLOAT_MAX)
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                             options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin)
                                                           attributes:attributes
                                                              context:nil];
             return ceil(rect.size.height);
@@ -853,7 +853,7 @@ static SIAlertView *__si_alert_current_view;
             // NSString class method: boundingRectWithSize:options:attributes:context is
             // available only on ios7.0 sdk.
             CGRect rect = [self.message boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                             options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin)
                                                           attributes:attributes
                                                              context:nil];
             
@@ -942,6 +942,7 @@ static SIAlertView *__si_alert_current_view;
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
             self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
+            self.messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
