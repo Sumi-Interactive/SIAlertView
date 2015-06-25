@@ -667,14 +667,15 @@ static SIAlertView *__mo_alert_current_view;
         self.messageTextView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
         y += height;
 
-        
-        
+#if DEBUG_LAYOUT
         NSLog(@"%f", height);
-        
+#endif
+
         self.messageTextView.userInteractionEnabled = [self getNumberOfLinesInUITextView] >= 20; //self.messageMaxLineCount;
-        
+
+#if DEBUG_LAYOUT
         NSLog(@"%f", [self getNumberOfLinesInUITextView]);
-        
+#endif
     }
             
     if (self.contentView) {
