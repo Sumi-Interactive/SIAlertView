@@ -301,12 +301,7 @@ static SIAlertView *__si_alert_current_view;
 {
     if (!__si_alert_background_window) {
         
-        CGRect frame = [[UIScreen mainScreen] bounds];
-        if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-        {
-            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
-        }
-        
+        CGRect frame = [[UIScreen mainScreen] bounds];        
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
         [__si_alert_background_window makeKeyAndVisible];
