@@ -17,15 +17,17 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 
 #define DEBUG_LAYOUT 0
 
-#define MESSAGE_MIN_LINE_COUNT 3
-#define MESSAGE_MAX_LINE_COUNT 5
-#define GAP 10
-#define CANCEL_BUTTON_PADDING_TOP 5
-#define CONTENT_PADDING_LEFT 10
-#define CONTENT_PADDING_TOP 12
-#define CONTENT_PADDING_BOTTOM 10
+#define MESSAGE_MIN_LINE_COUNT 5
+#define MESSAGE_MAX_LINE_COUNT 7
+#define GAP 0
+#define CANCEL_BUTTON_PADDING_TOP 0
+#define CONTENT_PADDING_LEFT 0
+#define CONTENT_PADDING_TOP 20
+#define CONTENT_PADDING_BOTTOM 0
 #define BUTTON_HEIGHT 44
 #define CONTAINER_WIDTH 300
+#define BUTTON_AREA_BORDER_WIDTH 0.5f
+#define BUTTON_AREA_BORDER_COLOR [UIColor colorWithRed:221.0/255.0 green:221.0/255.0 blue:221.0/255.0 alpha:1]
 
 const UIWindowLevel UIWindowLevelSIAlert = 1996.0;  // don't overlap system's alert
 const UIWindowLevel UIWindowLevelSIAlertBackground = 1985.0; // below the alert window
@@ -754,18 +756,29 @@ static SIAlertView *__si_alert_current_view;
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
+            [self addBorderRight:button];
+            [self addBorderTop:button];
             button = self.buttons[1];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
+            [self addBorderTop:button];
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
                 if (self.buttons.count > 1) {
-                    if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
-                        CGRect rect = button.frame;
-                        rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
-                        button.frame = rect;
+                    if (i == 0) {
+                        [self addBorderTop:button];
                     }
+                    if (i == self.buttons.count - 1) {
+                        if (((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
+                            CGRect rect = button.frame;
+                            rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
+                            button.frame = rect;
+                        }
+                    } else {
+                        [self addBorderBottom:button];
+                    }
+                    
                     y += BUTTON_HEIGHT + GAP;
                 }
             }
@@ -901,6 +914,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.layer.shadowOffset = CGSizeZero;
     self.containerView.layer.shadowRadius = self.shadowRadius;
     self.containerView.layer.shadowOpacity = 0.5;
+    self.containerView.clipsToBounds = YES;
     [self addSubview:self.containerView];
 }
 
@@ -958,12 +972,44 @@ static SIAlertView *__si_alert_current_view;
 - (void)setupButtons
 {
     self.buttons = [[NSMutableArray alloc] initWithCapacity:self.items.count];
-    for (NSUInteger i = 0; i < self.items.count; i++) {
+    NSInteger count = self.items.count;
+    for (NSUInteger i = 0; i < count; i++) {
         UIButton *button = [self buttonForItemIndex:i];
         [self.buttons addObject:button];
         [self.containerView addSubview:button];
+//        if (count == 2 && i == 0) {
+//            [self addBorderRight:button];
+//        }
+//        if (count > 2 && i < count-1) {
+//            [self addBorderBottom:button];
+//        }
+
     }
 }
+
+- (void)addBorderTop:(UIView *)view {
+    CALayer *topBorder = [CALayer layer];
+    topBorder.frame = CGRectMake(0.0f, 0, view.frame.size.width, BUTTON_AREA_BORDER_WIDTH);
+    topBorder.backgroundColor = BUTTON_AREA_BORDER_COLOR.CGColor;
+    [view.layer addSublayer:topBorder];
+
+}
+
+
+- (void)addBorderRight:(UIView *)view {
+    CALayer *rightBorder = [CALayer layer];
+    rightBorder.frame = CGRectMake(view.frame.size.width-BUTTON_AREA_BORDER_WIDTH, 0.0f, BUTTON_AREA_BORDER_WIDTH, view.frame.size.height);
+    rightBorder.backgroundColor = BUTTON_AREA_BORDER_COLOR.CGColor;
+    [view.layer addSublayer:rightBorder];
+}
+
+- (void)addBorderBottom:(UIView *)view {
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, view.frame.size.height-BUTTON_AREA_BORDER_WIDTH, view.frame.size.width, BUTTON_AREA_BORDER_WIDTH);
+    bottomBorder.backgroundColor = BUTTON_AREA_BORDER_COLOR.CGColor;
+    [view.layer addSublayer:bottomBorder];
+}
+
 
 - (UIButton *)buttonForItemIndex:(NSUInteger)index
 {
@@ -973,36 +1019,36 @@ static SIAlertView *__si_alert_current_view;
 	button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     button.titleLabel.font = self.buttonFont;
 	[button setTitle:item.title forState:UIControlStateNormal];
-	UIImage *normalImage = nil;
-	UIImage *highlightedImage = nil;
+//	UIImage *normalImage = nil;
+//	UIImage *highlightedImage = nil;
 	switch (item.type) {
 		case SIAlertViewButtonTypeCancel:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d"];
+//			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
+//			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d"];
 			[button setTitleColor:self.cancelButtonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.cancelButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDestructive:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive-d"];
+//			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive"];
+//			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive-d"];
             [button setTitleColor:self.destructiveButtonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.destructiveButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDefault:
 		default:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d"];
+//			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
+//			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d"];
 			[button setTitleColor:self.buttonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.buttonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 	}
-	CGFloat hInset = floorf(normalImage.size.width / 2);
-	CGFloat vInset = floorf(normalImage.size.height / 2);
-	UIEdgeInsets insets = UIEdgeInsetsMake(vInset, hInset, vInset, hInset);
-	normalImage = [normalImage resizableImageWithCapInsets:insets];
-	highlightedImage = [highlightedImage resizableImageWithCapInsets:insets];
-	[button setBackgroundImage:normalImage forState:UIControlStateNormal];
-	[button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
+//	CGFloat hInset = floorf(normalImage.size.width / 2);
+//	CGFloat vInset = floorf(normalImage.size.height / 2);
+//	UIEdgeInsets insets = UIEdgeInsetsMake(vInset, hInset, vInset, hInset);
+//	normalImage = [normalImage resizableImageWithCapInsets:insets];
+//	highlightedImage = [highlightedImage resizableImageWithCapInsets:insets];
+//	[button setBackgroundImage:normalImage forState:UIControlStateNormal];
+//	[button setBackgroundImage:highlightedImage forState:UIControlStateHighlighted];
 	[button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     return button;
