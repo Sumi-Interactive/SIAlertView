@@ -17,15 +17,16 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 
 #define DEBUG_LAYOUT 0
 
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define MESSAGE_MIN_LINE_COUNT 5
 #define MESSAGE_MAX_LINE_COUNT 7
 #define GAP 0
 #define CANCEL_BUTTON_PADDING_TOP 0
-#define CONTENT_PADDING_LEFT 0
+#define CONTENT_PADDING_LEFT 15
 #define CONTENT_PADDING_TOP 20
 #define CONTENT_PADDING_BOTTOM 0
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH 300
+#define CONTAINER_WIDTH SCREEN_WIDTH - 20
 #define BUTTON_AREA_BORDER_WIDTH 0.5f
 #define BUTTON_AREA_BORDER_COLOR [UIColor colorWithRed:221.0/255.0 green:221.0/255.0 blue:221.0/255.0 alpha:1]
 
