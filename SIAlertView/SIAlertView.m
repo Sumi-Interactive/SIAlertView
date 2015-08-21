@@ -26,7 +26,7 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define CONTENT_PADDING_TOP 20
 #define CONTENT_PADDING_BOTTOM 0
 #define BUTTON_HEIGHT 44
-#define CONTAINER_WIDTH SCREEN_WIDTH - 20
+#define CONTAINER_WIDTH (SCREEN_WIDTH - 20)
 #define BUTTON_AREA_BORDER_WIDTH 0.5f
 #define BUTTON_AREA_BORDER_COLOR [UIColor colorWithRed:221.0/255.0 green:221.0/255.0 blue:221.0/255.0 alpha:1]
 
@@ -754,7 +754,7 @@ static SIAlertView *__si_alert_current_view;
             y += GAP;
         }
         if (self.items.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
-            CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
+            CGFloat width = self.containerView.bounds.size.width/2;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
             [self addBorderRight:button];
@@ -765,7 +765,7 @@ static SIAlertView *__si_alert_current_view;
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
-                button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                button.frame = CGRectMake(0, y, self.containerView.bounds.size.width, BUTTON_HEIGHT);
                 if (self.buttons.count > 1) {
                     if (i == 0) {
                         [self addBorderTop:button];
