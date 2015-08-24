@@ -16,3 +16,4 @@ Pod::Spec.new do |s|
   s.source_files = 'SIAlertView/*.{h,m}'
   s.resources    = 'SIAlertView/SIAlertView.bundle'
 end
+
