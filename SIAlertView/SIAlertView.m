@@ -738,7 +738,9 @@ static SIAlertView *__si_alert_current_view;
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
-        y += height;
+        if (self.title.length > 0) {
+            y += height;
+        }
 	}
     if (self.messageLabel) {
         if (y > CONTENT_PADDING_TOP) {
