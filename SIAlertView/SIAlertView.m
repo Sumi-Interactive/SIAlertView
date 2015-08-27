@@ -269,6 +269,20 @@ static SIAlertView *__si_alert_current_view;
 	return self;
 }
 
+
+- (id)initWithTitle:(NSString *)title andCustomView:(UIView *)customView
+{
+    self = [super init];
+    if (self) {
+        _title = title;
+        _customMessageView = customView;
+        _enabledParallaxEffect = YES;
+        self.items = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+
 #pragma mark - Class methods
 
 + (NSMutableArray *)sharedQueue
@@ -738,11 +752,21 @@ static SIAlertView *__si_alert_current_view;
         self.titleLabel.text = self.title;
         CGFloat height = [self heightForTitleLabel];
         self.titleLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, height);
-        if (self.title.length > 0) {
+        if (self.title && self.title.length > 0) {
             y += height;
+        } else {
+            y = 0;
         }
 	}
-    if (self.messageLabel) {
+    if (self.customMessageView) {
+        if (y > CONTENT_PADDING_TOP) {
+            y += GAP;
+        }
+        CGSize size = self.customMessageView.frame.size;
+        CGFloat height = size.height;
+        self.customMessageView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, CONTAINER_WIDTH - (2 * CONTENT_PADDING_LEFT), size.height);
+        y += height;
+    } else if (self.messageLabel) {
         if (y > CONTENT_PADDING_TOP) {
             y += GAP;
         }
@@ -792,14 +816,22 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)preferredHeight
 {
 	CGFloat height = CONTENT_PADDING_TOP;
-	if (self.title) {
+	if (self.title && self.title.length > 0) {
 		height += [self heightForTitleLabel];
-	}
+    } else {
+        height = 0;
+    }
     if (self.message) {
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
         height += [self heightForMessageLabel];
+    }
+    if (self.customMessageView) {
+        if (height > CONTENT_PADDING_TOP) {
+            height += GAP;
+        }
+        height += CGRectGetHeight(self.customMessageView.frame);
     }
     if (self.items.count > 0) {
         if (height > CONTENT_PADDING_TOP) {
@@ -951,7 +983,9 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)updateMessageLabel
 {
-    if (self.message) {
+    if (self.customMessageView) {
+        [self.containerView addSubview:self.customMessageView];
+    } else if (self.message) {
         if (!self.messageLabel) {
             self.messageLabel = [[UILabel alloc] initWithFrame:self.bounds];
             self.messageLabel.textAlignment = NSTextAlignmentCenter;

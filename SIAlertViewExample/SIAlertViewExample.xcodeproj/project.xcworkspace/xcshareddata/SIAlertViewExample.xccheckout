@@ -11,7 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>E2E339EC05FF99AF5ECAE62EDBC78398DA1111C6</key>
-		<string>https://github.com/Madao-3/SIAlertView.git</string>
+		<string>https://github.com/Madao-3/SIAlertView-OtherStyle.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>SIAlertViewExample/SIAlertViewExample.xcodeproj</string>
@@ -21,7 +21,7 @@
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Madao-3/SIAlertView.git</string>
+	<string>https://github.com/Madao-3/SIAlertView-OtherStyle.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

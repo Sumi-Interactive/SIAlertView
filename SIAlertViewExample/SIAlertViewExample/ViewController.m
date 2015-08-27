@@ -62,7 +62,7 @@
 
 - (IBAction)alert1:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" andMessage:@"Count down"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"Count down willShowHandler2 willShowHandler2 willShowHandler2 willShowHandler2"];
     [alertView addButtonWithTitle:@"Button1"
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
@@ -96,7 +96,7 @@
 //    alertView.buttonFont = [UIFont boldSystemFontOfSize:12];
     [alertView show];
     
-    alertView.title = @"3";
+    alertView.title = @"";
 //    double delayInSeconds = 1.0;
 //    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
 //    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -123,7 +123,7 @@
 
 - (IBAction)alert2:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title2" andMessage:@"Message2"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"" andMessage:@"Message2"];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
@@ -162,7 +162,19 @@ id observer1,observer2,observer3,observer4;
 
 - (IBAction)alert3:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:nil andMessage:@"Message3"];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
+    view.backgroundColor = [UIColor colorWithRed:0.2 green:0.3 blue:0.4 alpha:0.5];
+    
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button-destructive-d.png"]];
+    image.frame = CGRectMake(0, 0, 10, 10);
+    [view addSubview:image];
+    
+    
+    image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button-destructive-d.png"]];
+    image.frame = CGRectMake(0, 20, 10, 10);
+    [view addSubview:image];
+    
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"" andCustomView:view];
     [alertView addButtonWithTitle:@"Cancel"
                              type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
