@@ -7,6 +7,7 @@
 //
 
 #import "SIAlertView.h"
+#import "UIWindow+SIUtils.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString *const SIAlertViewWillShowNotification = @"SIAlertViewWillShowNotification";
@@ -26,8 +27,8 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define BUTTON_HEIGHT 44
 #define CONTAINER_WIDTH 300
 
-const UIWindowLevel UIWindowLevelSIAlert = 1999.0;  // don't overlap system's alert
-const UIWindowLevel UIWindowLevelSIAlertBackground = 1998.0; // below the alert window
+const UIWindowLevel UIWindowLevelSIAlert = 1996.0;  // don't overlap system's alert
+const UIWindowLevel UIWindowLevelSIAlertBackground = 1985.0; // below the alert window
 
 @class SIAlertBackgroundWindow;
 
@@ -35,59 +36,6 @@ static NSMutableArray *__si_alert_queue;
 static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
-
-@interface UIWindow (SIAlert_Utils)
-
-- (UIViewController *)currentViewController;
-
-@end
-
-@implementation UIWindow (SIAlert_Utils)
-
-- (UIViewController *)currentViewController
-{
-    UIViewController *viewController = self.rootViewController;
-    while (viewController.presentedViewController) {
-        viewController = viewController.presentedViewController;
-    }
-    return viewController;
-}
-
-@end
-
-#ifdef __IPHONE_7_0
-@interface UIWindow (SIAlert_StatusBarUtils)
-
-- (UIViewController *)viewControllerForStatusBarStyle;
-- (UIViewController *)viewControllerForStatusBarHidden;
-
-@end
-
-@implementation UIWindow (SIAlert_StatusBarUtils)
-
-- (UIViewController *)viewControllerForStatusBarStyle
-{
-    UIViewController *currentViewController = [self currentViewController];
-    
-    while ([currentViewController childViewControllerForStatusBarStyle]) {
-        currentViewController = [currentViewController childViewControllerForStatusBarStyle];
-    }
-    return currentViewController;
-}
-
-- (UIViewController *)viewControllerForStatusBarHidden
-{
-    UIViewController *currentViewController = [self currentViewController];
-    
-    while ([currentViewController childViewControllerForStatusBarHidden]) {
-        currentViewController = [currentViewController childViewControllerForStatusBarHidden];
-    }
-    return currentViewController;
-}
-
-@end
-#endif
-
 
 @interface SIAlertView ()
 
@@ -312,6 +260,7 @@ static SIAlertView *__si_alert_current_view;
 	if (self) {
 		_title = title;
         _message = message;
+        _enabledParallaxEffect = YES;
 		self.items = [[NSMutableArray alloc] init];
 	}
 	return self;
@@ -350,7 +299,14 @@ static SIAlertView *__si_alert_current_view;
 + (void)showBackground
 {
     if (!__si_alert_background_window) {
-        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds
+        
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+        {
+            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+        }
+        
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
         [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
@@ -464,6 +420,9 @@ static SIAlertView *__si_alert_current_view;
             self.didShowHandler(self);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewDidShowNotification object:self userInfo:nil];
+        #ifdef __IPHONE_7_0
+        [self addParallaxEffect];
+        #endif
         
         [SIAlertView setAnimating:NO];
         
@@ -488,6 +447,9 @@ static SIAlertView *__si_alert_current_view;
             self.willDismissHandler(self);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:SIAlertViewWillDismissNotification object:self userInfo:nil];
+        #ifdef __IPHONE_7_0
+                [self removeParallaxEffect];
+        #endif
     }
     
     void (^dismissComplete)(void) = ^{
@@ -843,18 +805,35 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForTitleLabel
 {
     if (self.titleLabel) {
-        CGSize size = [self.title sizeWithFont:self.titleLabel.font
-                                   minFontSize:
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
-                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
-#else
-                       self.titleLabel.minimumFontSize
-#endif
-                                actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
-                                 lineBreakMode:self.titleLabel.lineBreakMode];
-        return size.height;
+        #ifdef __IPHONE_7_0
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.lineBreakMode = self.titleLabel.lineBreakMode;
+            
+            NSDictionary *attributes = @{NSFontAttributeName:self.titleLabel.font,
+                                         NSParagraphStyleAttributeName: paragraphStyle.copy};
+            
+            // NSString class method: boundingRectWithSize:options:attributes:context is
+            // available only on ios7.0 sdk.
+            CGRect rect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, CGFLOAT_MAX)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:attributes
+                                                             context:nil];
+            return ceil(rect.size.height);
+        #else
+            CGSize size = [self.title sizeWithFont:self.titleLabel.font
+                                       minFontSize:
+                                                    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+                                                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+                                                    #else
+                                                       self.titleLabel.minimumFontSize
+                                                    #endif
+                                    actualFontSize:nil
+                                          forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                     lineBreakMode:self.titleLabel.lineBreakMode];
+            return size.height;
+        #endif
     }
+    
     return 0;
 }
 
@@ -863,11 +842,31 @@ static SIAlertView *__si_alert_current_view;
     CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
     if (self.messageLabel) {
         CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
-        CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                   lineBreakMode:self.messageLabel.lineBreakMode];
-        return MAX(minHeight, size.height);
+        
+        #ifdef __IPHONE_7_0
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.lineBreakMode = self.messageLabel.lineBreakMode;
+            
+            NSDictionary *attributes = @{NSFontAttributeName:self.messageLabel.font,
+                                         NSParagraphStyleAttributeName: paragraphStyle.copy};
+            
+            // NSString class method: boundingRectWithSize:options:attributes:context is
+            // available only on ios7.0 sdk.
+            CGRect rect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:attributes
+                                                             context:nil];
+            
+            return MAX(minHeight, ceil(rect.size.height));
+        #else
+            CGSize size = [self.message sizeWithFont:self.messageLabel.font
+                                   constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                                       lineBreakMode:self.messageLabel.lineBreakMode];
+            
+            return MAX(minHeight, size.height);
+        #endif
     }
+    
     return minHeight;
 }
 
@@ -1179,5 +1178,35 @@ static SIAlertView *__si_alert_current_view;
         }
     }
 }
+
+# pragma mark -
+# pragma mark Enable parallax effect (iOS7 only)
+
+#ifdef __IPHONE_7_0
+- (void)addParallaxEffect
+{
+    if (_enabledParallaxEffect && NSClassFromString(@"UIInterpolatingMotionEffect"))
+    {
+        UIInterpolatingMotionEffect *effectHorizontal = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"position.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        UIInterpolatingMotionEffect *effectVertical = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"position.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        [effectHorizontal setMaximumRelativeValue:@(20.0f)];
+        [effectHorizontal setMinimumRelativeValue:@(-20.0f)];
+        [effectVertical setMaximumRelativeValue:@(50.0f)];
+        [effectVertical setMinimumRelativeValue:@(-50.0f)];
+        [self.containerView addMotionEffect:effectHorizontal];
+        [self.containerView addMotionEffect:effectVertical];
+    }
+}
+
+- (void)removeParallaxEffect
+{
+    if (_enabledParallaxEffect && NSClassFromString(@"UIInterpolatingMotionEffect"))
+    {
+        [self.containerView.motionEffects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [self.containerView removeMotionEffect:obj];
+        }];
+    }
+}
+#endif
 
 @end

@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name     = 'SIAlertView'
-  s.version  = '1.3'
+  s.version  = '1.3.1'
   s.platform = :ios, '5.0'
   s.license  = 'MIT'
   s.summary  = 'An UIAlertView replacement.'
   s.homepage = 'https://github.com/Sumi-Interactive/SIAlertView'
   s.author   = { 'Sumi Interactive' => 'developer@sumi-sumi.com' }
   s.source   = { :git => 'https://github.com/Sumi-Interactive/SIAlertView.git',
-                 :tag => '1.3' }
+                 :tag => '1.3.1' }
 
   s.description = 'An UIAlertView replacement with block syntax and fancy transition styles.'
 
@@ -15,4 +15,5 @@ Pod::Spec.new do |s|
   s.framework    = 'QuartzCore'
   s.source_files = 'SIAlertView/*.{h,m}'
   s.resources    = 'SIAlertView/SIAlertView.bundle'
+  s.module_name  = 'SIAlertView'
 end
