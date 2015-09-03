@@ -15,4 +15,5 @@ Pod::Spec.new do |s|
   s.framework    = 'QuartzCore'
   s.source_files = 'SIAlertView/*.{h,m}'
   s.resources    = 'SIAlertView/SIAlertView.bundle'
+  s.module_name  = 'SIAlertView'
 end
