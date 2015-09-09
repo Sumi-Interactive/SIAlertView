@@ -144,6 +144,8 @@ static SIAlertView *__si_alert_current_view;
 
 @property (nonatomic, copy) NSString *placeholder;
 @property (nonatomic, copy) NSString *text;
+@property (nonatomic, assign)BOOL secured;
+
 
 @end
 
@@ -373,11 +375,12 @@ static SIAlertView *__si_alert_current_view;
 }
 
 
--(void)addTextFieldWithPlaceHolder:(NSString *)placeholder andText:(NSString *)text
+-(void)addTextFieldWithPlaceHolder:(NSString *)placeholder andText:(NSString *)text secured:(BOOL)secured
 {
     SITextItem *item = [[SITextItem alloc] init];
     item.placeholder = placeholder;
     item.text = text;
+    item.secured = secured;
     [self.textFieldsItems addObject:item];
 
 }
@@ -1033,7 +1036,7 @@ static SIAlertView *__si_alert_current_view;
     textField.placeholder = item.placeholder;
 
     textField.text = item.text;
-
+    textField.secureTextEntry = item.secured;
     textField.borderStyle=UITextBorderStyleRoundedRect;
     textField.autocorrectionType=UITextAutocorrectionTypeNo;
     textField.autocapitalizationType=UITextAutocapitalizationTypeNone;
