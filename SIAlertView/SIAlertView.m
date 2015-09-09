@@ -18,7 +18,6 @@ NSString *const SIAlertViewDidDismissNotification = @"SIAlertViewDidDismissNotif
 #define DEBUG_LAYOUT 0
 
 #define MESSAGE_MIN_LINE_COUNT 3
-#define MESSAGE_MAX_LINE_COUNT 5
 #define GAP 10
 #define CANCEL_BUTTON_PADDING_TOP 5
 #define CONTENT_PADDING_LEFT 10
@@ -259,6 +258,7 @@ static SIAlertView *__si_alert_current_view;
     appearance.destructiveButtonColor = [UIColor whiteColor];
     appearance.cornerRadius = 2;
     appearance.shadowRadius = 8;
+    appearance.maximumNumberOfLines = 5;
 }
 
 - (id)init
@@ -312,7 +312,14 @@ static SIAlertView *__si_alert_current_view;
 + (void)showBackground
 {
     if (!__si_alert_background_window) {
-        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds
+        
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+        {
+            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+        }
+        
+        __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
         [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
@@ -798,14 +805,18 @@ static SIAlertView *__si_alert_current_view;
                         rect.origin.y += CANCEL_BUTTON_PADDING_TOP;
                         button.frame = rect;
                     }
-                    y += BUTTON_HEIGHT + GAP;
                 }
+                y += BUTTON_HEIGHT + GAP;
             }
         }
     }
 
 
 
+    if (self.footerView) {
+        y += GAP;
+        self.footerView.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+    }
 }
 
 - (CGFloat)preferredHeight
@@ -845,6 +856,9 @@ static SIAlertView *__si_alert_current_view;
             }
         }
     }
+    if (self.footerView) {
+        height += GAP + BUTTON_HEIGHT;
+    }
     height += CONTENT_PADDING_BOTTOM;
     return height;
 }
@@ -852,31 +866,66 @@ static SIAlertView *__si_alert_current_view;
 - (CGFloat)heightForTitleLabel
 {
     if (self.titleLabel) {
-        CGSize size = [self.title sizeWithFont:self.titleLabel.font
-                                   minFontSize:
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
-                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
-#else
-                        self.titleLabel.minimumFontSize
-#endif
-                                actualFontSize:nil
-                                      forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
-                                 lineBreakMode:self.titleLabel.lineBreakMode];
-        return size.height;
+
+        #ifdef __IPHONE_7_0
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.lineBreakMode = self.titleLabel.lineBreakMode;
+            
+            NSDictionary *attributes = @{NSFontAttributeName:self.titleLabel.font,
+                                         NSParagraphStyleAttributeName: paragraphStyle.copy};
+            
+            // NSString class method: boundingRectWithSize:options:attributes:context is
+            // available only on ios7.0 sdk.
+            CGRect rect = [self.titleLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, CGFLOAT_MAX)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:attributes
+                                                             context:nil];
+            return ceil(rect.size.height);
+        #else
+            CGSize size = [self.title sizeWithFont:self.titleLabel.font
+                                       minFontSize:
+                                                    #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+                                                       self.titleLabel.font.pointSize * self.titleLabel.minimumScaleFactor
+                                                    #else
+                                                       self.titleLabel.minimumFontSize
+                                                    #endif
+                                    actualFontSize:nil
+                                          forWidth:CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2
+                                     lineBreakMode:self.titleLabel.lineBreakMode];
+            return size.height;
+        #endif
     }
+    
     return 0;
 }
 
 - (CGFloat)heightForMessageLabel
 {
-    CGFloat minHeight = MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight;
+    CGFloat minHeight = ceilf(MESSAGE_MIN_LINE_COUNT * self.messageLabel.font.lineHeight);
     if (self.messageLabel) {
-        CGFloat maxHeight = MESSAGE_MAX_LINE_COUNT * self.messageLabel.font.lineHeight;
-        CGSize size = [self.message sizeWithFont:self.messageLabel.font
-                               constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
-                                   lineBreakMode:self.messageLabel.lineBreakMode];
-        return MAX(minHeight, size.height);
+        CGFloat maxHeight = ceilf(self.maximumNumberOfLines * self.messageLabel.font.lineHeight);
+        
+        #ifdef __IPHONE_7_0
+            NSDictionary *attributes = @{
+                                         NSFontAttributeName:self.messageLabel.font,
+                                         };
+            // NSString class method: boundingRectWithSize:options:attributes:context is
+            // available only on ios7.0 sdk.
+            CGRect rect = [self.messageLabel.text boundingRectWithSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:attributes
+                                                             context:nil];
+            
+            return MAX(minHeight, ceil(rect.size.height));
+        #else
+            CGSize size = [self.message sizeWithFont:self.messageLabel.font
+                                   constrainedToSize:CGSizeMake(CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, maxHeight)
+                                       lineBreakMode:self.messageLabel.lineBreakMode];
+            
+            return MAX(minHeight, size.height);
+        #endif
     }
+    
     return minHeight;
 }
 
@@ -889,6 +938,7 @@ static SIAlertView *__si_alert_current_view;
     [self updateMessageLabel];
     [self setupTextFields];
     [self setupButtons];
+    [self setupFooterView];
     [self invalidateLayout];
 }
 
@@ -952,7 +1002,7 @@ static SIAlertView *__si_alert_current_view;
             self.messageLabel.backgroundColor = [UIColor clearColor];
             self.messageLabel.font = self.messageFont;
             self.messageLabel.textColor = self.messageColor;
-            self.messageLabel.numberOfLines = MESSAGE_MAX_LINE_COUNT;
+            self.messageLabel.numberOfLines = self.maximumNumberOfLines;
             [self.containerView addSubview:self.messageLabel];
 #if DEBUG_LAYOUT
             self.messageLabel.backgroundColor = [UIColor redColor];
@@ -1001,6 +1051,13 @@ static SIAlertView *__si_alert_current_view;
         UIButton *button = [self buttonForItemIndex:i];
         [self.buttons addObject:button];
         [self.containerView addSubview:button];
+    }
+}
+
+- (void)setupFooterView
+{
+    if (self.footerView) {
+        [self.containerView addSubview:self.footerView];
     }
 }
 
