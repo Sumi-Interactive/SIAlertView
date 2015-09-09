@@ -37,7 +37,7 @@ static BOOL __si_alert_animating;
 static SIAlertBackgroundWindow *__si_alert_background_window;
 static SIAlertView *__si_alert_current_view;
 
-@interface SIAlertView ()
+@interface SIAlertView () <UITextFieldDelegate>
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, strong) NSMutableArray *textFieldsItems;
 @property (nonatomic, weak) UIWindow *oldKeyWindow;
@@ -91,6 +91,8 @@ static SIAlertView *__si_alert_current_view;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
         self.windowLevel = UIWindowLevelSIAlertBackground;
+        
+
     }
     return self;
 }
@@ -174,6 +176,7 @@ static SIAlertView *__si_alert_current_view;
 {
     [super viewDidLoad];
     [self.alertView setup];
+    
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -277,6 +280,8 @@ static SIAlertView *__si_alert_current_view;
         _enabledParallaxEffect = YES;
         self.items = [[NSMutableArray alloc] init];
         self.textFieldsItems = [[NSMutableArray alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
 }
@@ -1034,7 +1039,7 @@ static SIAlertView *__si_alert_current_view;
     UITextField * textField = [[UITextField  alloc] init];
     textField.backgroundColor = [UIColor whiteColor];
     textField.placeholder = item.placeholder;
-
+    textField.delegate = self;
     textField.text = item.text;
     textField.secureTextEntry = item.secured;
     textField.borderStyle=UITextBorderStyleRoundedRect;
@@ -1308,5 +1313,39 @@ static SIAlertView *__si_alert_current_view;
     }
 }
 #endif
+
+
+
+#pragma mark UITextFieldDelegate
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+#pragma mark Keyboard notification handler
+- (void)keyBoardDidShow:(NSNotification *)notification
+{
+
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    self.center = CGPointMake(self.center.x, self.center.y-keyboardFrameBeginRect.size.height/2);
+    
+}
+- (void)keyBoardDidHide:(NSNotification *)notification
+{
+    NSDictionary* keyboardInfo = [notification userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    self.center = CGPointMake(self.center.x, self.center.y+keyboardFrameBeginRect.size.height/2);
+
+}
 
 @end

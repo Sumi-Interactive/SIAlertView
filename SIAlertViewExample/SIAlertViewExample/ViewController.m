@@ -120,6 +120,7 @@
                               [self alert3:nil];
                               [self alert3:nil];
                           }];
+    [alertView addTextFieldWithPlaceHolder:@"CODE" andText:@"CODE" secured:YES];
     alertView.titleColor = [UIColor blueColor];
     alertView.cornerRadius = 10;
     alertView.buttonFont = [UIFont boldSystemFontOfSize:15];
