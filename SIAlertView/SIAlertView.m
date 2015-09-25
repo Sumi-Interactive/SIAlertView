@@ -51,6 +51,7 @@ static SIAlertView *__si_alert_current_view;
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NSMutableArray *buttons;
+@property (nonatomic, assign) CGPoint originalCenter;
 
 @property (nonatomic, assign, getter = isLayoutDirty) BOOL layoutDirty;
 
@@ -471,6 +472,8 @@ static SIAlertView *__si_alert_current_view;
         if (index < [SIAlertView sharedQueue].count - 1) {
             [self dismissAnimated:YES cleanup:NO]; // dismiss to show next alert view
         }
+        
+        self.originalCenter = self.center;
     }];
 }
 
@@ -1330,12 +1333,20 @@ static SIAlertView *__si_alert_current_view;
     
 }
 
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    return  YES;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
 
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
 
 #pragma mark Keyboard notification handler
 - (void)keyBoardDidShow:(NSNotification *)notification
@@ -1344,7 +1355,7 @@ static SIAlertView *__si_alert_current_view;
     NSDictionary* keyboardInfo = [notification userInfo];
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    self.center = CGPointMake(self.center.x, self.center.y-keyboardFrameBeginRect.size.height/2);
+    self.center = CGPointMake(self.center.x, self.originalCenter.y-(keyboardFrameBeginRect.size.height/2));
     
 }
 - (void)keyBoardDidHide:(NSNotification *)notification
@@ -1352,7 +1363,7 @@ static SIAlertView *__si_alert_current_view;
     NSDictionary* keyboardInfo = [notification userInfo];
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    self.center = CGPointMake(self.center.x, self.center.y+keyboardFrameBeginRect.size.height/2);
+    self.center = CGPointMake(self.center.x, self.originalCenter.y);
 
 }
 
