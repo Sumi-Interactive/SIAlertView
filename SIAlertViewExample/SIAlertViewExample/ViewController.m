@@ -9,6 +9,9 @@
 #import "ViewController.h"
 #import "SIAlertView.h"
 
+#define TEST_UIAPPEARANCE 1
+#define TEST_AUTO_ROTATE 0
+
 @interface ViewController ()
 
 @end
@@ -18,12 +21,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+#if TEST_UIAPPEARANCE
     [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
     [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
     [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
     [[SIAlertView appearance] setCornerRadius:12];
     [[SIAlertView appearance] setShadowRadius:20];
+    [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
+    [[SIAlertView appearance] setButtonColor:[UIColor greenColor]];
+    [[SIAlertView appearance] setCancelButtonColor:[UIColor redColor]];
+    [[SIAlertView appearance] setDestructiveButtonColor:[UIColor blueColor]];
+
+    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+#endif
 }
 
 #pragma mark - Actions
@@ -37,7 +52,7 @@
                               NSLog(@"Button1 Clicked");
                           }];
     [alertView addButtonWithTitle:@"Button2"
-                             type:SIAlertViewButtonTypeDefault
+                             type:SIAlertViewButtonTypeCancel
                           handler:^(SIAlertView *alertView) {
                               NSLog(@"Button2 Clicked");
                           }];
@@ -65,28 +80,28 @@
     [alertView show];
     
     alertView.title = @"3";
-    double delayInSeconds = 1.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"2";
-        alertView.titleColor = [UIColor yellowColor];
-        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
-    });
-    delayInSeconds = 2.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        alertView.title = @"1";
-        alertView.titleColor = [UIColor greenColor];
-        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
-    });
-    delayInSeconds = 3.0;
-    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"1=====");
-        [alertView dismissAnimated:YES];
-        NSLog(@"2=====");
-    });
-    
+//    double delayInSeconds = 1.0;
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"2";
+//        alertView.titleColor = [UIColor yellowColor];
+//        alertView.titleFont = [UIFont boldSystemFontOfSize:30];
+//    });
+//    delayInSeconds = 2.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        alertView.title = @"1";
+//        alertView.titleColor = [UIColor greenColor];
+//        alertView.titleFont = [UIFont boldSystemFontOfSize:40];
+//    });
+//    delayInSeconds = 3.0;
+//    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        NSLog(@"1=====");
+//        [alertView dismissAnimated:YES];
+//        NSLog(@"2=====");
+//    });
+
 }
 
 - (IBAction)alert2:(id)sender
@@ -197,6 +212,25 @@ id observer1,observer2,observer3,observer4;
     [self alert1:nil];
     [self alert2:nil];
     [self alert3:nil];
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
+}
+
+- (BOOL)shouldAutorotate
+{
+#if TEST_AUTO_ROTATE
+    return YES;
+#else
+    return NO;
+#endif
 }
 
 @end

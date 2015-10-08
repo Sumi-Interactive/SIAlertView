@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="4504" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
+        <deployment defaultVersion="1280" identifier="iOS"/>
+        <development version="4600" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -12,13 +14,12 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOO-xA-Q3d">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="JxU-WL-jbm"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pOO-xA-Q3d">
+                                <rect key="frame" x="124" y="34" width="73" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert1">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -28,10 +29,12 @@
                                     <action selector="alert1:" destination="2" eventType="touchUpInside" id="eI7-ge-PtA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dRt-8t-N8e">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dRt-8t-N8e">
+                                <rect key="frame" x="124" y="85" width="73" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert2">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -41,10 +44,12 @@
                                     <action selector="alert2:" destination="2" eventType="touchUpInside" id="Hs7-Mg-iYe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sMS-O7-o5V">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sMS-O7-o5V">
+                                <rect key="frame" x="124" y="136" width="73" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Alert3">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -54,10 +59,12 @@
                                     <action selector="alert3:" destination="2" eventType="touchUpInside" id="oTa-SE-c9l"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="twJ-0X-iwj">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="twJ-0X-iwj">
+                                <rect key="frame" x="124" y="187" width="73" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="1+2+3">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -67,21 +74,15 @@
                                     <action selector="alert4:" destination="2" eventType="touchUpInside" id="28A-3w-zFV"/>
                                 </connections>
                             </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0Kd-Q0-fCZ">
+                                <rect key="frame" x="0.0" y="504" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" id="v9f-tF-JvV"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="sMS-O7-o5V" firstAttribute="top" secondItem="dRt-8t-N8e" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="0Xl-2X-zp1"/>
-                            <constraint firstItem="twJ-0X-iwj" firstAttribute="leading" secondItem="sMS-O7-o5V" secondAttribute="leading" type="default" id="3bR-fa-0qq"/>
-                            <constraint firstItem="twJ-0X-iwj" firstAttribute="top" secondItem="sMS-O7-o5V" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Frc-xk-rb6"/>
-                            <constraint firstItem="pOO-xA-Q3d" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="cO0-fo-Zix"/>
-                            <constraint firstItem="pOO-xA-Q3d" firstAttribute="trailing" secondItem="dRt-8t-N8e" secondAttribute="trailing" type="default" id="dEF-F9-Oc0"/>
-                            <constraint firstItem="sMS-O7-o5V" firstAttribute="leading" secondItem="dRt-8t-N8e" secondAttribute="leading" type="default" id="dhC-wf-Pvj"/>
-                            <constraint firstItem="sMS-O7-o5V" firstAttribute="trailing" secondItem="dRt-8t-N8e" secondAttribute="trailing" type="default" id="ltx-nG-S14"/>
-                            <constraint firstItem="dRt-8t-N8e" firstAttribute="top" secondItem="pOO-xA-Q3d" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="mFi-Hq-dK2"/>
-                            <constraint firstItem="pOO-xA-Q3d" firstAttribute="top" secondItem="3" secondAttribute="top" constant="34" id="nZk-yU-DmC"/>
-                            <constraint firstItem="dRt-8t-N8e" firstAttribute="leading" secondItem="pOO-xA-Q3d" secondAttribute="leading" type="default" id="o2P-u4-HSM"/>
-                            <constraint firstItem="twJ-0X-iwj" firstAttribute="trailing" secondItem="sMS-O7-o5V" secondAttribute="trailing" type="default" id="opL-m5-bgq"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>

@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72AD5C9217BD1B7200A85539 /* button-cancel-d.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8617BD1B7200A85539 /* button-cancel-d.png */; };
+		72AD5C9317BD1B7200A85539 /* button-cancel-d@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */; };
+		72AD5C9417BD1B7200A85539 /* button-cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8817BD1B7200A85539 /* button-cancel.png */; };
+		72AD5C9517BD1B7200A85539 /* button-cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8917BD1B7200A85539 /* button-cancel@2x.png */; };
+		72AD5C9617BD1B7200A85539 /* button-default-d.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8A17BD1B7200A85539 /* button-default-d.png */; };
+		72AD5C9717BD1B7200A85539 /* button-default-d@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8B17BD1B7200A85539 /* button-default-d@2x.png */; };
+		72AD5C9817BD1B7200A85539 /* button-default.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8C17BD1B7200A85539 /* button-default.png */; };
+		72AD5C9917BD1B7200A85539 /* button-default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8D17BD1B7200A85539 /* button-default@2x.png */; };
+		72AD5C9A17BD1B7200A85539 /* button-destructive-d.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8E17BD1B7200A85539 /* button-destructive-d.png */; };
+		72AD5C9B17BD1B7200A85539 /* button-destructive-d@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8F17BD1B7200A85539 /* button-destructive-d@2x.png */; };
+		72AD5C9C17BD1B7200A85539 /* button-destructive.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C9017BD1B7200A85539 /* button-destructive.png */; };
+		72AD5C9D17BD1B7200A85539 /* button-destructive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C9117BD1B7200A85539 /* button-destructive@2x.png */; };
 		7E23C67317325EAA00784CF1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67217325EAA00784CF1 /* UIKit.framework */; };
 		7E23C67517325EAA00784CF1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67417325EAA00784CF1 /* Foundation.framework */; };
 		7E23C67717325EAA00784CF1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E23C67617325EAA00784CF1 /* CoreGraphics.framework */; };
@@ -26,9 +38,22 @@
 		7E23C6A31732776100784CF1 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A21732776100784CF1 /* Icon@2x.png */; };
 		7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A7173277EA00784CF1 /* Icon-72.png */; };
 		7E23C6AA173277EE00784CF1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */; };
+		7EEECA69182350B1001FEDF5 /* UIWindow+SIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		72AD5C8617BD1B7200A85539 /* button-cancel-d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d.png"; sourceTree = "<group>"; };
+		72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d@2x.png"; sourceTree = "<group>"; };
+		72AD5C8817BD1B7200A85539 /* button-cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel.png"; sourceTree = "<group>"; };
+		72AD5C8917BD1B7200A85539 /* button-cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel@2x.png"; sourceTree = "<group>"; };
+		72AD5C8A17BD1B7200A85539 /* button-default-d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-default-d.png"; sourceTree = "<group>"; };
+		72AD5C8B17BD1B7200A85539 /* button-default-d@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-default-d@2x.png"; sourceTree = "<group>"; };
+		72AD5C8C17BD1B7200A85539 /* button-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-default.png"; sourceTree = "<group>"; };
+		72AD5C8D17BD1B7200A85539 /* button-default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-default@2x.png"; sourceTree = "<group>"; };
+		72AD5C8E17BD1B7200A85539 /* button-destructive-d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-destructive-d.png"; sourceTree = "<group>"; };
+		72AD5C8F17BD1B7200A85539 /* button-destructive-d@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-destructive-d@2x.png"; sourceTree = "<group>"; };
+		72AD5C9017BD1B7200A85539 /* button-destructive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-destructive.png"; sourceTree = "<group>"; };
+		72AD5C9117BD1B7200A85539 /* button-destructive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-destructive@2x.png"; sourceTree = "<group>"; };
 		7E23C66F17325EAA00784CF1 /* SIAlertViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIAlertViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E23C67217325EAA00784CF1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7E23C67417325EAA00784CF1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -54,6 +79,8 @@
 		7E23C6A21732776100784CF1 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7E23C6A7173277EA00784CF1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		7E23C6A9173277EE00784CF1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		7EEECA67182350B1001FEDF5 /* UIWindow+SIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+SIUtils.h"; sourceTree = "<group>"; };
+		7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+SIUtils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +98,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72AD5C8517BD1B7200A85539 /* Button Images */ = {
+			isa = PBXGroup;
+			children = (
+				72AD5C8617BD1B7200A85539 /* button-cancel-d.png */,
+				72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */,
+				72AD5C8817BD1B7200A85539 /* button-cancel.png */,
+				72AD5C8917BD1B7200A85539 /* button-cancel@2x.png */,
+				72AD5C8A17BD1B7200A85539 /* button-default-d.png */,
+				72AD5C8B17BD1B7200A85539 /* button-default-d@2x.png */,
+				72AD5C8C17BD1B7200A85539 /* button-default.png */,
+				72AD5C8D17BD1B7200A85539 /* button-default@2x.png */,
+				72AD5C8E17BD1B7200A85539 /* button-destructive-d.png */,
+				72AD5C8F17BD1B7200A85539 /* button-destructive-d@2x.png */,
+				72AD5C9017BD1B7200A85539 /* button-destructive.png */,
+				72AD5C9117BD1B7200A85539 /* button-destructive@2x.png */,
+			);
+			path = "Button Images";
+			sourceTree = "<group>";
+		};
 		7E23C66617325EAA00784CF1 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +149,7 @@
 		7E23C67817325EAA00784CF1 /* SIAlertViewExample */ = {
 			isa = PBXGroup;
 			children = (
+				72AD5C8517BD1B7200A85539 /* Button Images */,
 				7E23C6A41732776700784CF1 /* Icons */,
 				7E23C6A5173277AB00784CF1 /* UI */,
 				7E23C6A6173277B600784CF1 /* Classes */,
@@ -131,6 +178,8 @@
 				7E23C69917325EBD00784CF1 /* SIAlertView.bundle */,
 				7E23C69A17325EBD00784CF1 /* SIAlertView.h */,
 				7E23C69B17325EBD00784CF1 /* SIAlertView.m */,
+				7EEECA67182350B1001FEDF5 /* UIWindow+SIUtils.h */,
+				7EEECA68182350B1001FEDF5 /* UIWindow+SIUtils.m */,
 			);
 			name = SIAlertView;
 			path = ../SIAlertView;
@@ -230,6 +279,18 @@
 				7E23C6A31732776100784CF1 /* Icon@2x.png in Resources */,
 				7E23C6A8173277EA00784CF1 /* Icon-72.png in Resources */,
 				7E23C6AA173277EE00784CF1 /* Icon-72@2x.png in Resources */,
+				72AD5C9217BD1B7200A85539 /* button-cancel-d.png in Resources */,
+				72AD5C9317BD1B7200A85539 /* button-cancel-d@2x.png in Resources */,
+				72AD5C9417BD1B7200A85539 /* button-cancel.png in Resources */,
+				72AD5C9517BD1B7200A85539 /* button-cancel@2x.png in Resources */,
+				72AD5C9617BD1B7200A85539 /* button-default-d.png in Resources */,
+				72AD5C9717BD1B7200A85539 /* button-default-d@2x.png in Resources */,
+				72AD5C9817BD1B7200A85539 /* button-default.png in Resources */,
+				72AD5C9917BD1B7200A85539 /* button-default@2x.png in Resources */,
+				72AD5C9A17BD1B7200A85539 /* button-destructive-d.png in Resources */,
+				72AD5C9B17BD1B7200A85539 /* button-destructive-d@2x.png in Resources */,
+				72AD5C9C17BD1B7200A85539 /* button-destructive.png in Resources */,
+				72AD5C9D17BD1B7200A85539 /* button-destructive@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +305,7 @@
 				7E23C68317325EAA00784CF1 /* AppDelegate.m in Sources */,
 				7E23C69217325EAB00784CF1 /* ViewController.m in Sources */,
 				7E23C69D17325EBD00784CF1 /* SIAlertView.m in Sources */,
+				7EEECA69182350B1001FEDF5 /* UIWindow+SIUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +403,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SIAlertViewExample/SIAlertViewExample-Prefix.pch";
 				INFOPLIST_FILE = "SIAlertViewExample/SIAlertViewExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -352,6 +415,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SIAlertViewExample/SIAlertViewExample-Prefix.pch";
 				INFOPLIST_FILE = "SIAlertViewExample/SIAlertViewExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -376,6 +440,7 @@
 				7E23C69717325EAB00784CF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
