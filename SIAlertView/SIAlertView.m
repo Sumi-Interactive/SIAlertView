@@ -901,6 +901,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         }
     }
+    
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
     self.layoutDirty = NO;
