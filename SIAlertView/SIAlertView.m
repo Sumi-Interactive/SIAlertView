@@ -883,6 +883,19 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)teardown
 {
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    
+    for (UIWindow *window in frontToBackWindows){
+        BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
+        BOOL windowIsVisible = !window.hidden && window.alpha > 0;
+        BOOL windowLevelNormal = window.windowLevel == UIWindowLevelNormal;
+        
+        if (windowOnMainScreen && windowIsVisible && windowLevelNormal) {
+            [window makeKeyAndVisible];
+            break;
+        }
+    }
+    
     [self.containerView removeFromSuperview];
     self.containerView = nil;
     self.titleLabel = nil;
