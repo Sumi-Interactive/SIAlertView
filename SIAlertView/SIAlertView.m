@@ -883,6 +883,12 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)teardown
 {
+    [self.containerView removeFromSuperview];
+    self.containerView = nil;
+    self.titleLabel = nil;
+    self.messageLabel = nil;
+    [self.buttons removeAllObjects];
+    
     NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
     
     for (UIWindow *window in frontToBackWindows){
@@ -895,12 +901,6 @@ static SIAlertView *__si_alert_current_view;
             break;
         }
     }
-    
-    [self.containerView removeFromSuperview];
-    self.containerView = nil;
-    self.titleLabel = nil;
-    self.messageLabel = nil;
-    [self.buttons removeAllObjects];
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
     self.layoutDirty = NO;
