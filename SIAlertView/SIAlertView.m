@@ -888,6 +888,20 @@ static SIAlertView *__si_alert_current_view;
     self.titleLabel = nil;
     self.messageLabel = nil;
     [self.buttons removeAllObjects];
+    
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    
+    for (UIWindow *window in frontToBackWindows){
+        BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
+        BOOL windowIsVisible = !window.hidden && window.alpha > 0;
+        BOOL windowLevelNormal = window.windowLevel == UIWindowLevelNormal;
+        
+        if (windowOnMainScreen && windowIsVisible && windowLevelNormal) {
+            [window makeKeyAndVisible];
+            break;
+        }
+    }
+    
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
     self.layoutDirty = NO;
