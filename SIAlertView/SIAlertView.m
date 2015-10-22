@@ -327,6 +327,8 @@ static SIAlertView *__si_alert_current_view;
 
 + (void)showBackground
 {
+    __si_alert_background_window.rootViewController = [UIViewController new];
+    
     if (!__si_alert_background_window) {
         
         CGRect frame = [[UIScreen mainScreen] bounds];
