@@ -327,8 +327,6 @@ static SIAlertView *__si_alert_current_view;
 
 + (void)showBackground
 {
-    __si_alert_background_window.rootViewController = [UIViewController new];
-    
     if (!__si_alert_background_window) {
         
         CGRect frame = [[UIScreen mainScreen] bounds];
@@ -339,6 +337,9 @@ static SIAlertView *__si_alert_current_view;
         
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
+        
+        __si_alert_background_window.rootViewController = [UIViewController new];
+        
         [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
         [UIView animateWithDuration:0.3
