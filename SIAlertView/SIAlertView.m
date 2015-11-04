@@ -308,6 +308,12 @@ static SIAlertView *__si_alert_current_view;
         
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
                                                                              andStyle:[SIAlertView currentAlertView].backgroundStyle];
+        
+        //Fix the "Applications are expected to have a root view controller at the end of application launch"
+        //in iOS 9 - it worked fine without it in prior versions, hence the version control
+        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_8_3)
+            __si_alert_background_window.rootViewController = [UIViewController new];
+            
         [__si_alert_background_window makeKeyAndVisible];
         __si_alert_background_window.alpha = 0;
         [UIView animateWithDuration:0.3
