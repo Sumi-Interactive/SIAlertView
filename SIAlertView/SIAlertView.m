@@ -178,8 +178,9 @@ static SIAlertView *__si_alert_current_view;
 #pragma mark - SIAlertView
 
 @implementation SIAlertView
-
 @synthesize title = _title, message = _message;
+@synthesize textField;
+@synthesize textFieldReturnBlock;
 @synthesize attributedTitle = _attributedTitle, attributedMessage = _attributedMessage;
 
 + (void)initialize
@@ -821,6 +822,12 @@ static SIAlertView *__si_alert_current_view;
         self.messageLabel.frame = CGRectMake(CONTENT_PADDING_LEFT, y, CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, height);
         y += height + GAP;
     }
+    
+    if (self.textField) {
+        y += GAP;
+        self.textField.frame = CGRectMake(CONTENT_PADDING_LEFT, y, CONTAINER_WIDTH - CONTENT_PADDING_LEFT * 2, 30);
+        y += 30 + GAP;
+    }
     contentContainerViewHeight = y;
     
     if (self.items.count > 0) {
@@ -903,6 +910,7 @@ static SIAlertView *__si_alert_current_view;
     [self setupViewHierarchy];
     [self updateTitleLabel];
     [self updateMessageLabel];
+    [self updateTextField];
     [self setupButtons];
     [self setupLineLayer];
 }
@@ -913,6 +921,11 @@ static SIAlertView *__si_alert_current_view;
     self.containerView = nil;
     self.titleLabel = nil;
     self.messageLabel = nil;
+    if (self.textField) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+        self.textFieldReturnBlock = nil;
+        self.textField = nil;
+    }
     [self.buttons removeAllObjects];
     self.alertWindow.hidden = YES;
     self.alertWindow = nil;
@@ -990,6 +1003,39 @@ static SIAlertView *__si_alert_current_view;
         self.messageLabel = nil;
     }
     [self invalidateLayout];
+}
+
+-(void)updateTextField{
+    if (self.textField) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+        self.textField.delegate = self;
+        [self.contentContainerView addSubview:self.textField];
+    }
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    CGRect containerViewFrame = self.containerView.frame;
+    containerViewFrame.origin.y = self.frame.size.height - kbSize.height - containerViewFrame.size.height - 6;
+    if (containerViewFrame.origin.y > self.containerView.frame.origin.y) {
+        self.containerView.frame = containerViewFrame;
+    }
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)aTextField{
+    if (aTextField == self.textField) {
+        [self.textField resignFirstResponder];
+        if (textFieldReturnBlock) {
+            textFieldReturnBlock();
+        }
+        return YES;
+    }
+    return NO;
 }
 
 - (void)setupButtons
