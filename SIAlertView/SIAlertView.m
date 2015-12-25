@@ -166,6 +166,14 @@ static SIAlertView *__si_alert_current_view;
     [self.alertView setup];
 }
 
+-(BOOL)shouldAutorotate{
+    return self.alertView.enableAutoRotation;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return self.alertView.enableAutoRotation ? [super supportedInterfaceOrientations] : UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -182,6 +190,7 @@ static SIAlertView *__si_alert_current_view;
 @synthesize textField;
 @synthesize textFieldReturnBlock;
 @synthesize attributedTitle = _attributedTitle, attributedMessage = _attributedMessage;
+@synthesize enableAutoRotation;
 
 + (void)initialize
 {
@@ -1021,7 +1030,7 @@ static SIAlertView *__si_alert_current_view;
     
     CGRect containerViewFrame = self.containerView.frame;
     containerViewFrame.origin.y = self.frame.size.height - kbSize.height - containerViewFrame.size.height - 6;
-    if (containerViewFrame.origin.y > self.containerView.frame.origin.y) {
+    if (containerViewFrame.origin.y < self.containerView.frame.origin.y) {
         self.containerView.frame = containerViewFrame;
     }
 }

@@ -60,7 +60,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, copy) SIAlertViewHandler didDismissHandler;
 
 @property (nonatomic, readonly, getter = isVisible) BOOL visible;
-
+@property (nonatomic, assign) BOOL enableAutoRotation;//default NO, doesn't support autorotation or landscape.
 @property (nonatomic, assign) BOOL parallaxEffectEnabled;
 
 // theme
@@ -80,7 +80,6 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, strong) UIColor *defaultButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *cancelButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *destructiveButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
-
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message;
 - (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButton:(NSString *)canelButton handler:(SIAlertViewHandler)handler;
