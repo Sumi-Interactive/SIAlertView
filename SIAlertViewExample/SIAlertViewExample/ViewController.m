@@ -214,7 +214,11 @@ id observer1,observer2,observer3,observer4;
     [self alert3:nil];
 }
 
+#ifdef __IPHONE_9_0
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#else
 - (NSUInteger)supportedInterfaceOrientations
+#endif
 {
     return UIInterfaceOrientationMaskAll;
 }

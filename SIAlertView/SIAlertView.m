@@ -177,7 +177,11 @@ static SIAlertView *__si_alert_current_view;
 }
 #endif
 
+#ifdef __IPHONE_9_0
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#else
 - (NSUInteger)supportedInterfaceOrientations
+#endif
 {
     UIViewController *viewController = [self.alertView.oldKeyWindow currentViewController];
     if (viewController) {
