@@ -19,8 +19,6 @@
     return viewController;
 }
 
-#ifdef __IPHONE_7_0
-
 - (UIViewController *)viewControllerForStatusBarStyle
 {
     UIViewController *currentViewController = [self currentViewController];
@@ -40,7 +38,5 @@
     }
     return currentViewController;
 }
-
-#endif
 
 @end
