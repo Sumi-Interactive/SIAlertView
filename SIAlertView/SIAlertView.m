@@ -496,16 +496,16 @@ static SIAlertView *__si_alert_current_view;
     // transition background
     [SIAlertView showBackground];
     
-    SIAlertViewController *viewController = [[SIAlertViewController alloc] initWithNibName:nil bundle:nil];
-    viewController.alertView = self;
-    
     if (!self.alertWindow) {
         UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelSIAlert;
-        window.rootViewController = viewController;
         self.alertWindow = window;
+        
+        SIAlertViewController *viewController = [[SIAlertViewController alloc] initWithNibName:nil bundle:nil];
+        viewController.alertView = self;
+        window.rootViewController = viewController;
     }
     [self.alertWindow makeKeyAndVisible];
     
