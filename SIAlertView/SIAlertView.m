@@ -827,12 +827,12 @@ static SIAlertView *__si_alert_current_view;
     }
     contentContainerViewHeight = y;
     
-    if (self.items.count > 0) {
+    if (self.buttons.count > 0) {
         CGMutablePathRef path = CGPathCreateMutable();
         CGFloat lineWidth = 1 / [UIScreen mainScreen].scale;
         
         CGFloat y = 0;
-        if (self.items.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
+        if (self.buttons.count == 2 && self.buttonsListStyle == SIAlertViewButtonsListStyleNormal) {
             CGFloat width = CONTAINER_WIDTH * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(0, y, width, BUTTON_HEIGHT);
