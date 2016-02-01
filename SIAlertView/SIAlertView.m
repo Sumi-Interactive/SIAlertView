@@ -888,6 +888,7 @@ static SIAlertView *__si_alert_current_view;
     self.titleLabel = nil;
     self.messageLabel = nil;
     [self.buttons removeAllObjects];
+    self.alertWindow.rootViewController = nil;
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
     self.layoutDirty = NO;
