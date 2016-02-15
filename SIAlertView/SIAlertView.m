@@ -975,6 +975,7 @@ static SIAlertView *__si_alert_current_view;
 	[button setTitle:item.title forState:UIControlStateNormal];
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
+	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
 	switch (item.type) {
 		case SIAlertViewButtonTypeCancel:
 			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel" inBundle:bundle compatibleWithTraitCollection:nil];
