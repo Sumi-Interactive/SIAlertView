@@ -975,23 +975,24 @@ static SIAlertView *__si_alert_current_view;
 	[button setTitle:item.title forState:UIControlStateNormal];
 	UIImage *normalImage = nil;
 	UIImage *highlightedImage = nil;
+	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
 	switch (item.type) {
 		case SIAlertViewButtonTypeCancel:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d"];
+			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel" inBundle:bundle compatibleWithTraitCollection:nil];
+			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-cancel-d" inBundle:bundle compatibleWithTraitCollection:nil];
 			[button setTitleColor:self.cancelButtonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.cancelButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDestructive:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive-d"];
+			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive" inBundle:bundle compatibleWithTraitCollection:nil];
+			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-destructive-d" inBundle:bundle compatibleWithTraitCollection:nil];
             [button setTitleColor:self.destructiveButtonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.destructiveButtonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
 		case SIAlertViewButtonTypeDefault:
 		default:
-			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default"];
-			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d"];
+			normalImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default" inBundle:bundle compatibleWithTraitCollection:nil];
+			highlightedImage = [UIImage imageNamed:@"SIAlertView.bundle/button-default-d" inBundle:bundle compatibleWithTraitCollection:nil];
 			[button setTitleColor:self.buttonColor forState:UIControlStateNormal];
             [button setTitleColor:[self.buttonColor colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
 			break;
