@@ -40,10 +40,12 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
 @class SIAlertView;
 typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
-@interface SIAlertView : UIView
+@interface SIAlertView : UIView<UITextFieldDelegate>
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *message;
+@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, copy) void(^textFieldReturnBlock)();
 
 @property (nonatomic, copy) NSAttributedString *attributedTitle;
 @property (nonatomic, copy) NSAttributedString *attributedMessage;
@@ -58,7 +60,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, copy) SIAlertViewHandler didDismissHandler;
 
 @property (nonatomic, readonly, getter = isVisible) BOOL visible;
-
+@property (nonatomic, assign) BOOL enableAutoRotation;//default NO, doesn't support autorotation or landscape.
 @property (nonatomic, assign) BOOL parallaxEffectEnabled;
 
 // theme
@@ -78,7 +80,6 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, strong) UIColor *defaultButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *cancelButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *destructiveButtonBackgroundColor NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
-
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message;
 - (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButton:(NSString *)canelButton handler:(SIAlertViewHandler)handler;
