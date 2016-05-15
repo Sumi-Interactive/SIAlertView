@@ -130,6 +130,8 @@ static SIAlertView *__si_alert_current_view;
 @interface SIAlertItem : NSObject
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) UIColor *backgroundColor;
+@property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) SIAlertViewButtonType type;
 @property (nonatomic, copy) SIAlertViewHandler action;
 
@@ -350,12 +352,25 @@ static SIAlertView *__si_alert_current_view;
 
 #pragma mark - Public
 
+- (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type backgroundColor:(UIColor *)backgroundColor cornerRadius:(CGFloat)cornerRadius handler:(SIAlertViewHandler)handler
+{
+    SIAlertItem *item = [[SIAlertItem alloc] init];
+    item.title = title;
+    item.type = type;
+    item.action = handler;
+    item.backgroundColor = backgroundColor;
+    item.cornerRadius = cornerRadius;
+    [self.items addObject:item];
+}
+
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler
 {
     SIAlertItem *item = [[SIAlertItem alloc] init];
 	item.title = title;
 	item.type = type;
 	item.action = handler;
+    item.backgroundColor = [UIColor clearColor];
+    item.cornerRadius = 0.0;
 	[self.items addObject:item];
 }
 
@@ -754,12 +769,18 @@ static SIAlertView *__si_alert_current_view;
             CGFloat width = (self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2 - GAP) * 0.5;
             UIButton *button = self.buttons[0];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, width, BUTTON_HEIGHT);
+            button.backgroundColor = ((SIAlertItem *)self.items[0]).backgroundColor;
+            button.layer.cornerRadius = ((SIAlertItem *)self.items[0]).cornerRadius;
             button = self.buttons[1];
             button.frame = CGRectMake(CONTENT_PADDING_LEFT + width + GAP, y, width, BUTTON_HEIGHT);
+            button.backgroundColor = ((SIAlertItem *)self.items[1]).backgroundColor;
+            button.layer.cornerRadius = ((SIAlertItem *)self.items[1]).cornerRadius;
         } else {
             for (NSUInteger i = 0; i < self.buttons.count; i++) {
                 UIButton *button = self.buttons[i];
                 button.frame = CGRectMake(CONTENT_PADDING_LEFT, y, self.containerView.bounds.size.width - CONTENT_PADDING_LEFT * 2, BUTTON_HEIGHT);
+                button.backgroundColor = ((SIAlertItem *)self.items[i]).backgroundColor;
+                button.layer.cornerRadius = ((SIAlertItem *)self.items[i]).cornerRadius;
                 if (self.buttons.count > 1) {
                     if (i == self.buttons.count - 1 && ((SIAlertItem *)self.items[i]).type == SIAlertViewButtonTypeCancel) {
                         CGRect rect = button.frame;

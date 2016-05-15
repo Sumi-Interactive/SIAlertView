@@ -75,6 +75,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 - (void)setDestructiveButtonImage:(UIImage *)destructiveButtonImage forState:(UIControlState)state NS_AVAILABLE_IOS(5_0) UI_APPEARANCE_SELECTOR;
 
 - (id)initWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type backgroundColor:(UIColor *)backgroundColor cornerRadius:(CGFloat)cornerRadius handler:(SIAlertViewHandler)handler;
 - (void)addButtonWithTitle:(NSString *)title type:(SIAlertViewButtonType)type handler:(SIAlertViewHandler)handler;
 
 - (void)show;
