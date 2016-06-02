@@ -8,9 +8,13 @@ An UIAlertView replacement with block syntax and fancy transition styles. As see
 ## Preview
 
 ![SIAlertView Screenshot](https://github.com/Sumi-Interactive/SIAlertView/raw/master/screenshot.png)
+### Changed by Nododo
+![SIAlertView ChangedByNododo](https://github.com/Nododo/SIAlertView/blob/master/SIAlertViewExample/SIAlertViewExample/SIAlertView.gif)
 
 ## Features
 
+- 重新定义了messageLabel的对齐方式 (by Nododo)
+- 根据message的高度决定messageLabel是否可以滑动 (by Nododo)
 - use window to present
 - happy with rotation
 - block syntax
