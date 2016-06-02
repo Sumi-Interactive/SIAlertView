@@ -37,6 +37,12 @@ typedef NS_ENUM(NSInteger, SIAlertViewTransitionStyle) {
     SIAlertViewTransitionStyleDropDown
 };
 
+typedef NS_ENUM(NSInteger, SIAlertViewMessageAlignmentStyle) {
+    SIAlertViewMessageAlignmentStyleCenter = 0,
+    SIAlertViewMessageAlignmentStyleLeft,
+    SIAlertViewMessageAlignmentStyleRight
+};
+
 @class SIAlertView;
 typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 
@@ -48,6 +54,7 @@ typedef void(^SIAlertViewHandler)(SIAlertView *alertView);
 @property (nonatomic, assign) SIAlertViewTransitionStyle transitionStyle; // default is SIAlertViewTransitionStyleSlideFromBottom
 @property (nonatomic, assign) SIAlertViewBackgroundStyle backgroundStyle; // default is SIAlertViewBackgroundStyleGradient
 @property (nonatomic, assign) SIAlertViewButtonsListStyle buttonsListStyle; // default is SIAlertViewButtonsListStyleNormal
+@property (nonatomic,assign) SIAlertViewMessageAlignmentStyle messageAlignmentStyle; // default is SIAlertViewMessageAlignmentCenter
 
 @property (nonatomic, copy) SIAlertViewHandler willShowHandler;
 @property (nonatomic, copy) SIAlertViewHandler didShowHandler;
