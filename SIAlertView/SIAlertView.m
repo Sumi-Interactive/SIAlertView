@@ -792,7 +792,13 @@ static SIAlertView *__si_alert_current_view;
         if (height > CONTENT_PADDING_TOP) {
             height += GAP;
         }
-        height += [self heightForMessageLabel];
+        CGFloat tempHeight = [self heightForMessageLabel];
+        CGFloat defaultScrollHeight = MESSAGE_CAN_SCROLL_COUNT * self.messageLabel.font.lineHeight;
+        if (tempHeight <= defaultScrollHeight) {
+            height += tempHeight;
+        } else {
+            height += defaultScrollHeight;
+        }
     }
     if (self.items.count > 0) {
         if (height > CONTENT_PADDING_TOP) {
