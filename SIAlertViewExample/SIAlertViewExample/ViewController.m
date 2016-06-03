@@ -45,7 +45,7 @@
 
 - (IBAction)alert1:(id)sender
 {
-    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" andMessage:@"Count down"];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Title1" andMessage:@"Count downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount downCount down"];
     [alertView addButtonWithTitle:@"Button1"
                              type:SIAlertViewButtonTypeDefault
                           handler:^(SIAlertView *alertView) {
@@ -74,6 +74,7 @@
     alertView.didDismissHandler = ^(SIAlertView *alertView) {
         NSLog(@"%@, didDismissHandler", alertView);
     };
+    alertView.messageAlignmentStyle = SIAlertViewMessageAlignmentStyleLeft;
     
 //    alertView.cornerRadius = 4;
 //    alertView.buttonFont = [UIFont boldSystemFontOfSize:12];
@@ -203,7 +204,7 @@ id observer1,observer2,observer3,observer4;
                                                                  
                                                                  observer1 = observer2 = observer3 = observer4 = nil;
                                                              }];
-    
+    alertView.messageAlignmentStyle = SIAlertViewMessageAlignmentStyleRight;
     [alertView show];
 }
 

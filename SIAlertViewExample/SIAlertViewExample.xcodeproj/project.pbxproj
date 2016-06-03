@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F44C1501CFFD7A800DE60B4 /* SIAlertView.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1F44C14F1CFFD7A800DE60B4 /* SIAlertView.gif */; };
 		72AD5C9217BD1B7200A85539 /* button-cancel-d.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8617BD1B7200A85539 /* button-cancel-d.png */; };
 		72AD5C9317BD1B7200A85539 /* button-cancel-d@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */; };
 		72AD5C9417BD1B7200A85539 /* button-cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 72AD5C8817BD1B7200A85539 /* button-cancel.png */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F44C14F1CFFD7A800DE60B4 /* SIAlertView.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = SIAlertView.gif; sourceTree = "<group>"; };
 		72AD5C8617BD1B7200A85539 /* button-cancel-d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d.png"; sourceTree = "<group>"; };
 		72AD5C8717BD1B7200A85539 /* button-cancel-d@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel-d@2x.png"; sourceTree = "<group>"; };
 		72AD5C8817BD1B7200A85539 /* button-cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-cancel.png"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				7E23C68417325EAA00784CF1 /* Default.png */,
 				7E23C68617325EAA00784CF1 /* Default@2x.png */,
 				7E23C68817325EAB00784CF1 /* Default-568h@2x.png */,
+				1F44C14F1CFFD7A800DE60B4 /* SIAlertView.gif */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			files = (
 				7E23C67D17325EAA00784CF1 /* InfoPlist.strings in Resources */,
 				7E23C68517325EAA00784CF1 /* Default.png in Resources */,
+				1F44C1501CFFD7A800DE60B4 /* SIAlertView.gif in Resources */,
 				7E23C68717325EAA00784CF1 /* Default@2x.png in Resources */,
 				7E23C68917325EAB00784CF1 /* Default-568h@2x.png in Resources */,
 				7E23C68C17325EAB00784CF1 /* MainStoryboard_iPhone.storyboard in Resources */,
