@@ -1156,7 +1156,7 @@ static SIAlertView *__si_alert_current_view;
 
 
 -(void)setColor:(UIColor *)color toButtonsOfType:(SIAlertViewButtonType)type {
-    for (NSUInteger i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count && i < self.buttons.count; i++) {
         SIAlertItem *item = self.items[i];
         if(item.type == type) {
             UIButton *button = self.buttons[i];
