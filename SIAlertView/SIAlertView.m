@@ -126,6 +126,11 @@ static SIAlertView *__si_alert_current_view;
     }
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self setNeedsDisplay];
+}
+
 @end
 
 #pragma mark - SIAlertItem
