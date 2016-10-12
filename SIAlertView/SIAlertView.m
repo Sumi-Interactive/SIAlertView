@@ -904,6 +904,16 @@ static SIAlertView *__si_alert_current_view;
     [self addSubview:self.containerView];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if ( self.shouldDismissOnTapOutside )
+        for (UITouch *touch in touches)
+        {
+            if  (touch.view != self.containerView)
+                [self dismissAnimated:YES];
+        }
+}
+
 - (void)updateTitleLabel
 {
 	if (self.title) {
@@ -1177,6 +1187,14 @@ static SIAlertView *__si_alert_current_view;
             [button setTitleColor:[color colorWithAlphaComponent:0.8] forState:UIControlStateHighlighted];
         }
     }
+}
+
+- (void)setShouldDismissOnTapOutside:(BOOL)shouldDismissOnTapOutside
+{
+    if (_shouldDismissOnTapOutside == shouldDismissOnTapOutside) {
+        return;
+    }
+    _shouldDismissOnTapOutside = shouldDismissOnTapOutside;
 }
 
 # pragma mark -
