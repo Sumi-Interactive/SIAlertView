@@ -332,7 +332,8 @@ static SIAlertView *__si_alert_current_view;
         CGRect frame = [[UIScreen mainScreen] bounds];
         if([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
         {
-            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
+            //Why would we want to rotate the coordinates?
+//            frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
         }
         
         __si_alert_background_window = [[SIAlertBackgroundWindow alloc] initWithFrame:frame
