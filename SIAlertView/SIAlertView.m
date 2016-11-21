@@ -281,8 +281,7 @@ static SIAlertView *__si_alert_current_view;
         _enabledParallaxEffect = YES;
         self.items = [[NSMutableArray alloc] init];
         self.textFieldsItems = [[NSMutableArray alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidHide:) name:UIKeyboardWillHideNotification object:nil];
+        
     }
     return self;
 }
@@ -407,6 +406,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)show
 {
+
     if (self.isVisible) {
         return;
     }
@@ -478,6 +478,8 @@ static SIAlertView *__si_alert_current_view;
         }
         
         self.originalCenter = self.center;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardDidHide:) name:UIKeyboardWillHideNotification object:nil];
     }];
 }
 
@@ -1355,7 +1357,7 @@ static SIAlertView *__si_alert_current_view;
 #pragma mark Keyboard notification handler
 - (void)keyBoardDidShow:(NSNotification *)notification
 {
-
+    
     NSDictionary* keyboardInfo = [notification userInfo];
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
@@ -1364,6 +1366,7 @@ static SIAlertView *__si_alert_current_view;
 }
 - (void)keyBoardDidHide:(NSNotification *)notification
 {
+
     NSDictionary* keyboardInfo = [notification userInfo];
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];

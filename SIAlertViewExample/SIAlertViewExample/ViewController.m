@@ -21,24 +21,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-#if TEST_UIAPPEARANCE
-    [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
-    [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
-    [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
-    [[SIAlertView appearance] setCornerRadius:12];
-    [[SIAlertView appearance] setShadowRadius:20];
-    [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
-    [[SIAlertView appearance] setButtonColor:[UIColor greenColor]];
-    [[SIAlertView appearance] setCancelButtonColor:[UIColor redColor]];
-    [[SIAlertView appearance] setDestructiveButtonColor:[UIColor blueColor]];
-
-    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
-    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
-    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
-    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
-    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
-    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
-#endif
+//#if TEST_UIAPPEARANCE
+//    [[SIAlertView appearance] setMessageFont:[UIFont systemFontOfSize:13]];
+//    [[SIAlertView appearance] setTitleColor:[UIColor greenColor]];
+//    [[SIAlertView appearance] setMessageColor:[UIColor purpleColor]];
+//    [[SIAlertView appearance] setCornerRadius:12];
+//    [[SIAlertView appearance] setShadowRadius:20];
+//    [[SIAlertView appearance] setViewBackgroundColor:[UIColor colorWithRed:0.891 green:0.936 blue:0.978 alpha:1.000]];
+//    [[SIAlertView appearance] setButtonColor:[UIColor greenColor]];
+//    [[SIAlertView appearance] setCancelButtonColor:[UIColor redColor]];
+//    [[SIAlertView appearance] setDestructiveButtonColor:[UIColor blueColor]];
+//
+//    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+//    [[SIAlertView appearance] setDefaultButtonImage:[[UIImage imageNamed:@"button-default-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+//    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+//    [[SIAlertView appearance] setCancelButtonImage:[[UIImage imageNamed:@"button-cancel-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+//    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateNormal];
+//    [[SIAlertView appearance] setDestructiveButtonImage:[[UIImage imageNamed:@"button-destructive-d"] resizableImageWithCapInsets:UIEdgeInsetsMake(15,5,14,6)] forState:UIControlStateHighlighted];
+//#endif
 }
 
 #pragma mark - Actions
