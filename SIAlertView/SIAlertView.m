@@ -527,9 +527,11 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)transitionInCompletion:(void(^)(void))completion
 {
+    SIAlertView * __weak wealSelf = self;
     switch (self.transitionStyle) {
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
             rect.origin.y = self.bounds.size.height;
@@ -539,6 +541,7 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.frame = originalRect;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -547,6 +550,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleSlideFromTop:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
             rect.origin.y = -rect.size.height;
@@ -556,6 +560,7 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.frame = originalRect;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -564,12 +569,14 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleFade:
         {
+            self.containerView.layer.shouldRasterize = YES;
             self.containerView.alpha = 0;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  self.containerView.alpha = 1;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -578,6 +585,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleBounce:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
             animation.values = @[@(0.01), @(1.2), @(0.9), @(1)];
             animation.keyTimes = @[@(0), @(0.4), @(0.6), @(1)];
@@ -590,6 +598,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleDropDown:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGFloat y = self.containerView.center.y;
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.y"];
             animation.values = @[@(y - self.bounds.size.height), @(y + 20), @(y - 10), @(y)];
@@ -608,9 +617,11 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)transitionOutCompletion:(void(^)(void))completion
 {
+    SIAlertView * __weak wealSelf = self;
     switch (self.transitionStyle) {
         case SIAlertViewTransitionStyleSlideFromBottom:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGRect rect = self.containerView.frame;
             rect.origin.y = self.bounds.size.height;
             [UIView animateWithDuration:0.3
@@ -620,6 +631,7 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.frame = rect;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -628,6 +640,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleSlideFromTop:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGRect rect = self.containerView.frame;
             rect.origin.y = -rect.size.height;
             [UIView animateWithDuration:0.3
@@ -637,6 +650,7 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.frame = rect;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -645,11 +659,13 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleFade:
         {
+            self.containerView.layer.shouldRasterize = YES;
             [UIView animateWithDuration:0.25
                              animations:^{
                                  self.containerView.alpha = 0;
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -658,6 +674,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleBounce:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
             animation.values = @[@(1), @(1.2), @(0.01)];
             animation.keyTimes = @[@(0), @(0.4), @(1)];
@@ -672,6 +689,7 @@ static SIAlertView *__si_alert_current_view;
             break;
         case SIAlertViewTransitionStyleDropDown:
         {
+            self.containerView.layer.shouldRasterize = YES;
             CGPoint point = self.containerView.center;
             point.y += self.bounds.size.height;
             [UIView animateWithDuration:0.3
@@ -683,6 +701,7 @@ static SIAlertView *__si_alert_current_view;
                                  self.containerView.transform = CGAffineTransformMakeRotation(angle);
                              }
                              completion:^(BOOL finished) {
+                                 wealSelf.containerView.layer.shouldRasterize = NO;
                                  if (completion) {
                                      completion();
                                  }
@@ -901,6 +920,7 @@ static SIAlertView *__si_alert_current_view;
     self.containerView.layer.shadowOffset = CGSizeZero;
     self.containerView.layer.shadowRadius = self.shadowRadius;
     self.containerView.layer.shadowOpacity = 0.5;
+    self.containerView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     [self addSubview:self.containerView];
 }
 
@@ -1024,6 +1044,7 @@ static SIAlertView *__si_alert_current_view;
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
+    self.containerView.layer.shouldRasterize = NO;
     void(^completion)(void) = [anim valueForKey:@"handler"];
     if (completion) {
         completion();
