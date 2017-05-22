@@ -246,9 +246,20 @@ id observer1,observer2,observer3,observer4;
 
 - (IBAction)alert4:(id)sender
 {
-    [self alert1:nil];
-    [self alert2:nil];
-    [self alert3:nil];
+    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 44)];
+    [field setFont:[UIFont systemFontOfSize:40.0]];
+    [field setBorderStyle:UITextBorderStyleRoundedRect];
+    //field.backgroundColor = [UIColor redColor];
+    SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:@"Custom View" andCustomView:field];
+    [alertView addButtonWithTitle:@"Cancel"
+                             font:nil
+                            color:[UIColor orangeColor]
+                             type:SIAlertViewButtonTypeCancel
+                          handler:^(SIAlertView *alertView) {
+                              NSLog(@"Cancel Clicked");
+                          }];
+
+    [alertView show];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
