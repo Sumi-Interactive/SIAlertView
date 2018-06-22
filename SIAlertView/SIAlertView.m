@@ -370,7 +370,7 @@ static SIAlertView *__si_alert_current_view;
 
     if ([SIAlertView currentAlertView].isVisible) {
         SIAlertView *alert = [SIAlertView currentAlertView];
-        [alert dismissAnimated:YES cleanup:NO];
+        [alert dismissAnimated:YES cleanup:YES];
         return;
     }
 
